@@ -10,7 +10,7 @@
 #define DEBOUNCE_TIME 100
 #define INPUT_BUFFER_SIZE 32
 
-void KeyerInputInit(char* input);
+void initKeyerInput(char* input, char* sending);
 void vGetKey(void *pvParameters);
 
 #endif  // _KEYER_INPUT_

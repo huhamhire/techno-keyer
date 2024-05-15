@@ -49,7 +49,7 @@ int dotlen;
 int dashlen;
 int speed = 20;
 
-String str = "";
+char* str;
 
 void beginCWOutput() {
     pinMode(CW_PIN, OUTPUT);
@@ -62,6 +62,7 @@ void beginCWOutput() {
 }
 
 void updateCWSpeed() {
+    // https://k7mem.com/Keyer_Speed.html
     dotlen = (1200 / speed);
     dashlen = (3 * (1200 / speed));
 }
@@ -71,13 +72,9 @@ void setCWSpeed(int s) {
     updateCWSpeed();
 }
 
-void SetCWString(char *s) {
+void setCWString(char *s) {
     str = s;
 }
-
-void appendCWString(char *s) {
-    str += s;
-} 
 
 void sendDit() {
     digitalWrite(LED_PIN, 1);
@@ -89,7 +86,7 @@ void sendDit() {
     vTaskDelay(dotlen / portTICK_PERIOD_MS);
 }
 
-void SendDash() {
+void sendDah() {
     digitalWrite(LED_PIN, 1);
     digitalWrite(CW_PIN, 1);
     vTaskDelay(dashlen / portTICK_PERIOD_MS);
@@ -109,7 +106,7 @@ void sendChar(char c) {
                 unsigned char p = morsetab[i].pat;
                 while (p != 1) {
                     if (p & 1) {
-                        SendDash();
+                        sendDah();
                     } else {
                         sendDit();
                     }
@@ -118,17 +115,26 @@ void sendChar(char c) {
                 break;
             }
         }
-        vTaskDelay(2 * dotlen / portTICK_PERIOD_MS); ;
+        vTaskDelay(2 * dotlen / portTICK_PERIOD_MS);
     }
+}
+
+void unshiftStr() {
+    uint8_t len = strlen(str);
+    for (int i = 0; i < len - 1; i++) {
+        str[i] = str[i + 1];
+    }
+    str[len - 1] = '\0';
 }
 
 // Task to send morse code
 void vSendMorse(void *pvParameters) {
     for ( ;; ) {
-        while(str.length() != 0) {
+        while (strlen(str) > 0) {
             sendChar(str[0]);
-            str.remove(0, 1);
+            unshiftStr();
         }
+
         vTaskDelay(20 / portTICK_PERIOD_MS);
     }
 }

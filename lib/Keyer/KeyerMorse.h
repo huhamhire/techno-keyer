@@ -12,15 +12,14 @@ struct t_mtab {
 
 void beginCWOutput();
 void setCWSpeed(int s);
-void SetCWString(char *s);
-void appendCWString(char *s);
+void setCWString(char *s);
 
 void vSendMorse(void *pvParameters);
 
 
 void updateCWSpeed();
 void sendDit();
-void SendDash();
+void sendDah();
 void sendChar(char c);
 
 #endif  // _KEYER_MORSE_

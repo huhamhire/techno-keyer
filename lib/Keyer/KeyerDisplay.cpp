@@ -1,13 +1,12 @@
 #include <KeyerDisplay.h>
 
-char *buffer[VFD_LINES] = {" ", " ",};
+char* buffer[VFD_LINES] = {"", ""};
 
 void setVFDLine(uint8_t line, char *str) {
     if (line < VFD_LINES) {
         buffer[line] = str;
     }
 }
-
 
 // Task to refresh VFD Display
 void vRefreshVFD(void *pvParameters) {
