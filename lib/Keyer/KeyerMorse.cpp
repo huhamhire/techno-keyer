@@ -49,9 +49,9 @@ int dotlen;
 int dashlen;
 int speed = 20;
 
-char* str;
+KeyerBuffer* _cwBuffer;
 
-void beginCWOutput() {
+void beginCWOutput(KeyerBuffer* buffer) {
     pinMode(CW_PIN, OUTPUT);
     digitalWrite(CW_PIN, 0);
 
@@ -59,6 +59,8 @@ void beginCWOutput() {
     digitalWrite(LED_PIN, 0);
 
     updateCWSpeed();
+
+    _cwBuffer = buffer;
 }
 
 void updateCWSpeed() {
@@ -70,10 +72,6 @@ void updateCWSpeed() {
 void setCWSpeed(int s) {
     speed = s;
     updateCWSpeed();
-}
-
-void setCWString(char *s) {
-    str = s;
 }
 
 void sendDit() {
@@ -119,20 +117,12 @@ void sendChar(char c) {
     }
 }
 
-void unshiftStr() {
-    uint8_t len = strlen(str);
-    for (int i = 0; i < len - 1; i++) {
-        str[i] = str[i + 1];
-    }
-    str[len - 1] = '\0';
-}
-
 // Task to send morse code
 void vSendMorse(void *pvParameters) {
     for ( ;; ) {
-        while (strlen(str) > 0) {
-            sendChar(str[0]);
-            unshiftStr();
+        while (!_cwBuffer->isSendingEmpty()) {
+            sendChar(_cwBuffer->getFirstSendingChar());
+            _cwBuffer->unshiftSending();
         }
 
         vTaskDelay(20 / portTICK_PERIOD_MS);

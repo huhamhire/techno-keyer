@@ -3,6 +3,8 @@
 
 #include <Arduino.h>
 
+#include <KeyerBuffer.h>
+
 #define LED_PIN 48
 #define CW_PIN 42
 
@@ -10,9 +12,8 @@ struct t_mtab {
   char c, pat;
 };
 
-void beginCWOutput();
+void beginCWOutput(KeyerBuffer* buffer);
 void setCWSpeed(int s);
-void setCWString(char *s);
 
 void vSendMorse(void *pvParameters);
 

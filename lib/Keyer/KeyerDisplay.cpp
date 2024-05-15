@@ -1,10 +1,10 @@
 #include <KeyerDisplay.h>
 
-char* buffer[VFD_LINES] = {"", ""};
+char* _vfdBuffer[VFD_LINES] = {"", "",};
 
 void setVFDLine(uint8_t line, char *str) {
     if (line < VFD_LINES) {
-        buffer[line] = str;
+        _vfdBuffer[line] = str;
     }
 }
 
@@ -17,8 +17,8 @@ void vRefreshVFD(void *pvParameters) {
         // Refresh VFD
         for (uint8_t line = 0; line < VFD_LINES; line++) {
             for (int i = 0; i < VFD_BUFF_SIZE; i++) {
-                if (i < strlen(buffer[line])) {
-                    (*VFD).displayChar(1 - line, i, buffer[line][i]);
+                if (i < strlen(_vfdBuffer[line])) {
+                    (*VFD).displayChar(1 - line, i, _vfdBuffer[line][i]);
                 } else {
                     (*VFD).displayChar(1 - line, i, ' ');
                 }
