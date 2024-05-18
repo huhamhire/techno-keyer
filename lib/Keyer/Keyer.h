@@ -8,9 +8,20 @@
 #include <KeyerDisplay.h>
 #include <KeyerMorse.h>
 
-class CWKeyer {
+class Keyer {
     public:
         void begin();
+
+    protected:
+        void initDisplay();
+        void initInput();
+        void initOutput();
+
+    private:
+        KeyerBuffer *_buffer;
+        KeyerDisplay* _display;
+        KeyerInput* _input;
+        KeyerMorse* _morse;
 };
 
 #endif  // _KEYER_

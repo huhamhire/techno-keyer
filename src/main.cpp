@@ -3,7 +3,7 @@
 #include <CH9350_USBKEY.h>
 #include <Keyer.h>
 
-CWKeyer keyer;
+Keyer keyer;
 
 void setup() {
     Serial.begin(115200);
