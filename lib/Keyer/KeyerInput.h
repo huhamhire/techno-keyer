@@ -10,9 +10,21 @@
 #define SERIAL_TX_PIN 16
 
 #define DEBOUNCE_TIME 100
-#define INPUT_BUFFER_SIZE 32
 
-void initKeyerInput(KeyerBuffer *buffer);
+class KeyerInput {
+    public:
+        KeyerInput(KeyerBuffer *buffer);
+        void init();
+        void getKey();
+    
+    private:
+        KeyerBuffer *_buffer;
+        USB9350_KeyMouse *_usbKeyMouse;
+
+        unsigned long _lastKeyTime = 0;
+        char _lastKey = 0;
+};
+
 void vGetKey(void *pvParameters);
 
 #endif  // _KEYER_INPUT_

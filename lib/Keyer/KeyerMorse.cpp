@@ -1,130 +1,97 @@
 #include <KeyerMorse.h>
 
-struct t_mtab morsetab[] = {
-    {'.', 106},
-    {',', 115},
-    {'?', 76},
-    {'/', 41},
-    {'A', 6},
-    {'B', 17},
-    {'C', 21},
-    {'D', 9},
-    {'E', 2},
-    {'F', 20},
-    {'G', 11},
-    {'H', 16},
-    {'I', 4},
-    {'J', 30},
-    {'K', 13},
-    {'L', 18},
-    {'M', 7},
-    {'N', 5},
-    {'O', 15},
-    {'P', 22},
-    {'Q', 27},
-    {'R', 10},
-    {'S', 8},
-    {'T', 3},
-    {'U', 12},
-    {'V', 24},
-    {'W', 14},
-    {'X', 25},
-    {'Y', 29},
-    {'Z', 19},
-    {'1', 62},
-    {'2', 60},
-    {'3', 56},
-    {'4', 48},
-    {'5', 32},
-    {'6', 33},
-    {'7', 35},
-    {'8', 39},
-    {'9', 47},
-    {'0', 63}
-};
+// KeyerMorse Sender Constructor
+KeyerMorse::KeyerMorse(KeyerBuffer* buffer) {
+    _buffer = buffer;
+    _speed = 20;
+}
 
-#define N_MORSE (sizeof(morsetab)/sizeof(morsetab[0]))
-
-int dotlen;
-int dashlen;
-int speed = 20;
-
-KeyerBuffer* _cwBuffer;
-
-void beginCWOutput(KeyerBuffer* buffer) {
+// Initialize the keyer
+void KeyerMorse::begin() {
     pinMode(CW_PIN, OUTPUT);
     digitalWrite(CW_PIN, 0);
 
     pinMode(LED_PIN, OUTPUT);
     digitalWrite(LED_PIN, 0);
 
-    updateCWSpeed();
-
-    _cwBuffer = buffer;
+    _updateSpeed();
 }
 
-void updateCWSpeed() {
+// Set speed in WPM
+void KeyerMorse::setSpeed(int speed) {
+    _speed = speed;
+    _updateSpeed();
+}
+
+// Update speed in WPM
+void KeyerMorse::_updateSpeed() {
     // https://k7mem.com/Keyer_Speed.html
-    dotlen = (1200 / speed);
-    dashlen = (3 * (1200 / speed));
+    _dot_len = (1200 / _speed);
+    _dash_len = (3 * (1200 / _speed));
 }
 
-void setCWSpeed(int s) {
-    speed = s;
-    updateCWSpeed();
-}
-
-void sendDit() {
+// Send dit
+void KeyerMorse::_sendDit() {
     digitalWrite(LED_PIN, 1);
     digitalWrite(CW_PIN, 1);
-    vTaskDelay(dotlen / portTICK_PERIOD_MS);
+    vTaskDelay(_dot_len / portTICK_PERIOD_MS);
 
     digitalWrite(LED_PIN, 0);
     digitalWrite(CW_PIN, 0);
-    vTaskDelay(dotlen / portTICK_PERIOD_MS);
+    vTaskDelay(_dot_len / portTICK_PERIOD_MS);
 }
 
-void sendDah() {
+// Send dah
+void KeyerMorse::_sendDah() {
     digitalWrite(LED_PIN, 1);
     digitalWrite(CW_PIN, 1);
-    vTaskDelay(dashlen / portTICK_PERIOD_MS);
+    vTaskDelay(_dash_len / portTICK_PERIOD_MS);
 
     digitalWrite(LED_PIN, 0);
     digitalWrite(CW_PIN, 0);
-    vTaskDelay(dotlen / portTICK_PERIOD_MS);
+    vTaskDelay(_dot_len / portTICK_PERIOD_MS);
 }
 
-void sendChar(char c) {
+// Send one char
+void KeyerMorse::sendChar(char c) {
     Serial.printf("Sending %c\n", c);
     if (c == ' ') {
-        vTaskDelay(7 * dotlen / portTICK_PERIOD_MS);
+        vTaskDelay(7 * _dot_len / portTICK_PERIOD_MS);
     } else {
         for (int i = 0; i < N_MORSE; i++) {
             if (morsetab[i].c == c) {
                 unsigned char p = morsetab[i].pat;
                 while (p != 1) {
                     if (p & 1) {
-                        sendDah();
+                        _sendDah();
                     } else {
-                        sendDit();
+                        _sendDit();
                     }
                     p = p / 2;
                 }
                 break;
             }
         }
-        vTaskDelay(2 * dotlen / portTICK_PERIOD_MS);
+        vTaskDelay(2 * _dot_len / portTICK_PERIOD_MS);
     }
 }
 
+// Send whole buffer content
+void KeyerMorse::sendBuffer() {
+    while (!_buffer->isSendingEmpty()) {
+        sendChar(_buffer->getFirstSendingChar());
+        _buffer->unshiftSending();
+    }
+}
+
+
 // Task to send morse code
 void vSendMorse(void *pvParameters) {
-    for ( ;; ) {
-        while (!_cwBuffer->isSendingEmpty()) {
-            sendChar(_cwBuffer->getFirstSendingChar());
-            _cwBuffer->unshiftSending();
-        }
+    KeyerMorse *morse;
+    morse = (KeyerMorse *)pvParameters;
 
+    for ( ;; ) {
+        morse->sendBuffer();
         vTaskDelay(20 / portTICK_PERIOD_MS);
     }
 }

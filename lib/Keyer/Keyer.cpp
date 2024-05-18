@@ -1,27 +1,28 @@
 #include <Keyer.h>
 
-char _inputBuffer[32] = "";
-char _sendingBuffer[128] = "";
-
-VFD_1605N VFD;
-KeyerBuffer buffer;
 
 void CWKeyer::begin() {
+    static VFD_1605N VFD;
     VFD.init();
 
-    xTaskCreate(vRefreshVFD, "vRefreshVFD", 2048, &VFD, 1, NULL);
+    static KeyerDisplay display(&VFD);
+    xTaskCreate(vRefreshVFD, "vRefreshVFD", 2048, &display, 1, NULL);
     char msg[] = "    CW KEYER    ";
-    setVFDLine(0, msg);
+    display.setVFDLine(0, msg);
 
-    delay(1000);
-    initKeyerInput(&buffer);
+    delay(2000);
 
-    setVFDLine(0, buffer.getSending());
-    setVFDLine(1, buffer.getInput());
+    static KeyerBuffer buffer;
+    static KeyerInput input(&buffer);
+    input.init();
 
-    beginCWOutput(&buffer);
-    setCWSpeed(20);
+    display.setVFDLine(0, buffer.getSending());
+    display.setVFDLine(1, buffer.getInput());
+    
+    static KeyerMorse morse(&buffer);
+    morse.begin();
+    morse.setSpeed(20);
 
-    xTaskCreate(vGetKey, "vGetKey", 2048, NULL, 1, NULL);
-    xTaskCreate(vSendMorse, "vSendMorse", 2048, NULL, 1, NULL);
+    xTaskCreate(vGetKey, "vGetKey", 2048, &input, 1, NULL);
+    xTaskCreate(vSendMorse, "vSendMorse", 2048, &morse, 1, NULL);
 }
