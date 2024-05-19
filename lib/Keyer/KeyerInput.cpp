@@ -16,11 +16,38 @@ void KeyerInput::init() {
     _usbKeyMouse = &USBKeyMouse;
 }
 
+// Handle key press
+void KeyerInput::onKeyInput(uint8_t key) {
+    static char keyasc = '*';
+    if (key == 0x20 || key == 0x0d) {
+        // Space or Enter
+        _buffer->commitToSending();
+
+        #if DEBUG_ALL
+        Serial.printf("Sending Buffer: %s\n", _buffer->getSending());
+        #endif                
+    } else if (key == 0x08) {
+        // Backspace
+        _buffer->backspaceInput();
+
+        #if DEBUG_ALL
+        Serial.printf("Input Buffer: %s\n", _buffer->getInput());
+        #endif
+    } else if ((key >= 0x20) && (key <= 0x7e)) {
+        // Characters
+        keyasc = toupper((char)key);
+        char* c = &keyasc;
+        _buffer->appendInput(c);
+
+        #if DEBUG_ALL
+        Serial.printf("Input Buffer: %s\n", _buffer->getInput());
+        #endif
+    }
+}
+
 // Get key press from USB keyboard
 void KeyerInput::getKey() {
     uint8_t key;
-    char keyasc='*';
-
     key = _usbKeyMouse->GetKey();
     if (key > 0) {
         // Debounce key press
@@ -33,31 +60,7 @@ void KeyerInput::getKey() {
             _lastKeyTime = now;
         }
 
-        if (key == 0x20 || key == 0x0d) {
-            // Space or Enter
-            _buffer->commitToSending();
-
-            #if DEBUG_ALL
-            Serial.printf("Sending Buffer: %s\n", _buffer->getSending());
-            #endif                
-        } else if (key == 0x08) {
-            // Backspace
-            _buffer->backspaceInput();
-
-            #if DEBUG_ALL
-            Serial.printf("Input Buffer: %s\n", _buffer->getInput());
-            #endif
-        } else if ((key >= 0x20) && (key <= 0x7e)) {
-            // Characters
-            keyasc = toupper((char)key);
-            
-            char *c = &keyasc;
-            _buffer->appendInput(c);
-
-            #if DEBUG_ALL
-            Serial.printf("Input Buffer: %s\n", _buffer->getInput());
-            #endif
-        }
+        onKeyInput(key);
     }
 }
 

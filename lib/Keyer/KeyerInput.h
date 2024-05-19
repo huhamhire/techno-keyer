@@ -9,13 +9,14 @@
 #define SERIAL_RX_PIN 15
 #define SERIAL_TX_PIN 16
 
-#define DEBOUNCE_TIME 100
+#define DEBOUNCE_TIME 160
 
 class KeyerInput {
     public:
         KeyerInput(KeyerBuffer *buffer);
         void init();
         void getKey();
+        void onKeyInput(uint8_t key);
     
     private:
         KeyerBuffer *_buffer;
