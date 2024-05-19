@@ -59,6 +59,33 @@ void KeyerBuffer::commitToSending() {
     clearInput();
 }
 
+// Revevert committed word from sending buffer
+void KeyerBuffer::revertCommitted() {
+    if (strlen(_input) > 0) {
+        // Input buffer not empty
+        return;
+    }
+
+    uint8_t len = strlen(_sending);
+    if (len == 0) {
+        return;
+    }
+    // Find last space
+    uint8_t i = len - 2;
+    while (i >= 0 && _sending[i] != ' ') {
+        i--;
+    }
+    uint8_t word_start = i + 1;
+
+    // Copy back to input buffer
+    if (i > 0) {
+        strncpy(_input, _sending + word_start, len - word_start - 1);
+    }
+
+    // Remove last word
+    _sending[word_start] = '\0';
+}
+
 // Get first character from sending buffer
 char KeyerBuffer::getFirstSendingChar() {
     return _sending[0];

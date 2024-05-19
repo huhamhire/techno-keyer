@@ -28,7 +28,11 @@ void KeyerInput::onKeyInput(uint8_t key) {
         #endif                
     } else if (key == 0x08) {
         // Backspace
-        _buffer->backspaceInput();
+        if (!_buffer->isInputEmpty()) {
+            _buffer->backspaceInput();
+        } else {
+            _buffer->revertCommitted();
+        }
 
         #if DEBUG_ALL
         Serial.printf("Input Buffer: %s\n", _buffer->getInput());

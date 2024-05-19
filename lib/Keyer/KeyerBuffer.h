@@ -18,6 +18,7 @@ class KeyerBuffer {
         void appendInput(char* c);
         void backspaceInput();
         void commitToSending();
+        void revertCommitted();
         char getFirstSendingChar();
         void unshiftSending();
         
