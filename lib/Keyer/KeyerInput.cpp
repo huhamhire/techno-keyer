@@ -57,7 +57,12 @@ void KeyerInput::getKey() {
         // Debounce key press
         unsigned long now = millis();
 
-        if (key == _lastKey && (now - _lastKeyTime) < DEBOUNCE_TIME) {
+        uint8_t debounce_time = 140;
+        if (key == 0x08) {
+            // backspace
+            debounce_time = 80;
+        }
+        if (key == _lastKey && (now - _lastKeyTime) < debounce_time) {
             return;
         } else {
             _lastKey = key;

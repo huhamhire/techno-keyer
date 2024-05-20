@@ -9,8 +9,6 @@
 #define SERIAL_RX_PIN 15
 #define SERIAL_TX_PIN 16
 
-#define DEBOUNCE_TIME 120
-
 class KeyerInput {
     public:
         KeyerInput(KeyerBuffer *buffer);
