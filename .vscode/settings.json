@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "esp32-hal-log.h": "c"
+        "esp32-hal-log.h": "c",
+        "esp32-hal.h": "c"
     }
 }

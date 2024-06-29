@@ -11,8 +11,9 @@ void KeyerMorse::begin() {
     pinMode(CW_PIN, OUTPUT);
     digitalWrite(CW_PIN, 0);
 
-    pinMode(LED_PIN, OUTPUT);
-    digitalWrite(LED_PIN, 0);
+    ledcSetup(BZ_CHANNEL, BZ_FREQ, BZ_RESOLUTION);
+    ledcAttachPin(BZ_PIN, BZ_CHANNEL);
+    ledcWrite(BZ_CHANNEL, 0x00);
 
     _updateSpeed();
 }
@@ -32,23 +33,23 @@ void KeyerMorse::_updateSpeed() {
 
 // Send dit
 void KeyerMorse::_sendDit() {
-    digitalWrite(LED_PIN, 1);
-    digitalWrite(CW_PIN, 1);
+    digitalWrite(CW_PIN, HIGH);
+    ledcWrite(BZ_CHANNEL, 0x80);
     vTaskDelay(_dot_len / portTICK_PERIOD_MS);
 
-    digitalWrite(LED_PIN, 0);
-    digitalWrite(CW_PIN, 0);
+    digitalWrite(CW_PIN, LOW);
+    ledcWrite(BZ_CHANNEL, 0x00);
     vTaskDelay(_dot_len / portTICK_PERIOD_MS);
 }
 
 // Send dah
 void KeyerMorse::_sendDah() {
-    digitalWrite(LED_PIN, 1);
-    digitalWrite(CW_PIN, 1);
+    digitalWrite(CW_PIN, HIGH);
+    ledcWrite(BZ_CHANNEL, 0x80);
     vTaskDelay(_dash_len / portTICK_PERIOD_MS);
 
-    digitalWrite(LED_PIN, 0);
-    digitalWrite(CW_PIN, 0);
+    digitalWrite(CW_PIN, LOW);
+    ledcWrite(BZ_CHANNEL, 0x00);
     vTaskDelay(_dot_len / portTICK_PERIOD_MS);
 }
 

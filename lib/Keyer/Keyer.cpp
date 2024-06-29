@@ -14,10 +14,16 @@ void Keyer::begin() {
     _buffer = &buffer;
     initInput();
     initOutput();
+
+    initEncorder();
     
     // Bind buffer to display
     _display->setVFDLine(0, buffer.getSending());
     _display->setVFDLine(1, buffer.getInput());
+
+    // TODO remove test
+    buffer.appendInput("CQ CQ CQ");
+    buffer.commitToSending();
 }
 
 // Initialize VFD Display
@@ -40,6 +46,16 @@ void Keyer::initInput() {
 
     _input = &input;
 }
+
+// Initialize Rotory Encorder
+void Keyer::initEncorder() {
+    static KeyerEncoder encorder;
+    encorder.begin();
+
+    xTaskCreate(vEncoderCheck, "vEncoderCheck", 2048, &encorder, 1, NULL);
+
+    _encoder = &encorder;
+}   
 
 // Initialize Keyer Output
 void Keyer::initOutput() {
