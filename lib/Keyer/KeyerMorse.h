@@ -66,7 +66,8 @@ class KeyerMorse {
         KeyerMorse(KeyerBuffer* buffer);
         void begin();
 
-        void setSpeed(int s);
+        void setSpeed(uint8_t s);
+        uint8_t getSpeed();
         void sendChar(char c);
         void sendBuffer();
 
@@ -76,9 +77,9 @@ class KeyerMorse {
         void _updateSpeed();
 
     private:
-        int _dot_len;
-        int _dash_len;
-        int _speed;
+        uint16_t _dot_len;
+        uint16_t _dash_len;
+        uint8_t _speed;
 
         KeyerBuffer* _buffer;
 };

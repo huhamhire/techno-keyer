@@ -5,24 +5,24 @@
 
 #include <KeyerBuffer.h>
 #include <KeyerInput.h>
-#include <KeyerEncoder.h>
+#include <KeyerConfig.h>
 #include <KeyerDisplay.h>
 #include <KeyerMorse.h>
 
 class Keyer {
     public:
         void begin();
-
+        
     protected:
         void initDisplay();
-        void initEncorder();
+        void initConfig();
         void initInput();
         void initOutput();
 
     private:
         KeyerBuffer *_buffer;
         KeyerDisplay* _display;
-        KeyerEncoder* _encoder;
+        KeyerConfig* _config;
         KeyerInput* _input;
         KeyerMorse* _morse;
 };

@@ -19,9 +19,14 @@ void KeyerMorse::begin() {
 }
 
 // Set speed in WPM
-void KeyerMorse::setSpeed(int speed) {
+void KeyerMorse::setSpeed(uint8_t speed) {
     _speed = speed;
     _updateSpeed();
+}
+
+// Get speed in WPM
+uint8_t KeyerMorse::getSpeed() {
+    return _speed;
 }
 
 // Update speed in WPM
