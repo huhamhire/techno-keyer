@@ -20,10 +20,6 @@ void Keyer::begin() {
     // Bind buffer to display
     _display->setVFDLine(0, buffer.getSending());
     _display->setVFDLine(1, buffer.getInput());
-
-    // TODO remove test
-    buffer.appendInput("CQ CQ CQ");
-    buffer.commitToSending();
 }
 
 // Initialize VFD Display
