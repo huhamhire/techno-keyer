@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <AiEsp32RotaryEncoder.h>
+#include <Preferences.h>
 
 #include <KeyerBuffer.h>
 #include <KeyerDisplay.h>
@@ -19,6 +20,9 @@
 #define KEYER_CONFIG_MODS 1
 #define KEYER_DISPLAY_WIDTH 16
 
+#define RW_MODE false
+#define RO_MODE true
+
 class KeyerConfig 
 {
     public:
@@ -28,8 +32,12 @@ class KeyerConfig
 
         void startConfig();
         void finishConfig();
+        void applyConfig();
 
     protected:
+        void _loadFlashMemory();
+        void _saveFlashMemory();
+
         void _onEcButtonClick();
         void _onEcValueChange(long value);
 
@@ -43,6 +51,8 @@ class KeyerConfig
 
         uint8_t _mode = 0;
         uint8_t _wpm = 20;
+
+        Preferences _config;
 };
 
 void vEncoderCheck(void *pvParameters);

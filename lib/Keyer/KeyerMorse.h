@@ -8,7 +8,8 @@
 #define CW_PIN 42
 
 #define BZ_PIN 2
-#define BZ_FREQ 1800
+// CW Pitch
+#define BZ_FREQ 750
 #define BZ_CHANNEL 0
 #define BZ_RESOLUTION 8
 

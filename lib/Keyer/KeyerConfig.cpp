@@ -27,8 +27,32 @@ void KeyerConfig::init()
 {
     encoder.begin();
     encoder.setup(readEncoderISR);
-
     encoder.disableAcceleration();
+
+    _loadFlashMemory();
+    applyConfig();
+}
+
+// Load configuration from flash memory
+void KeyerConfig::_loadFlashMemory() 
+{
+    _config.begin("keyerConf", RO_MODE);
+
+    _wpm = _config.getUShort("wpm", 20);
+
+    _config.end();
+
+    #if DEBUG_ALL
+    Serial.printf("loaded: WPM: %d\n", _wpm);
+    #endif
+}
+
+// Save configuration to flash memory
+void KeyerConfig::_saveFlashMemory() 
+{
+    _config.begin("keyerConf", RW_MODE);
+    _config.putUShort("wpm", _wpm);
+    _config.end();
 }
 
 // Start configuration
@@ -43,8 +67,6 @@ void KeyerConfig::startConfig()
         case 1:
             _setDisplayTitle("Speed (WPM)");
             encoder.setBoundaries(10, 50, false);
-
-            _wpm = _morse->getSpeed();
             encoder.setEncoderValue(_wpm);
             _setDisplayValue(_wpm);
             break;
@@ -57,12 +79,21 @@ void KeyerConfig::startConfig()
     #endif
 }
 
+// Apply configuration
+void KeyerConfig::applyConfig() 
+{
+    _morse->setSpeed(_wpm);
+}
+
 // Finish configuration
 void KeyerConfig::finishConfig() 
 {
+    applyConfig();
+    _saveFlashMemory();
     _setDisplayTitle("Config saved.");
-    _display->setVFDLine(1, "");
 
+    // Clear VFD line 1
+    _display->setVFDLine(1, "");
     vTaskDelay(800 / portTICK_PERIOD_MS);
 
     // Restore buffer to display
@@ -73,7 +104,7 @@ void KeyerConfig::finishConfig()
     encoder.setBoundaries(0, 100, false); 
 
     #if DEBUG_ALL
-    Serial.println("Config finished.");
+    Serial.println("Config saved.");
     #endif
 }
 
@@ -121,7 +152,6 @@ void KeyerConfig::_onEcValueChange(long value)
         case 1:
             _wpm = value;
             _setDisplayValue(_wpm);
-            _morse->setSpeed(_wpm);
             break;
         default:
             break;
