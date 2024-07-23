@@ -11,11 +11,14 @@ class KeyerDisplay {
     public:
         KeyerDisplay(VFD_1605N* VFD);
         void setVFDLine(uint8_t line, char *str);
+        void setBrightness(uint16_t brightness);
+        uint16_t getBrightness();
         void refreshVFD();
 
     private:
         VFD_1605N* _VFD;
         char* _buffer[VFD_LINES] = {"", ""};
+        uint16_t _brightness = 500;
 };
 
 void vRefreshVFD(void *pvParameters);

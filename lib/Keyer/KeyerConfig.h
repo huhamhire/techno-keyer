@@ -17,11 +17,14 @@
 
 // modes:
 //   1 - wpm
-#define KEYER_CONFIG_MODS 1
+//   2 - brightness
+#define KEYER_CONFIG_MODS 2
 #define KEYER_DISPLAY_WIDTH 16
 
 #define RW_MODE false
 #define RO_MODE true
+
+#define VFD_BRIGHTNESS_RATIO 5
 
 class KeyerConfig 
 {
@@ -51,6 +54,7 @@ class KeyerConfig
 
         uint8_t _mode = 0;
         uint8_t _wpm = 20;
+        uint16_t _bright = 100;
 
         Preferences _config;
 };

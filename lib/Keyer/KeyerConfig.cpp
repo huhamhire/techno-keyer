@@ -39,11 +39,14 @@ void KeyerConfig::_loadFlashMemory()
     _config.begin("keyerConf", RO_MODE);
 
     _wpm = _config.getUShort("wpm", 20);
+    _bright = _config.getUShort("bright", 100);
 
     _config.end();
 
     #if DEBUG_ALL
-    Serial.printf("loaded: WPM: %d\n", _wpm);
+    Serial.println("Config loaded.");
+    Serial.printf("  WPM: %d\n", _wpm);
+    Serial.printf("  Brightness: %d\n", _bright);
     #endif
 }
 
@@ -52,6 +55,7 @@ void KeyerConfig::_saveFlashMemory()
 {
     _config.begin("keyerConf", RW_MODE);
     _config.putUShort("wpm", _wpm);
+    _config.putUShort("bright", _bright);
     _config.end();
 }
 
@@ -70,6 +74,13 @@ void KeyerConfig::startConfig()
             encoder.setEncoderValue(_wpm);
             _setDisplayValue(_wpm);
             break;
+        // Brightness
+        case 2:
+            _setDisplayTitle("Brightness");
+            encoder.setBoundaries(1, 10, false);
+            encoder.setEncoderValue(_bright / 10);
+            _setDisplayValue(_bright);
+            break;
         default:
             break;
     }
@@ -83,6 +94,8 @@ void KeyerConfig::startConfig()
 void KeyerConfig::applyConfig() 
 {
     _morse->setSpeed(_wpm);
+    // _display->setBrightness(_bright * VFD_BRIGHTNESS_RATIO);
+    _display->setBrightness(350);
 }
 
 // Finish configuration
@@ -152,6 +165,12 @@ void KeyerConfig::_onEcValueChange(long value)
         case 1:
             _wpm = value;
             _setDisplayValue(_wpm);
+            break;
+        // Brightness
+        case 2:
+            _bright = value * 10;
+            _setDisplayValue(_bright);
+            _display->setBrightness(_bright * VFD_BRIGHTNESS_RATIO);
             break;
         default:
             break;
