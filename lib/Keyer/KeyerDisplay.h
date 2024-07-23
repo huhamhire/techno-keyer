@@ -17,7 +17,7 @@ class KeyerDisplay {
 
     private:
         VFD_1605N* _VFD;
-        char* _buffer[VFD_LINES] = {"", ""};
+        char* _buffer[VFD_LINES] = {(char*) "", (char*) ""};
         uint16_t _brightness = 500;
 };
 

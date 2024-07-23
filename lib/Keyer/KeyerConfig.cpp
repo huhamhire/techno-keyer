@@ -69,14 +69,14 @@ void KeyerConfig::startConfig()
     switch (_mode) {
         // WPM
         case 1:
-            _setDisplayTitle("Speed (WPM)");
+            _setDisplayTitle((char*) "Speed (WPM)");
             encoder.setBoundaries(10, 50, false);
             encoder.setEncoderValue(_wpm);
             _setDisplayValue(_wpm);
             break;
         // Brightness
         case 2:
-            _setDisplayTitle("Brightness");
+            _setDisplayTitle((char*) "Brightness");
             encoder.setBoundaries(1, 10, false);
             encoder.setEncoderValue(_bright / 10);
             _setDisplayValue(_bright);
@@ -103,10 +103,10 @@ void KeyerConfig::finishConfig()
 {
     applyConfig();
     _saveFlashMemory();
-    _setDisplayTitle("Config saved.");
+    _setDisplayTitle((char*) "Config saved.");
 
     // Clear VFD line 1
-    _display->setVFDLine(1, "");
+    _display->setVFDLine(1, (char*) "");
     vTaskDelay(800 / portTICK_PERIOD_MS);
 
     // Restore buffer to display
