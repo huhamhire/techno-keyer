@@ -26,13 +26,7 @@ uint16_t KeyerDisplay::getBrightness() {
 // Refresh VFD Display
 void KeyerDisplay::refreshVFD() {
     for (uint8_t line = 0; line < VFD_LINES; line++) {
-        for (int i = 0; i < VFD_BUFF_SIZE; i++) {
-            if (i < strlen(_buffer[line])) {
-                (*_VFD).displayChar(line, i, _buffer[line][i]);
-            } else {
-                (*_VFD).displayChar(line, i, ' ');
-            }
-        }
+        (*_VFD).displayLine(line, _buffer[line]);
     }
 }
 

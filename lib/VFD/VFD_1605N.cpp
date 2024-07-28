@@ -37,8 +37,9 @@ void VFD_1605N::_sendCommand(uint8_t data)
 // Send bytes to VFD
 void VFD_1605N::_sendBytes(uint8_t *data, uint32_t size) 
 {
-    spi->beginTransaction(SPISettings(_spiClk, LSBFIRST, SPI_MODE0));
+    spi->beginTransaction(SPISettings(_spiClk, SPI_LSBFIRST, SPI_MODE0));
     digitalWrite(spi->pinSS(), LOW);
+
     spi->writeBytes(data, size);
     digitalWrite(spi->pinSS(), HIGH);
 
@@ -98,5 +99,35 @@ void VFD_1605N::displayChar(uint8_t row, uint8_t col, unsigned char data)
     // line, col, char
     uint8_t buff[size] = { line, column, data };
 
+    _sendBytes(buff, size);
+}
+
+
+// Display line on VFD
+void VFD_1605N::displayLine(uint8_t row, char *data) 
+{
+    if ( row > 1) {
+        // Invalid row
+        return;
+    }
+
+    // Line1: 0x90, Line2: 0x10, 
+    uint8_t line = row == 0 ? 0x90 : 0x10;
+    
+    uint8_t size = 18;
+    uint8_t buff[size] = { 
+        line, 0x00,
+        0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+        0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    };
+    // Fill data
+    for (uint8_t i = 0; i < 16; i++) {
+        uint8_t c = data[i];
+        if (c == 0x00) {
+            // End of string
+            break;
+        }
+        buff[2 + (15 - i)] = c;
+    }
     _sendBytes(buff, size);
 }

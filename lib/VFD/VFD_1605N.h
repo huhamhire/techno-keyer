@@ -16,6 +16,7 @@ class VFD_1605N {
         void init(void);
         void setBrightness(uint16_t brightness);
         void displayChar(uint8_t row, uint8_t col, unsigned char data);
+        void displayLine(uint8_t row, char *data);
 
     private:
         void _sendBytes(uint8_t* data, uint32_t size);
@@ -24,8 +25,8 @@ class VFD_1605N {
         void _setDisplayOff(void);
         void _setDisplayOn(void);
         
-        uint32_t _spiClk =  4000000;    // 4MHz
-        uint8_t _delay =    16;         // 16us at 4MHz
+        uint32_t _spiClk =  100000;     // 100kHz
+        uint8_t _delay =    16;         // 16us
 
         SPIClass *spi;
 };

@@ -10,6 +10,8 @@
 #include <KeyerMorse.h>
 #include <KeyerWifi.h>
 
+#include <Clock.h>
+
 class Keyer {
     public:
         void begin();
@@ -19,6 +21,7 @@ class Keyer {
         void initConfig();
         void initInput();
         void initOutput();
+        void initClock();
 
     private:
         KeyerBuffer *_buffer;
@@ -26,6 +29,8 @@ class Keyer {
         KeyerConfig* _config;
         KeyerInput* _input;
         KeyerMorse* _morse;
+
+        NTPClock* _clock;
 };
 
 #endif  // _KEYER_

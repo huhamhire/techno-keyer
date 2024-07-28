@@ -17,7 +17,9 @@ void Keyer::begin() {
 
     initConfig();
 
+    // Wifi & Clock
     // wifiClient.connect();
+    initClock();
     
     // Bind buffer to display
     _display->setVFDLine(0, buffer.getSending());
@@ -45,7 +47,7 @@ void Keyer::initInput() {
     _input = &input;
 }
 
-// Initialize Rotory Encorder
+// Initialize Configurations
 void Keyer::initConfig() {
     static KeyerConfig config(_buffer, _display, _morse);
     config.init();
@@ -64,4 +66,14 @@ void Keyer::initOutput() {
     xTaskCreate(vSendMorse, "vSendMorse", 2048, &morse, 1, NULL);
 
     _morse = &morse;
+}
+
+
+void Keyer::initClock() {
+    static NTPClock clk;
+    clk.begin();
+
+    xTaskCreate(vUpdateTime, "vUpdateTime", 2048, &clk, 1, NULL);
+
+    _clock = &clk;
 }
