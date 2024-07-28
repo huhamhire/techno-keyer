@@ -5,13 +5,14 @@ void VFD_1605N::init(void)
 {
     pinMode(EN_PIN, OUTPUT);
     pinMode(RST_PIN, OUTPUT);
-    pinMode(CS_PIN, OUTPUT);
-    pinMode(CLK_PIN, OUTPUT);
-    pinMode(MOSI_PIN, OUTPUT);
 
-    // initialize VFD
+    // Initialize SPI
+    spi = new SPIClass(FSPI);
+    spi->begin(CLK_PIN, -1, MOSI_PIN, CS_PIN);
+    pinMode(spi->pinSS(), OUTPUT);
+
+    // Initialize VFD
     digitalWrite(EN_PIN, HIGH);
-    digitalWrite(CS_PIN, HIGH);
 
     // Reset
     delayMicroseconds(100);
@@ -19,40 +20,30 @@ void VFD_1605N::init(void)
     delayMicroseconds(_delay);
     digitalWrite(RST_PIN, HIGH);
     
-    // Lock for config
-    _configLock = true;
-    _setDisplayOff();       
-
-    digitalWrite(CS_PIN, LOW);
-    _sendByte(0x6C);        // set com1-com16
-    digitalWrite(CS_PIN, HIGH);
-    delayMicroseconds(_delay);
-
+    // Config
+    _setDisplayOff();
+    // Always excute before turning on
+    _sendCommand(0x6C);     // set com1 to 16
     _setDuty(500);
-    clear();                // clear display
-
-    // Unlock for config
-    _configLock = false;
-    _setDisplayOn();        // normal display
+    _setDisplayOn();
 }
 
-// Send byte to VFD
-void VFD_1605N::_sendByte(uint8_t data) 
+// Send command to VFD
+void VFD_1605N::_sendCommand(uint8_t data) 
 {
-    for (int i = 0; i < 8; i++) {
-        digitalWrite(CLK_PIN, LOW);
+    _sendBytes(&data, 1);
+}
 
-        if ( data & 0x01 ) {
-            digitalWrite(MOSI_PIN, HIGH);
-        } else {
-            digitalWrite(MOSI_PIN, LOW);
-        }
-        data = data >> 1;
-        delayMicroseconds(_delay);
+// Send bytes to VFD
+void VFD_1605N::_sendBytes(uint8_t *data, uint32_t size) 
+{
+    spi->beginTransaction(SPISettings(_spiClk, LSBFIRST, SPI_MODE0));
+    digitalWrite(spi->pinSS(), LOW);
+    spi->writeBytes(data, size);
+    digitalWrite(spi->pinSS(), HIGH);
 
-        digitalWrite(CLK_PIN, HIGH);
-        delayMicroseconds(_delay);
-    }
+    spi->endTransaction();
+    delayMicroseconds(_delay);
 }
 
 // Send duty config to set brightness (0~1024)
@@ -63,105 +54,49 @@ void VFD_1605N::_setDuty(uint16_t brightness)
     bl = brightness % 4;
     bh = brightness / 4;
     
-    digitalWrite(CS_PIN, LOW);
-    // 0b0101_**xx
-    _sendByte(0x50 | bl);
-    // 0bxxxx_xxxx
-    _sendByte(bh);
-    digitalWrite(CS_PIN, HIGH);
-    
-    delayMicroseconds(_delay);
+    uint8_t size = 2;
+    // 0b0101_**xx, 0bxxxx_xxxx
+    uint8_t buff[size] = { (uint8_t)(0x50 | bl), bh };
+    _sendBytes(buff, size);
 }
 
 // Turn off VFD (Prevent malfunction for config / Blink)
 void VFD_1605N::_setDisplayOff(void) 
 {
-    digitalWrite(CS_PIN, LOW);
     // All outputs to low
-    _sendByte(0x71);
-    digitalWrite(CS_PIN, HIGH);
-    delayMicroseconds(_delay);
+    _sendCommand(0x71);
 }
 
 // Turn on VFD
 void VFD_1605N::_setDisplayOn(void)
 {
-    digitalWrite(CS_PIN, LOW);
     // Normal display
-    _sendByte(0x70);
-    digitalWrite(CS_PIN, HIGH);
-    delayMicroseconds(_delay);
-}
-
-void VFD_1605N::clear(void) 
-{
-    digitalWrite(CS_PIN, LOW);
-    // Line 1
-    _sendByte(0x90);
-    _sendByte(0x00);
-    for (int i = 0; i < 16; i++) {
-        _sendByte(0xff);
-    }
-    digitalWrite(CS_PIN, HIGH);
-    delayMicroseconds(_delay);
-
-    digitalWrite(CS_PIN, LOW);
-    // Line 2
-    _sendByte(0x10);
-    _sendByte(0x00);
-    for (int i = 0; i < 16; i++) {
-        _sendByte(0xff);
-    }
-    digitalWrite(CS_PIN, HIGH);
-    delayMicroseconds(_delay);
+    _sendCommand(0x70);
 }
 
 // Set VFD brightness (0~1024)
 void VFD_1605N::setBrightness(uint16_t brightness) 
 {
-    _configLock = true;
     _setDisplayOff();
-
     _setDuty(brightness);
-
     _setDisplayOn();
-    _configLock = false;
 }
 
 // Display char on VFD
 void VFD_1605N::displayChar(uint8_t row, uint8_t col, unsigned char data) 
 {
-    if (_configLock) {
-        // Skip while config locked
+    if ( col > 15 || row > 1) {
+        // Invalid column or row
         return;
     }
-    digitalWrite(CS_PIN, LOW);
-    
-    // Select line
-    if (row == 0) {
-        // Line 2
-        _sendByte(0x10);
-    } else if (row == 1) {
-        // Line 1
-        _sendByte(0x90);
-    } else {
-        // Exit
-        digitalWrite(CS_PIN, HIGH);
-        delayMicroseconds(_delay);
-        return;
-    }
-    
-    if (col > 15) {
-        // Exit
-        digitalWrite(CS_PIN, HIGH);
-        delayMicroseconds(_delay);
-        return;
-    }
-    
-    _sendByte(15 - col);
-    _sendByte(data);
-    
-    digitalWrite(CS_PIN, HIGH);
-    delayMicroseconds(_delay);
-    return;
+
+    // Line1: 0x90, Line2: 0x10, 
+    uint8_t line = row == 0 ? 0x90 : 0x10;
+    uint8_t column = 0x0E - col;
+
+    uint8_t size = 3;
+    // line, col, char
+    uint8_t buff[size] = { line, column, data };
+
+    _sendBytes(buff, size);
 }

@@ -1,4 +1,4 @@
-#include <KeyerDisplay.h>
+    #include <KeyerDisplay.h>
 
 // VFD Display constructor
 KeyerDisplay::KeyerDisplay(VFD_1605N* VFD) {
@@ -28,9 +28,9 @@ void KeyerDisplay::refreshVFD() {
     for (uint8_t line = 0; line < VFD_LINES; line++) {
         for (int i = 0; i < VFD_BUFF_SIZE; i++) {
             if (i < strlen(_buffer[line])) {
-                (*_VFD).displayChar(1 - line, i, _buffer[line][i]);
+                (*_VFD).displayChar(line, i, _buffer[line][i]);
             } else {
-                (*_VFD).displayChar(1 - line, i, ' ');
+                (*_VFD).displayChar(line, i, ' ');
             }
         }
     }
