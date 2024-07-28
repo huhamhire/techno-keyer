@@ -16,6 +16,8 @@ void Keyer::begin() {
     initOutput();
 
     initConfig();
+
+    // wifiClient.connect();
     
     // Bind buffer to display
     _display->setVFDLine(0, buffer.getSending());

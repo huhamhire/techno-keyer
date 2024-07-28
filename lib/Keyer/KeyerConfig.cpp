@@ -94,8 +94,7 @@ void KeyerConfig::startConfig()
 void KeyerConfig::applyConfig() 
 {
     _morse->setSpeed(_wpm);
-    // _display->setBrightness(_bright * VFD_BRIGHTNESS_RATIO);
-    _display->setBrightness(350);
+    _display->setBrightness(_bright * VFD_BRIGHTNESS_RATIO);
 }
 
 // Finish configuration

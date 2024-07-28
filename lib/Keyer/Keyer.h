@@ -8,6 +8,7 @@
 #include <KeyerConfig.h>
 #include <KeyerDisplay.h>
 #include <KeyerMorse.h>
+#include <KeyerWifi.h>
 
 class Keyer {
     public:
