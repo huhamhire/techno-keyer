@@ -8,6 +8,7 @@
 #include <KeyerConfig.h>
 #include <KeyerDisplay.h>
 #include <KeyerMorse.h>
+#include <KeyerDecoder.h>
 #include <KeyerWifi.h>
 
 #include <Clock.h>
@@ -22,6 +23,7 @@ class Keyer {
         void initInput();
         void initOutput();
         void initClock();
+        void initDecoder();
 
     private:
         KeyerBuffer *_buffer;
@@ -29,6 +31,7 @@ class Keyer {
         KeyerConfig* _config;
         KeyerInput* _input;
         KeyerMorse* _morse;
+        KeyerDecoder* _decoder;
 
         NTPClock* _clock;
 };

@@ -5,7 +5,7 @@
 
 #include <KeyerBuffer.h>
 
-#define CW_PIN 42
+#define CW_PIN 14
 
 #define BZ_PIN 2
 // CW Pitch

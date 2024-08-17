@@ -4,8 +4,8 @@
 #include <Arduino.h>
 #include <SPI.h>
 
-#define EN_PIN      18      // Enable
-#define RST_PIN     17      // Reset
+#define EN_PIN      17      // Enable
+#define RST_PIN     18      // Reset
 #define CS_PIN      10      // SPI Chip Select
 #define CLK_PIN     12      // SPI Clock
 #define MOSI_PIN    11      // SPI Data

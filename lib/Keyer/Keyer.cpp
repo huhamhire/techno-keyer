@@ -17,9 +17,11 @@ void Keyer::begin() {
 
     initConfig();
 
+    initDecoder();
+
     // Wifi & Clock
     // wifiClient.connect();
-    initClock();
+    // initClock();
     
     // Bind buffer to display
     _display->setVFDLine(0, buffer.getSending());
@@ -69,6 +71,15 @@ void Keyer::initOutput() {
 }
 
 
+// Initialize Keyer Decoder
+void Keyer::initDecoder() {
+    static KeyerDecoder decoder;
+    decoder.init();
+
+    xTaskCreate(vCheckAuxSignal, "vCheckAuxSignal", 2048, &decoder, 1, NULL);
+    _decoder = &decoder;
+}
+
 void Keyer::initClock() {
     static NTPClock clk;
     clk.begin();
@@ -77,3 +88,4 @@ void Keyer::initClock() {
 
     _clock = &clk;
 }
+

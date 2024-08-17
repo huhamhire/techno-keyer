@@ -9,9 +9,9 @@
 #include <KeyerDisplay.h>
 #include <KeyerMorse.h>
 
-#define ENCODER_A_PIN 41
-#define ENCODER_B_PIN 40
-#define ENCODER_BUTTON_PIN 39
+#define ENCODER_A_PIN 5
+#define ENCODER_B_PIN 6
+#define ENCODER_BUTTON_PIN 7
 #define ENCODER_VCC_PIN -1  // Direct to 3V3
 #define ENCODER_STEPS 4
 
