@@ -2,6 +2,7 @@
 
 
 void Keyer::begin() {
+    _initSPI();
     initDisplay();
     // welcome message
     char msg[] = "    CW KEYER    ";
@@ -28,10 +29,18 @@ void Keyer::begin() {
     _display->setVFDLine(1, buffer.getInput());
 }
 
+
+void Keyer::_initSPI() {
+    _spi = new SPIClass(FSPI);
+    _spi->begin(SPI_CLK_PIN, -1, SPI_MOSI_PIN, SPI_CS_PIN);
+    pinMode(_spi->pinSS(), OUTPUT);
+}
+
+
 // Initialize VFD Display
 void Keyer::initDisplay() {
     static VFD_1605N VFD;
-    VFD.init();
+    VFD.init(_spi);
 
     static KeyerDisplay display(&VFD);
     xTaskCreate(vRefreshVFD, "vRefreshVFD", 2048, &display, 1, NULL);
@@ -74,7 +83,7 @@ void Keyer::initOutput() {
 // Initialize Keyer Decoder
 void Keyer::initDecoder() {
     static KeyerDecoder decoder;
-    decoder.init();
+    decoder.init(_spi);
 
     xTaskCreate(vCheckAuxSignal, "vCheckAuxSignal", 2048, &decoder, 1, NULL);
     _decoder = &decoder;

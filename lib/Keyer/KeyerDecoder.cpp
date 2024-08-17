@@ -1,9 +1,13 @@
 #include <KeyerDecoder.h>
 
-void KeyerDecoder::init() 
+void KeyerDecoder::init(SPIClass *spi)
 {
-    _initPotentiometer();
+    _spi = spi;
+    pinMode(DEC_CS_PIN, OUTPUT);
+
     _initSignalInput();
+
+    setValue(0x00);
 }
 
 // Initialize signal input
@@ -12,25 +16,17 @@ void KeyerDecoder::_initSignalInput()
     pinMode(AUX_SIG_PIN, INPUT);
 }
 
-// Initialize potentiometer for frequency control
-void KeyerDecoder::_initPotentiometer() 
-{    
-    spi = new SPIClass(FSPI);
-    spi->begin(DEC_CLK_PIN, -1, DEC_MOSI_PIN, DEC_CS_PIN);
-    pinMode(spi->pinSS(), OUTPUT);
-}
-
 
 // Set potentiometer value
 void KeyerDecoder::_setPotentiometerValue(uint8_t value)
 {
-    spi->beginTransaction(SPISettings(_spiClk, MSBFIRST, SPI_MODE0));
-    digitalWrite(spi->pinSS(), LOW);
+    _spi->beginTransaction(SPISettings(_spiClk, MSBFIRST, SPI_MODE0));
+    digitalWrite(DEC_CS_PIN, LOW);
     // Command
-    spi->write(0x11);
-    spi->write(value);
-    digitalWrite(spi->pinSS(), HIGH);
-    spi->endTransaction();
+    _spi->write(0x11);
+    _spi->write(value);
+    digitalWrite(DEC_CS_PIN, HIGH);
+    _spi->endTransaction();
 }
 
 

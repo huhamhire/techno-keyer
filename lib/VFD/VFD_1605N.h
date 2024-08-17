@@ -4,16 +4,14 @@
 #include <Arduino.h>
 #include <SPI.h>
 
-#define EN_PIN      17      // Enable
-#define RST_PIN     18      // Reset
-#define CS_PIN      10      // SPI Chip Select
-#define CLK_PIN     12      // SPI Clock
-#define MOSI_PIN    11      // SPI Data
+#define VFD_EN_PIN      17      // Enable
+#define VFD_RST_PIN     18      // Reset
+#define VFD_CS_PIN      10      // SPI Chip Select
 
 
 class VFD_1605N {
     public:
-        void init(void);
+        void init(SPIClass *spi);
         void setBrightness(uint16_t brightness);
         void displayChar(uint8_t row, uint8_t col, unsigned char data);
         void displayLine(uint8_t row, char *data);
@@ -28,7 +26,7 @@ class VFD_1605N {
         uint32_t _spiClk =  100000;     // 100kHz
         uint8_t _delay =    16;         // 16us
 
-        SPIClass *spi;
+        SPIClass *_spi;
 };
 
 #endif  // _VFD_1605N_
