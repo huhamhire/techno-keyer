@@ -20,8 +20,8 @@ class VFD_1605N {
         void _sendBytes(uint8_t* data, uint32_t size);
         void _sendCommand(uint8_t data);
         void _setDuty(uint16_t brightness);
-        void _setDisplayOff(void);
-        void _setDisplayOn(void);
+        void _setDisplayOff();
+        void _setDisplayOn();
         
         uint32_t _spiClk =  100000;     // 100kHz
         uint8_t _delay =    16;         // 16us

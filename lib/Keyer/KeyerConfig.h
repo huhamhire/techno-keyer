@@ -6,7 +6,7 @@
 #include <Preferences.h>
 
 #include <KeyerBuffer.h>
-#include <KeyerDisplay.h>
+#include <Display/DisplayContext.h>
 #include <KeyerMorse.h>
 
 #define ENCODER_A_PIN 5
@@ -29,7 +29,7 @@
 class KeyerConfig 
 {
     public:
-        KeyerConfig(KeyerBuffer *buffer, KeyerDisplay *display, KeyerMorse *morse);
+        KeyerConfig(KeyerBuffer *buffer, KeyboardKeyer::DisplayContext *display, KeyerMorse *morse);
         void init();
         void checkEncoder();
 
@@ -49,7 +49,7 @@ class KeyerConfig
         void _setDisplayValue(uint8_t value);
 
         KeyerBuffer *_buffer;
-        KeyerDisplay *_display;
+        KeyboardKeyer::DisplayContext *_display;
         KeyerMorse *_morse;
 
         uint8_t _mode = 0;

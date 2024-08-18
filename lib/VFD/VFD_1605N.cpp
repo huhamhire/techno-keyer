@@ -43,6 +43,7 @@ void VFD_1605N::_sendBytes(uint8_t *data, uint32_t size)
     digitalWrite(VFD_CS_PIN, HIGH);
 
     _spi->endTransaction();
+
     delayMicroseconds(_delay);
 }
 
@@ -53,22 +54,21 @@ void VFD_1605N::_setDuty(uint16_t brightness)
     
     bl = brightness % 4;
     bh = brightness / 4;
-    
-    uint8_t size = 2;
+
     // 0b0101_**xx, 0bxxxx_xxxx
-    uint8_t buff[size] = { (uint8_t)(0x50 | bl), bh };
-    _sendBytes(buff, size);
+    uint8_t buff[2] = { (uint8_t)(0x50 | bl), bh };
+    _sendBytes(buff, 2);
 }
 
 // Turn off VFD (Prevent malfunction for config / Blink)
-void VFD_1605N::_setDisplayOff(void) 
+void VFD_1605N::_setDisplayOff()
 {
     // All outputs to low
     _sendCommand(0x71);
 }
 
 // Turn on VFD
-void VFD_1605N::_setDisplayOn(void)
+void VFD_1605N::_setDisplayOn()
 {
     // Normal display
     _sendCommand(0x70);
@@ -94,27 +94,25 @@ void VFD_1605N::displayChar(uint8_t row, uint8_t col, unsigned char data)
     uint8_t line = row == 0 ? 0x90 : 0x10;
     uint8_t column = 0x0E - col;
 
-    uint8_t size = 3;
     // line, col, char
-    uint8_t buff[size] = { line, column, data };
+    uint8_t buff[3] = { line, column, data };
 
-    _sendBytes(buff, size);
+    _sendBytes(buff, 3);
 }
 
 
 // Display line on VFD
 void VFD_1605N::displayLine(uint8_t row, char *data) 
 {
-    if ( row > 1) {
+    if (row > 1) {
         // Invalid row
         return;
     }
 
     // Line1: 0x90, Line2: 0x10, 
     uint8_t line = row == 0 ? 0x90 : 0x10;
-    
-    uint8_t size = 18;
-    uint8_t buff[size] = { 
+
+    uint8_t buff[18] = {
         line, 0x00,
         0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
         0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
@@ -128,5 +126,6 @@ void VFD_1605N::displayLine(uint8_t row, char *data)
         }
         buff[2 + (15 - i)] = c;
     }
-    _sendBytes(buff, size);
+
+    _sendBytes(buff, 18);
 }

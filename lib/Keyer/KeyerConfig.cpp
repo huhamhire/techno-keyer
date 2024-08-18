@@ -15,7 +15,7 @@ void IRAM_ATTR readEncoderISR()
 }
 
 // Config Constructcor
-KeyerConfig::KeyerConfig(KeyerBuffer *buffer, KeyerDisplay *display, KeyerMorse *morse) 
+KeyerConfig::KeyerConfig(KeyerBuffer *buffer, KeyboardKeyer::DisplayContext *display, KeyerMorse *morse)
 {
     _buffer = buffer;
     _display = display;
@@ -66,6 +66,8 @@ void KeyerConfig::startConfig()
     _buffer->clearInput();
     _buffer->clearSending();
 
+    _display->setMode(0);
+
     switch (_mode) {
         // WPM
         case 1:
@@ -105,12 +107,11 @@ void KeyerConfig::finishConfig()
     _setDisplayTitle((char*) "Config saved.");
 
     // Clear VFD line 1
-    _display->setVFDLine(1, (char*) "");
+    _display -> setValueLine((char*) "");
     vTaskDelay(800 / portTICK_PERIOD_MS);
 
     // Restore buffer to display
-    _display->setVFDLine(0, _buffer->getSending());
-    _display->setVFDLine(1, _buffer->getInput());
+    _display -> setMode(1);
 
     // Reset encoder
     encoder.setBoundaries(0, 100, false); 
@@ -127,7 +128,7 @@ void KeyerConfig::_setDisplayTitle(char *title)
     uint8_t width = KEYER_DISPLAY_WIDTH;
     char line[width] = "";
     sprintf(line, "%*s%*s", (width + strlen(title)) / 2, title, (width - strlen(title)) / 2, "");
-    _display->setVFDLine(0, strdup(line));
+    _display ->setTitleLine(strdup(line));
 }
 
 
@@ -138,7 +139,7 @@ void KeyerConfig::_setDisplayValue(uint8_t value)
     char line[width] = "";
     sprintf(line, "%d", value);
     sprintf(line, "%*s%*s", (width + strlen(line)) / 2, strdup(line), (width - strlen(line)) / 2, "");
-    _display->setVFDLine(1, strdup(line));
+    _display ->setValueLine(strdup(line));
 }
 
 

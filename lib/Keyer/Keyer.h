@@ -7,10 +7,12 @@
 #include <KeyerBuffer.h>
 #include <KeyerInput.h>
 #include <KeyerConfig.h>
-#include <KeyerDisplay.h>
 #include <KeyerMorse.h>
 #include <KeyerDecoder.h>
 #include <KeyerWifi.h>
+
+#include <Display/DisplayContext.h>
+#include <Display/DisplayObserver.h>
 
 #include <Clock.h>
 
@@ -34,7 +36,7 @@ class Keyer {
 
     private:
         KeyerBuffer *_buffer;
-        KeyerDisplay* _display;
+        KeyboardKeyer::DisplayContext* _display;
         KeyerConfig* _config;
         KeyerInput* _input;
         KeyerMorse* _morse;
