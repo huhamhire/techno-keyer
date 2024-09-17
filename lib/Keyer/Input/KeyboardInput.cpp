@@ -1,20 +1,18 @@
 #include <Input/KeyboardInput.h>
 
 namespace KeyboardKeyer {
+    USB9350_KeyMouse* KeyboardInput::_usbKeyMouse = new USB9350_KeyMouse();
+
     /**
      * Initialize Keyboard Input
      */
     void KeyboardInput::begin() {
         static HardwareSerial SerialKey(2);
-        static USB9350_KeyMouse USBKeyMouse;
-
         SerialKey.begin(115200,
                         SERIAL_8N1,
                         KBD_RX_PIN,
                         KBD_TX_PIN);
-        USBKeyMouse.begin(SerialKey);
-
-        _usbKeyMouse = &USBKeyMouse;
+        _usbKeyMouse->begin(SerialKey);
     }
 
     /**

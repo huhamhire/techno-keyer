@@ -1,26 +1,34 @@
 #include <Transmitter.h>
 
 namespace KeyboardKeyer {
+    KeyboardInputBuffer* Transmitter::_inputBuffer = new KeyboardInputBuffer();
+    MorseOutputBuffer* Transmitter::_outputBuffer = new MorseOutputBuffer();
 
+    KeyboardInput* Transmitter::_keyboard = new KeyboardInput();
+    MorseEncoder* Transmitter::_morse = new MorseEncoder(_outputBuffer);
+
+    /**
+     * Start morse code transmitter
+     */
     void Transmitter::begin() {
-        static KeyboardInputBuffer inputBuffer;
-        static MorseOutputBuffer outputBuffer;
-        _inputBuffer = &inputBuffer;
-        _outputBuffer = &outputBuffer;
-
-        static KeyboardInput keyboard;
-
-        keyboard.begin();
-        keyboard.setOnKeyInput([&](uint8_t key) {
+        // Initialize keyboard input
+        _keyboard->begin();
+        _keyboard->setOnKeyInput([&](uint8_t key) {
             onKeyInput(key);
         });
-
-        _keyboard = &keyboard;
-
         xTaskCreate(vCheckKeyboardInput,
                     "vCheckKeyboardInput",
                     2048,
                     _keyboard,
+                    1,
+                    NULL);
+
+        // Initialize morse encoder
+        _morse->setSpeed(20);
+        xTaskCreate(vSendMorse,
+                    "vSendMorse",
+                    2048,
+                    _morse,
                     1,
                     NULL);
     }

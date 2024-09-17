@@ -1,5 +1,5 @@
-#ifndef _KEYER_
-#define _KEYER_
+#ifndef KEYER_H
+#define KEYER_H
 
 #include <Arduino.h>
 #include <SPI.h>
@@ -7,8 +7,6 @@
 #include <KeyerConfig.h>
 #include <KeyerDecoder.h>
 #include <KeyerWifi.h>
-
-#include <Morse/MorseEncoder.h>
 
 #include <Display/DisplayContext.h>
 #include <Display/DisplayObserver.h>
@@ -31,7 +29,6 @@ class Keyer {
         void initDisplay();
         void initTransmitter();
         void initConfig();
-        void initOutput();
         void initClock();
         void initDecoder();
 
@@ -39,7 +36,6 @@ class Keyer {
         KeyboardKeyer::DisplayContext* _display;
         KeyerConfig* _config;
         KeyboardKeyer::Transmitter* _transmitter;
-        KeyboardKeyer::MorseEncoder* _morse;
         KeyerDecoder* _decoder;
 
         NTPClock* _clock;
@@ -47,4 +43,4 @@ class Keyer {
         SPIClass *_spi;
 };
 
-#endif  // _KEYER_
+#endif  // KEYER_H

@@ -13,8 +13,6 @@ void Keyer::begin() {
     delay(2000);
 
     initTransmitter();
-    // Start input/output
-    initOutput();
     initConfig();
 
     initDecoder();
@@ -49,7 +47,12 @@ void Keyer::initDisplay() {
     static DisplayContext ctx;
     static DisplayObserver observer(&ctx, &vfd);
 
-    xTaskCreate(vRefreshDisplay, "vRefreshDisplay", 2048, &observer, 1, NULL);
+    xTaskCreate(vRefreshDisplay,
+                "vRefreshDisplay",
+                2048,
+                &observer,
+                1,
+                NULL);
 
     _display = &ctx;
 }
@@ -66,25 +69,14 @@ void Keyer::initConfig() {
     static KeyerConfig config(_display, _morse);
     config.init();
 
-    xTaskCreate(vEncoderCheck, "vEncoderCheck", 2048, &config, 1, NULL);
-
-    _config = &config;
-}
-
-// Initialize Keyer Output
-void Keyer::initOutput() {
-    using namespace KeyboardKeyer;
-    static MorseEncoder morse(_transmitter->getOutputBuffer());
-    morse.setSpeed(20);
-
-    _morse = &morse;
-
-    xTaskCreate(vSendMorse,
-                "vSendMorse",
+    xTaskCreate(vEncoderCheck,
+                "vEncoderCheck",
                 2048,
-                _morse,
+                &config,
                 1,
                 NULL);
+
+    _config = &config;
 }
 
 
@@ -93,7 +85,12 @@ void Keyer::initDecoder() {
     static KeyerDecoder decoder;
     decoder.init(_spi);
 
-    xTaskCreate(vCheckAuxSignal, "vCheckAuxSignal", 2048, &decoder, 1, NULL);
+    xTaskCreate(vCheckAuxSignal,
+                "vCheckAuxSignal",
+                2048,
+                &decoder,
+                1,
+                NULL);
     _decoder = &decoder;
 }
 
@@ -101,7 +98,12 @@ void Keyer::initClock() {
     static NTPClock clk;
     clk.begin();
 
-    xTaskCreate(vUpdateTime, "vUpdateTime", 2048, &clk, 1, NULL);
+    xTaskCreate(vUpdateTime,
+                "vUpdateTime",
+                2048,
+                &clk,
+                1,
+                NULL);
 
     _clock = &clk;
 }

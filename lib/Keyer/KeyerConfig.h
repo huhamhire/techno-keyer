@@ -28,7 +28,7 @@
 class KeyerConfig 
 {
     public:
-        KeyerConfig(KeyboardKeyer::DisplayContext *display, KeyboardKeyer::MorseEncoder *morse);
+        explicit KeyerConfig(KeyboardKeyer::DisplayContext *display);
         void init();
         void checkEncoder();
 
@@ -48,7 +48,6 @@ class KeyerConfig
         void _setDisplayValue(uint8_t value);
 
         KeyboardKeyer::DisplayContext *_display;
-        KeyboardKeyer::MorseEncoder *_morse;
 
         uint8_t _mode = 0;
         uint8_t _wpm = 20;

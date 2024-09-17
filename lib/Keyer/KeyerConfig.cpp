@@ -15,10 +15,9 @@ void IRAM_ATTR readEncoderISR()
 }
 
 // Config Constructcor
-KeyerConfig::KeyerConfig(KeyboardKeyer::DisplayContext *display, KeyboardKeyer::MorseEncoder *morse)
+KeyerConfig::KeyerConfig(KeyboardKeyer::DisplayContext *display)
 {
     _display = display;
-    _morse = morse;
 }
 
 // Initialize configurator

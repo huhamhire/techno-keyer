@@ -15,7 +15,7 @@ namespace KeyboardKeyer {
         void setOnKeyInput(std::function<void(uint8_t)> onKeyInput);
 
     private:
-        USB9350_KeyMouse *_usbKeyMouse;
+        static USB9350_KeyMouse *_usbKeyMouse;
 
         std::function<void(uint8_t)> _onKeyInput;
         uint8_t _lastKey = 0;

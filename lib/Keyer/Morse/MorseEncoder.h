@@ -73,14 +73,13 @@ namespace KeyboardKeyer {
 
         uint16_t _dotTimeMs;
         uint16_t _dashTimeMs;
-        uint8_t _speed;
+        uint8_t _speed = 20;
 
-        MorseBuzzer *_buzzer = new MorseBuzzer();
+        static MorseBuzzer *_buzzer;
         MorseOutputBuffer *_buffer;
     };
 
     void vSendMorse(void *pvParameters);
-
 } // KeyboardKeyer
 
 #endif // MORSE_ENCODER_H

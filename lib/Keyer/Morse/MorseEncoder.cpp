@@ -1,11 +1,14 @@
 #include <Morse/MorseEncoder.h>
 
 namespace KeyboardKeyer {
+    MorseBuzzer *MorseEncoder::_buzzer = new MorseBuzzer();
+
     /**
      * Initialize Morse Encoder
      * @param buffer
      */
     MorseEncoder::MorseEncoder(MorseOutputBuffer *buffer) {
+        _buzzer->init();
         _buffer = buffer;
     }
 

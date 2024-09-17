@@ -5,6 +5,7 @@
 #include <Buffer/KeyboardInputBuffer.h>
 #include <Buffer/MorseOutputBuffer.h>
 #include <Input/KeyboardInput.h>
+#include <Morse/MorseEncoder.h>
 
 
 namespace KeyboardKeyer {
@@ -20,10 +21,11 @@ namespace KeyboardKeyer {
         void _handleBackspace();
         void _handleMessageCommit();
 
-        KeyboardInputBuffer *_inputBuffer;
-        MorseOutputBuffer *_outputBuffer;
+        static KeyboardInputBuffer *_inputBuffer;
+        static MorseOutputBuffer *_outputBuffer;
 
-        KeyboardInput *_keyboard;
+        static KeyboardInput *_keyboard;
+        static MorseEncoder *_morse;
     };
 
 } // KeyboardKeyer
