@@ -4,15 +4,16 @@
 #include <Arduino.h>
 #include <SPI.h>
 
-#include <KeyerBuffer.h>
-#include <KeyerInput.h>
 #include <KeyerConfig.h>
-#include <KeyerMorse.h>
 #include <KeyerDecoder.h>
 #include <KeyerWifi.h>
 
+#include <Morse/MorseEncoder.h>
+
 #include <Display/DisplayContext.h>
 #include <Display/DisplayObserver.h>
+
+#include <Transmitter.h>
 
 #include <Clock.h>
 
@@ -28,18 +29,17 @@ class Keyer {
     protected:
         void _initSPI();
         void initDisplay();
+        void initTransmitter();
         void initConfig();
-        void initInput();
         void initOutput();
         void initClock();
         void initDecoder();
 
     private:
-        KeyerBuffer *_buffer;
         KeyboardKeyer::DisplayContext* _display;
         KeyerConfig* _config;
-        KeyerInput* _input;
-        KeyerMorse* _morse;
+        KeyboardKeyer::Transmitter* _transmitter;
+        KeyboardKeyer::MorseEncoder* _morse;
         KeyerDecoder* _decoder;
 
         NTPClock* _clock;

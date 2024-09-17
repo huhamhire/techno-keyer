@@ -3,10 +3,10 @@
 
 #include <Arduino.h>
 
-#define DISPLAY_LINES   2
-#define DISPLAY_MODES   3
-
 namespace KeyboardKeyer {
+
+    #define DISPLAY_LINES   2
+    #define DISPLAY_MODES   3
 
     class DisplayContext {
     public:

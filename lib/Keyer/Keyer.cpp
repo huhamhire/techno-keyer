@@ -12,12 +12,9 @@ void Keyer::begin() {
 
     delay(2000);
 
+    initTransmitter();
     // Start input/output
-    static KeyerBuffer buffer;
-    _buffer = &buffer;
-    initInput();
     initOutput();
-
     initConfig();
 
     initDecoder();
@@ -27,7 +24,9 @@ void Keyer::begin() {
     // initClock();
 
     // Bind buffer to display
-    _display->setTransmitLines(buffer.getSending(), buffer.getInput());
+    _display->setTransmitLines(
+            _transmitter->getOutputBuffer()->getContent(),
+            _transmitter->getInputBuffer()->getContent());
     _display->setMode(1);
 }
 
@@ -55,19 +54,16 @@ void Keyer::initDisplay() {
     _display = &ctx;
 }
 
-// Initialize Keyer Input
-void Keyer::initInput() {
-    static KeyerInput input(_buffer);
-    input.init();
-
-    xTaskCreate(vGetKey, "vGetKey", 2048, &input, 1, NULL);
-
-    _input = &input;
+void Keyer::initTransmitter() {
+    using namespace KeyboardKeyer;
+    static Transmitter trans;
+    trans.begin();
+    _transmitter = &trans;
 }
 
 // Initialize Configurations
 void Keyer::initConfig() {
-    static KeyerConfig config(_buffer, _display, _morse);
+    static KeyerConfig config(_display, _morse);
     config.init();
 
     xTaskCreate(vEncoderCheck, "vEncoderCheck", 2048, &config, 1, NULL);
@@ -77,23 +73,28 @@ void Keyer::initConfig() {
 
 // Initialize Keyer Output
 void Keyer::initOutput() {
-    static KeyerMorse morse(_buffer);
-    morse.begin();
+    using namespace KeyboardKeyer;
+    static MorseEncoder morse(_transmitter->getOutputBuffer());
     morse.setSpeed(20);
 
-    xTaskCreate(vSendMorse, "vSendMorse", 2048, &morse, 1, NULL);
-
     _morse = &morse;
+
+    xTaskCreate(vSendMorse,
+                "vSendMorse",
+                2048,
+                _morse,
+                1,
+                NULL);
 }
 
 
 // Initialize Keyer Decoder
 void Keyer::initDecoder() {
-//    static KeyerDecoder decoder;
-//    decoder.init(_spi);
-//
-//    xTaskCreate(vCheckAuxSignal, "vCheckAuxSignal", 2048, &decoder, 1, NULL);
-//    _decoder = &decoder;
+    static KeyerDecoder decoder;
+    decoder.init(_spi);
+
+    xTaskCreate(vCheckAuxSignal, "vCheckAuxSignal", 2048, &decoder, 1, NULL);
+    _decoder = &decoder;
 }
 
 void Keyer::initClock() {

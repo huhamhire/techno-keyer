@@ -15,9 +15,8 @@ void IRAM_ATTR readEncoderISR()
 }
 
 // Config Constructcor
-KeyerConfig::KeyerConfig(KeyerBuffer *buffer, KeyboardKeyer::DisplayContext *display, KeyerMorse *morse)
+KeyerConfig::KeyerConfig(KeyboardKeyer::DisplayContext *display, KeyboardKeyer::MorseEncoder *morse)
 {
-    _buffer = buffer;
     _display = display;
     _morse = morse;
 }
@@ -62,10 +61,6 @@ void KeyerConfig::_saveFlashMemory()
 // Start configuration
 void KeyerConfig::startConfig() 
 {
-    // Clear display & sending buffer
-    _buffer->clearInput();
-    _buffer->clearSending();
-
     _display->setMode(0);
 
     switch (_mode) {

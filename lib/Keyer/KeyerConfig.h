@@ -5,9 +5,8 @@
 #include <AiEsp32RotaryEncoder.h>
 #include <Preferences.h>
 
-#include <KeyerBuffer.h>
 #include <Display/DisplayContext.h>
-#include <KeyerMorse.h>
+#include <Morse/MorseEncoder.h>
 
 #define ENCODER_A_PIN 5
 #define ENCODER_B_PIN 6
@@ -29,7 +28,7 @@
 class KeyerConfig 
 {
     public:
-        KeyerConfig(KeyerBuffer *buffer, KeyboardKeyer::DisplayContext *display, KeyerMorse *morse);
+        KeyerConfig(KeyboardKeyer::DisplayContext *display, KeyboardKeyer::MorseEncoder *morse);
         void init();
         void checkEncoder();
 
@@ -48,9 +47,8 @@ class KeyerConfig
         void _setDisplayTitle(char *title);
         void _setDisplayValue(uint8_t value);
 
-        KeyerBuffer *_buffer;
         KeyboardKeyer::DisplayContext *_display;
-        KeyerMorse *_morse;
+        KeyboardKeyer::MorseEncoder *_morse;
 
         uint8_t _mode = 0;
         uint8_t _wpm = 20;
