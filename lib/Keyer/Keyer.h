@@ -8,6 +8,7 @@
 #include <KeyerDecoder.h>
 #include <KeyerWifi.h>
 
+#include <Input/AudioInput.h>
 #include <Display/DisplayContext.h>
 #include <Display/DisplayObserver.h>
 
@@ -34,7 +35,6 @@ class Keyer {
 
     private:
         KeyboardKeyer::DisplayContext* _display;
-        KeyerConfig* _config;
         KeyboardKeyer::Transmitter* _transmitter;
         KeyerDecoder* _decoder;
 

@@ -66,17 +66,8 @@ void Keyer::initTransmitter() {
 
 // Initialize Configurations
 void Keyer::initConfig() {
-    static KeyerConfig config(_display, _morse);
+    static KeyerConfig config(_display);
     config.init();
-
-    xTaskCreate(vEncoderCheck,
-                "vEncoderCheck",
-                2048,
-                &config,
-                1,
-                NULL);
-
-    _config = &config;
 }
 
 
@@ -85,10 +76,12 @@ void Keyer::initDecoder() {
     static KeyerDecoder decoder;
     decoder.init(_spi);
 
-    xTaskCreate(vCheckAuxSignal,
+    static KeyboardKeyer::AudioInput audio;
+    audio.begin();
+    xTaskCreate(KeyboardKeyer::vCheckAuxSignal,
                 "vCheckAuxSignal",
                 2048,
-                &decoder,
+                &audio,
                 1,
                 NULL);
     _decoder = &decoder;

@@ -14,15 +14,11 @@ class KeyerDecoder
         void setValue(uint8_t value);
 
     private:
-        void _initSignalInput();
         void _setPotentiometerValue(uint8_t value);
 
         uint32_t _spiClk = 100000; // 100 kHz
         
         SPIClass *_spi;
 };
-
-
-void vCheckAuxSignal(void *pvParameters);
 
 #endif  // _KEYER_DECODER_

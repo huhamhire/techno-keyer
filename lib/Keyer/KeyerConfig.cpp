@@ -1,18 +1,7 @@
 #include <KeyerConfig.h>
 
 
-AiEsp32RotaryEncoder encoder = AiEsp32RotaryEncoder(
-    ENCODER_A_PIN, 
-    ENCODER_B_PIN, 
-    ENCODER_BUTTON_PIN, 
-    ENCODER_VCC_PIN, 
-    ENCODER_STEPS
-);
-
-void IRAM_ATTR readEncoderISR() 
-{
-    encoder.readEncoder_ISR();
-}
+KeyboardKeyer::RotaryEncoderInput* KeyerConfig::_encoder = new KeyboardKeyer::RotaryEncoderInput();
 
 // Config Constructcor
 KeyerConfig::KeyerConfig(KeyboardKeyer::DisplayContext *display)
@@ -23,12 +12,27 @@ KeyerConfig::KeyerConfig(KeyboardKeyer::DisplayContext *display)
 // Initialize configurator
 void KeyerConfig::init() 
 {
-    encoder.begin();
-    encoder.setup(readEncoderISR);
-    encoder.disableAcceleration();
-
+    _initRotaryEncoder();
     _loadFlashMemory();
     applyConfig();
+}
+
+
+void KeyerConfig::_initRotaryEncoder()
+{
+    _encoder->begin();
+    _encoder->setOnButtonClicked([&]() {
+        _onEcButtonClick();
+    });
+    _encoder->setOnValueChanged([&](long value) {
+        _onEcValueChange(value);
+    });
+    xTaskCreate(KeyboardKeyer::vCheckRotaryEncoder,
+                "vCheckRotaryEncoder",
+                2048,
+                _encoder,
+                1,
+                NULL);
 }
 
 // Load configuration from flash memory
@@ -66,15 +70,15 @@ void KeyerConfig::startConfig()
         // WPM
         case 1:
             _setDisplayTitle((char*) "Speed (WPM)");
-            encoder.setBoundaries(10, 50, false);
-            encoder.setEncoderValue(_wpm);
+            _encoder->setBoundaries(10, 50);
+            _encoder->setValue(_wpm);
             _setDisplayValue(_wpm);
             break;
         // Brightness
         case 2:
             _setDisplayTitle((char*) "Brightness");
-            encoder.setBoundaries(1, 10, false);
-            encoder.setEncoderValue(_bright / 10);
+            _encoder->setBoundaries(1, 10);
+            _encoder->setValue(_bright / 10);
             _setDisplayValue(_bright);
             break;
         default:
@@ -86,10 +90,15 @@ void KeyerConfig::startConfig()
     #endif
 }
 
+void KeyerConfig::setOnSpeedSet(void (* onSpeedSet)(uint8_t wpm))
+{
+    _onSpeedSet = onSpeedSet;
+}
+
 // Apply configuration
 void KeyerConfig::applyConfig() 
 {
-    _morse->setSpeed(_wpm);
+    _onSpeedSet(_wpm);
     _display->setBrightness(_bright * VFD_BRIGHTNESS_RATIO);
 }
 
@@ -108,7 +117,7 @@ void KeyerConfig::finishConfig()
     _display -> setMode(1);
 
     // Reset encoder
-    encoder.setBoundaries(0, 100, false); 
+    _encoder->setBoundaries(0, 100);
 
     #if DEBUG_ALL
     Serial.println("Config saved.");
@@ -168,28 +177,5 @@ void KeyerConfig::_onEcValueChange(long value)
             break;
         default:
             break;
-    }
-}
-
-
-// Check encoder status in task loop
-void KeyerConfig::checkEncoder() 
-{
-    if (encoder.encoderChanged()) {
-        _onEcValueChange(encoder.readEncoder());
-    }
-    if (encoder.isEncoderButtonClicked()) {
-        _onEcButtonClick();
-    }
-}
-
-
-// Task to check encoder status
-void vEncoderCheck(void *pvParameters)
-{
-    KeyerConfig *keyerConfig = (KeyerConfig *)pvParameters;
-    for (;;) {
-        keyerConfig->checkEncoder();
-        vTaskDelay(20 / portTICK_PERIOD_MS);
     }
 }
