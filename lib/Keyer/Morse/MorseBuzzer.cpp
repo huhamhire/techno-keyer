@@ -1,6 +1,6 @@
 #include <Morse/MorseBuzzer.h>
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
     /**
      * Initialize Buzzer
      */
@@ -23,4 +23,4 @@ namespace KeyboardKeyer {
     void MorseBuzzer::setOff() {
         ledcWrite(BZ_CHANNEL, 0x00);
     }
-} // KeyboardKeyer
+} // TechnoKeyer

@@ -1,6 +1,6 @@
 #include "SPIBus.h"
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
     SPIClass *SPIBus::_spi = new SPIClass(FSPI);
 
     /*
@@ -16,4 +16,4 @@ namespace KeyboardKeyer {
     SPIClass *SPIBus::getSPI() {
         return _spi;
     }
-} // KeyboardKeyer
+} // TechnoKeyer

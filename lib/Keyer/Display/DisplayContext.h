@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
 
     #define DISPLAY_LINES   2
     #define DISPLAY_MODES   3

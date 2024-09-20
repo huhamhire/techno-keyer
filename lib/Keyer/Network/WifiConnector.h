@@ -5,7 +5,7 @@
 #include <Arduino.h>
 #include <WiFi.h>
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
 
     #define WIFI_RECONNECT_INTERVAL 30000   // 30s
 
@@ -23,6 +23,6 @@ namespace KeyboardKeyer {
     };
 
     void vCheckWifi(void *pvParameters);
-} // KeyboardKeyer
+} // TechnoKeyer
 
 #endif // WIFI_CONNECTOR_H

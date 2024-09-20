@@ -1,7 +1,7 @@
 #include <Display/DisplayContext.h>
 
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
 
     /**
      * Set display mode.

@@ -2,7 +2,7 @@
 
 
 void Keyer::begin() {
-    static KeyboardKeyer::SPIBus spi;
+    static TechnoKeyer::SPIBus spi;
     spi.begin();
 
     initDisplay();
@@ -31,7 +31,7 @@ void Keyer::begin() {
  * Initialize VFD Display
  */
 void Keyer::initDisplay() {
-    using namespace KeyboardKeyer;
+    using namespace TechnoKeyer;
 
     static DisplayContext ctx;
     static DisplayObserver observer(&ctx);
@@ -48,7 +48,7 @@ void Keyer::initDisplay() {
 
 
 void Keyer::initTransmitter() {
-    using namespace KeyboardKeyer;
+    using namespace TechnoKeyer;
     static Transmitter trans;
     trans.begin();
     _transmitter = &trans;
@@ -57,7 +57,7 @@ void Keyer::initTransmitter() {
 
 // Initialize Configurations
 void Keyer::initConfig() {
-    using namespace KeyboardKeyer;
+    using namespace TechnoKeyer;
     static ConfigManager config(_display);
     config.init();
 }
@@ -65,6 +65,6 @@ void Keyer::initConfig() {
 
 // Initialize Keyer Decoder
 void Keyer::initDecoder() {
-    using namespace KeyboardKeyer;
+    using namespace TechnoKeyer;
 
 }

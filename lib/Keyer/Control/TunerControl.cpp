@@ -1,6 +1,6 @@
 #include "TunerControl.h"
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
     /**
      * Initialize CW pitch tuner
      */
@@ -28,4 +28,4 @@ namespace KeyboardKeyer {
         digitalWrite(TUNER_CS_PIN, HIGH);
         _spi->endTransaction();
     }
-} // KeyboardKeyer
+} // TechnoKeyer

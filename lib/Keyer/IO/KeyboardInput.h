@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <CH9350_USBKEY.h>
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
     #define KBD_RX_PIN 15
     #define KBD_TX_PIN 16
 
@@ -23,6 +23,6 @@ namespace KeyboardKeyer {
     };
 
     void vCheckKeyboardInput(void *pvParameters);
-} // KeyboardKeyer
+} // TechnoKeyer
 
 #endif // KEYBOARD_INPUT_H

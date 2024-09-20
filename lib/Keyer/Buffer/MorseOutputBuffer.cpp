@@ -1,6 +1,6 @@
 #include <Buffer/MorseOutputBuffer.h>
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
     /**
     * Check if buffer is empty
     * @return
@@ -82,4 +82,4 @@ namespace KeyboardKeyer {
     void MorseOutputBuffer::clear() {
         memset(_buffer, 0, MORSE_OUT_BUFFER_SIZE);
     }
-} // KeyboardKeyer
+} // TechnoKeyer

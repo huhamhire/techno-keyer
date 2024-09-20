@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
     #define KBD_INPUT_BUFFER_SIZE 32
 
     class KeyboardInputBuffer {
@@ -19,6 +19,6 @@ namespace KeyboardKeyer {
         char _buffer[KBD_INPUT_BUFFER_SIZE] = "";
     };
 
-} // KeyboardKeyer
+} // TechnoKeyer
 
 #endif // KEYBOARD_INPUT_BUFFER_H

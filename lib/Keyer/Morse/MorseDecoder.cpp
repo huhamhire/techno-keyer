@@ -1,6 +1,6 @@
 #include "MorseDecoder.h"
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
     TunerControl *MorseDecoder::_tuner = new TunerControl();
     AudioInput *MorseDecoder::_audio = new AudioInput();
 
@@ -25,4 +25,4 @@ namespace KeyboardKeyer {
                     NULL);
     }
 
-} // KeyboardKeyer
+} // TechnoKeyer

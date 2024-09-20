@@ -1,12 +1,12 @@
 #ifndef RECEIVER_H
 #define RECEIVER_H
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
 
     class Receiver {
 
     };
 
-} // KeyboardKeyer
+} // TechnoKeyer
 
 #endif // RECEIVER_H

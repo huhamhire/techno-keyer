@@ -6,7 +6,7 @@
 #include <IO/SPIBus.h>
 #include <Display/DisplayContext.h>
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
 
     class DisplayObserver {
     public:
@@ -23,6 +23,6 @@ namespace KeyboardKeyer {
     };
 
     void vRefreshDisplay(void *pvParameters);
-} // KeyboardKeyer
+} // TechnoKeyer
 
 #endif // DISPLAY_OBSERVER_H

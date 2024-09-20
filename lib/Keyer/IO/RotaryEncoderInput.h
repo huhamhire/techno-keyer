@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <AiEsp32RotaryEncoder.h>
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
     #define ENCODER_A_PIN 5
     #define ENCODER_B_PIN 6
     #define ENCODER_BUTTON_PIN 7
@@ -30,6 +30,6 @@ namespace KeyboardKeyer {
 
     void vCheckRotaryEncoder(void *pvParameters);
 
-} // KeyboardKeyer
+} // TechnoKeyer
 
 #endif // ROTARY_ENCODER_INPUT_H

@@ -1,6 +1,6 @@
 #include "KeyboardInput.h"
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
     USB9350_KeyMouse* KeyboardInput::_usbKeyMouse = new USB9350_KeyMouse();
 
     /**
@@ -59,5 +59,5 @@ namespace KeyboardKeyer {
             vTaskDelay(2 / portTICK_PERIOD_MS);
         }
     }
-} // KeyboardKeyer
+} // TechnoKeyer
 

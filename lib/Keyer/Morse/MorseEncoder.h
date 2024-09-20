@@ -5,7 +5,7 @@
 #include <Buffer/MorseOutputBuffer.h>
 #include <Morse/MorseBuzzer.h>
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
 
     #define CW_PIN 14
 
@@ -80,6 +80,6 @@ namespace KeyboardKeyer {
     };
 
     void vSendMorse(void *pvParameters);
-} // KeyboardKeyer
+} // TechnoKeyer
 
 #endif // MORSE_ENCODER_H

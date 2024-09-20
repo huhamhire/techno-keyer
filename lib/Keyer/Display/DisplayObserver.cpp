@@ -1,6 +1,6 @@
 #include <Display/DisplayObserver.h>
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
     VFD_1605N *DisplayObserver::_vfd = new VFD_1605N();
 
     /**

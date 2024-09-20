@@ -1,7 +1,7 @@
 
 #include "WifiConnector.h"
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
     /**
      * Connect to WiFi
      */
@@ -63,4 +63,4 @@ namespace KeyboardKeyer {
             vTaskDelay(1000 / portTICK_PERIOD_MS);
         }
     }
-} // KeyboardKeyer
+} // TechnoKeyer

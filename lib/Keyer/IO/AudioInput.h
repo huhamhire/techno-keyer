@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
 
     #define AUX_SIG_PIN   8
 
@@ -17,6 +17,6 @@ namespace KeyboardKeyer {
     };
 
     void vCheckAuxSignal(void *pvParameters);
-} // KeyboardKeyer
+} // TechnoKeyer
 
 #endif // AUDIO_INPUT_H

@@ -1,6 +1,6 @@
 #include <Transmitter.h>
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
     KeyboardInputBuffer* Transmitter::_inputBuffer = new KeyboardInputBuffer();
     MorseOutputBuffer* Transmitter::_outputBuffer = new MorseOutputBuffer();
 
@@ -108,4 +108,4 @@ namespace KeyboardKeyer {
         _inputBuffer->clear();
     }
 
-} // KeyboardKeyer
+} // TechnoKeyer

@@ -5,7 +5,7 @@
 #include <Control/TunerControl.h>
 #include <IO/AudioInput.h>
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
 
     class MorseDecoder {
     public:
@@ -18,6 +18,6 @@ namespace KeyboardKeyer {
         static AudioInput *_audio;
     };
 
-} // KeyboardKeyer
+} // TechnoKeyer
 
 #endif // MORSE_DECODER_H

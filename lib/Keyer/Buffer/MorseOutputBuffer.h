@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
 
     #define MORSE_OUT_BUFFER_SIZE 128
 
@@ -21,6 +21,6 @@ namespace KeyboardKeyer {
         char _buffer[MORSE_OUT_BUFFER_SIZE] = "";
     };
 
-} // KeyboardKeyer
+} // TechnoKeyer
 
 #endif // MORSE_OUTPUT_BUFFER_H

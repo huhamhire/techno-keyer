@@ -24,8 +24,8 @@ class Keyer {
         void initDecoder();
 
     private:
-        KeyboardKeyer::DisplayContext* _display;
-        KeyboardKeyer::Transmitter* _transmitter;
+        TechnoKeyer::DisplayContext* _display;
+        TechnoKeyer::Transmitter* _transmitter;
 };
 
 #endif  // KEYER_H

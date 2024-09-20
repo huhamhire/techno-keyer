@@ -1,6 +1,6 @@
 #include "RotaryEncoderInput.h"
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
     AiEsp32RotaryEncoder *RotaryEncoderInput::_ec = new AiEsp32RotaryEncoder(
             ENCODER_A_PIN,
             ENCODER_B_PIN,
@@ -46,4 +46,4 @@ namespace KeyboardKeyer {
             vTaskDelay(20 / portTICK_PERIOD_MS);
         }
     }
-} // KeyboardKeyer
+} // TechnoKeyer

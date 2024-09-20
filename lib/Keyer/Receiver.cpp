@@ -1,5 +1,5 @@
 #include "Receiver.h"
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
 
-} // KeyboardKeyer
+} // TechnoKeyer

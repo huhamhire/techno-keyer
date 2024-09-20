@@ -9,7 +9,7 @@
 #include <Morse/MorseEncoder.h>
 
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
     // modes:
     //   1 - wpm
     //   2 - brightness

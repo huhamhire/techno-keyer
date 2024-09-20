@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
 
     #define BZ_PIN      2
     #define BZ_FREQ     750     // CW Pitch
@@ -17,6 +17,6 @@ namespace KeyboardKeyer {
         void setOff();
     };
 
-} // KeyboardKeyer
+} // TechnoKeyer
 
 #endif  // MORSE_BUFFER_H

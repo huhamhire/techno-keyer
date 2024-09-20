@@ -1,6 +1,6 @@
 #include "AudioInput.h"
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
     /**
      * Initialize audio signal input
      */
@@ -36,4 +36,4 @@ namespace KeyboardKeyer {
         }
     }
 
-} // KeyboardKeyer
+} // TechnoKeyer

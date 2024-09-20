@@ -1,6 +1,6 @@
 #include <Morse/MorseEncoder.h>
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
     MorseBuzzer *MorseEncoder::_buzzer = new MorseBuzzer();
 
     /**
@@ -106,4 +106,4 @@ namespace KeyboardKeyer {
             vTaskDelay(20 / portTICK_PERIOD_MS);
         }
     }
-} // KeyboardKeyer
+} // TechnoKeyer

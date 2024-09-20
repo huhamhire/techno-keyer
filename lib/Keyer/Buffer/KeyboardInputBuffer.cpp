@@ -1,6 +1,6 @@
 #include <Buffer/KeyboardInputBuffer.h>
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
     /**
      * Check if buffer is empty
      * @return
@@ -51,4 +51,4 @@ namespace KeyboardKeyer {
     void KeyboardInputBuffer::clear() {
         memset(_buffer, 0, KBD_INPUT_BUFFER_SIZE);
     }
-} // KeyboardKeyer
+} // TechnoKeyer

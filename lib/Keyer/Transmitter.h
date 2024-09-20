@@ -8,7 +8,7 @@
 #include <Morse/MorseEncoder.h>
 
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
     class Transmitter {
     public:
         void begin();
@@ -28,6 +28,6 @@ namespace KeyboardKeyer {
         static MorseEncoder *_morse;
     };
 
-} // KeyboardKeyer
+} // TechnoKeyer
 
 #endif // TRANSMITTER_H

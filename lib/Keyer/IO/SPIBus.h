@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <SPI.h>
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
 
     #define SPI_CS_PIN      10      // SPI Chip Select
     #define SPI_CLK_PIN     12      // SPI Clock
@@ -19,6 +19,6 @@ namespace KeyboardKeyer {
         static SPIClass *_spi;
     };
 
-} // KeyboardKeyer
+} // TechnoKeyer
 
 #endif // SPI_BUS_H

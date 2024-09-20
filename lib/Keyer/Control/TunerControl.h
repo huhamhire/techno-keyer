@@ -6,7 +6,7 @@
 
 #include <IO/SPIBus.h>
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
 
     #define TUNER_CS_PIN    21
 
@@ -22,6 +22,6 @@ namespace KeyboardKeyer {
         void _setPotentiometerValue(uint8_t value);
     };
 
-} // KeyboardKeyer
+} // TechnoKeyer
 
 #endif // TUNER_CONTROL_H

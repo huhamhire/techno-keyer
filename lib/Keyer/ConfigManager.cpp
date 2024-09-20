@@ -1,6 +1,6 @@
 #include <ConfigManager.h>
 
-namespace KeyboardKeyer {
+namespace TechnoKeyer {
     RotaryEncoderInput* ConfigManager::_encoder = new RotaryEncoderInput();
 
     /**
