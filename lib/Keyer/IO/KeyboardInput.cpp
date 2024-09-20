@@ -1,4 +1,4 @@
-#include <Input/KeyboardInput.h>
+#include "KeyboardInput.h"
 
 namespace KeyboardKeyer {
     USB9350_KeyMouse* KeyboardInput::_usbKeyMouse = new USB9350_KeyMouse();

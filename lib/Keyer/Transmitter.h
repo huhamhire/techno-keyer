@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <Buffer/KeyboardInputBuffer.h>
 #include <Buffer/MorseOutputBuffer.h>
-#include <Input/KeyboardInput.h>
+#include <IO/KeyboardInput.h>
 #include <Morse/MorseEncoder.h>
 
 

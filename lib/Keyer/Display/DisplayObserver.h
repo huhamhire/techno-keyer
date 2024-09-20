@@ -1,14 +1,16 @@
-#ifndef _KEYER_DISPLAY_OBSERVER_
-#define _KEYER_DISPLAY_OBSERVER_
+#ifndef DISPLAY_OBSERVER_H
+#define DISPLAY_OBSERVER_H
 
 #include <VFD_1605N.h>
+
+#include <IO/SPIBus.h>
 #include <Display/DisplayContext.h>
 
 namespace KeyboardKeyer {
 
     class DisplayObserver {
     public:
-        DisplayObserver(DisplayContext* ctx, VFD_1605N* vfd);
+        explicit DisplayObserver(DisplayContext* ctx);
         void syncBrightness();
         void refreshVFD();
 
@@ -16,10 +18,11 @@ namespace KeyboardKeyer {
         uint16_t _bright;
 
         DisplayContext* _ctx;
-        VFD_1605N* _vfd;
+
+        static VFD_1605N* _vfd;
     };
 
     void vRefreshDisplay(void *pvParameters);
 } // KeyboardKeyer
 
-#endif // _KEYER_DISPLAY_OBSERVER_
+#endif // DISPLAY_OBSERVER_H

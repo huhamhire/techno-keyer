@@ -1,14 +1,16 @@
 #include <Display/DisplayObserver.h>
 
 namespace KeyboardKeyer {
+    VFD_1605N *DisplayObserver::_vfd = new VFD_1605N();
+
     /**
      * Initialize Observer
      * @param ctx - Display Context
-     * @param vfd - VFD Display
      */
-    DisplayObserver::DisplayObserver(DisplayContext *ctx, VFD_1605N *vfd) {
+    DisplayObserver::DisplayObserver(DisplayContext *ctx) {
         _ctx = ctx;
-        _vfd = vfd;
+        SPIBus spi;
+        _vfd->init(spi.getSPI());
     }
 
     /**

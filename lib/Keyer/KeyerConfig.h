@@ -1,28 +1,29 @@
-#ifndef _KEYER_CONFIG_
-#define _KEYER_CONFIG_
+#ifndef CONFIG_H
+#define CONFIG_H
 
 #include <Arduino.h>
 #include <Preferences.h>
 
-#include <Input/RotaryEncoderInput.h>
+#include <IO/RotaryEncoderInput.h>
 #include <Display/DisplayContext.h>
 #include <Morse/MorseEncoder.h>
 
-// modes:
-//   1 - wpm
-//   2 - brightness
-#define KEYER_CONFIG_MODS 2
-#define KEYER_DISPLAY_WIDTH 16
 
-#define RW_MODE false
-#define RO_MODE true
+namespace KeyboardKeyer {
+    // modes:
+    //   1 - wpm
+    //   2 - brightness
+    #define KEYER_CONFIG_MODS 2
+    #define KEYER_DISPLAY_WIDTH 16
 
-#define VFD_BRIGHTNESS_RATIO 5
+    #define RW_MODE false
+    #define RO_MODE true
 
-class KeyerConfig 
-{
+    #define VFD_BRIGHTNESS_RATIO 5
+
+    class KeyerConfig {
     public:
-        explicit KeyerConfig(KeyboardKeyer::DisplayContext *display);
+        explicit KeyerConfig(DisplayContext *display);
         void init();
 
         void startConfig();
@@ -45,14 +46,15 @@ class KeyerConfig
 
         void (* _onSpeedSet)(uint8_t speed) = [](uint8_t speed) {};
 
-        KeyboardKeyer::DisplayContext *_display;
-        static KeyboardKeyer::RotaryEncoderInput *_encoder;
+        DisplayContext *_display;
+        static RotaryEncoderInput *_encoder;
 
         uint8_t _mode = 0;
         uint8_t _wpm = 20;
         uint16_t _bright = 100;
 
         Preferences _config;
-};
+    };
+}
 
-#endif  // _KEYER_CONFIG_
+#endif  // CONFIG_H

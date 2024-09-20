@@ -2,7 +2,9 @@
 
 
 void Keyer::begin() {
-    _initSPI();
+    static KeyboardKeyer::SPIBus spi;
+    spi.begin();
+
     initDisplay();
 
     // welcome message
@@ -17,21 +19,11 @@ void Keyer::begin() {
 
     initDecoder();
 
-    // Wifi & Clock
-    // wifiClient.connect();
-    // initClock();
-
     // Bind buffer to display
     _display->setTransmitLines(
             _transmitter->getOutputBuffer()->getContent(),
             _transmitter->getInputBuffer()->getContent());
     _display->setMode(1);
-}
-
-
-void Keyer::_initSPI() {
-    _spi = new SPIClass(FSPI);
-    _spi->begin(SPI_CLK_PIN, -1, SPI_MOSI_PIN, SPI_CS_PIN);
 }
 
 
@@ -41,11 +33,8 @@ void Keyer::_initSPI() {
 void Keyer::initDisplay() {
     using namespace KeyboardKeyer;
 
-    static VFD_1605N vfd;
-    vfd.init(_spi);
-
     static DisplayContext ctx;
-    static DisplayObserver observer(&ctx, &vfd);
+    static DisplayObserver observer(&ctx);
 
     xTaskCreate(vRefreshDisplay,
                 "vRefreshDisplay",
@@ -57,6 +46,7 @@ void Keyer::initDisplay() {
     _display = &ctx;
 }
 
+
 void Keyer::initTransmitter() {
     using namespace KeyboardKeyer;
     static Transmitter trans;
@@ -64,8 +54,10 @@ void Keyer::initTransmitter() {
     _transmitter = &trans;
 }
 
+
 // Initialize Configurations
 void Keyer::initConfig() {
+    using namespace KeyboardKeyer;
     static KeyerConfig config(_display);
     config.init();
 }
@@ -73,31 +65,6 @@ void Keyer::initConfig() {
 
 // Initialize Keyer Decoder
 void Keyer::initDecoder() {
-    static KeyerDecoder decoder;
-    decoder.init(_spi);
+    using namespace KeyboardKeyer;
 
-    static KeyboardKeyer::AudioInput audio;
-    audio.begin();
-    xTaskCreate(KeyboardKeyer::vCheckAuxSignal,
-                "vCheckAuxSignal",
-                2048,
-                &audio,
-                1,
-                NULL);
-    _decoder = &decoder;
 }
-
-void Keyer::initClock() {
-    static NTPClock clk;
-    clk.begin();
-
-    xTaskCreate(vUpdateTime,
-                "vUpdateTime",
-                2048,
-                &clk,
-                1,
-                NULL);
-
-    _clock = &clk;
-}
-
