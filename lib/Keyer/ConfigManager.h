@@ -21,9 +21,9 @@ namespace KeyboardKeyer {
 
     #define VFD_BRIGHTNESS_RATIO 5
 
-    class KeyerConfig {
+    class ConfigManager {
     public:
-        explicit KeyerConfig(DisplayContext *display);
+        explicit ConfigManager(DisplayContext *display);
         void init();
 
         void startConfig();

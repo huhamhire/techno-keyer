@@ -1,24 +1,31 @@
-#include <KeyerConfig.h>
+#include <ConfigManager.h>
 
 namespace KeyboardKeyer {
-    RotaryEncoderInput* KeyerConfig::_encoder = new RotaryEncoderInput();
+    RotaryEncoderInput* ConfigManager::_encoder = new RotaryEncoderInput();
 
-    // Config Constructcor
-    KeyerConfig::KeyerConfig(DisplayContext *display)
+    /**
+     * Constructor
+     * @param display
+     */
+    ConfigManager::ConfigManager(DisplayContext *display)
     {
         _display = display;
     }
 
-    // Initialize configurator
-    void KeyerConfig::init()
+    /**
+     * Initialize config manager
+     */
+    void ConfigManager::init()
     {
         _initRotaryEncoder();
         _loadFlashMemory();
         applyConfig();
     }
 
-
-    void KeyerConfig::_initRotaryEncoder()
+    /**
+     * Initialize rotary encoder
+     */
+    void ConfigManager::_initRotaryEncoder()
     {
         _encoder->begin();
         _encoder->setOnButtonClicked([&]() {
@@ -36,7 +43,7 @@ namespace KeyboardKeyer {
     }
 
     // Load configuration from flash memory
-    void KeyerConfig::_loadFlashMemory()
+    void ConfigManager::_loadFlashMemory()
     {
         _config.begin("keyerConf", RO_MODE);
 
@@ -53,7 +60,7 @@ namespace KeyboardKeyer {
     }
 
     // Save configuration to flash memory
-    void KeyerConfig::_saveFlashMemory()
+    void ConfigManager::_saveFlashMemory()
     {
         _config.begin("keyerConf", RW_MODE);
         _config.putUShort("wpm", _wpm);
@@ -62,7 +69,7 @@ namespace KeyboardKeyer {
     }
 
     // Start configuration
-    void KeyerConfig::startConfig()
+    void ConfigManager::startConfig()
     {
         _display->setMode(0);
 
@@ -90,20 +97,20 @@ namespace KeyboardKeyer {
         #endif
     }
 
-    void KeyerConfig::setOnSpeedSet(void (* onSpeedSet)(uint8_t wpm))
+    void ConfigManager::setOnSpeedSet(void (* onSpeedSet)(uint8_t wpm))
     {
         _onSpeedSet = onSpeedSet;
     }
 
     // Apply configuration
-    void KeyerConfig::applyConfig()
+    void ConfigManager::applyConfig()
     {
         _onSpeedSet(_wpm);
         _display->setBrightness(_bright * VFD_BRIGHTNESS_RATIO);
     }
 
     // Finish configuration
-    void KeyerConfig::finishConfig()
+    void ConfigManager::finishConfig()
     {
         applyConfig();
         _saveFlashMemory();
@@ -126,20 +133,20 @@ namespace KeyboardKeyer {
 
 
     // Set title to shown on display
-    void KeyerConfig::_setDisplayTitle(char *title)
+    void ConfigManager::_setDisplayTitle(char *title)
     {
         uint8_t width = KEYER_DISPLAY_WIDTH;
-        char line[width] = "";
+        char line[width];
         sprintf(line, "%*s%*s", (width + strlen(title)) / 2, title, (width - strlen(title)) / 2, "");
         _display ->setTitleLine(strdup(line));
     }
 
 
     // Set value to shown on display
-    void KeyerConfig::_setDisplayValue(uint8_t value)
+    void ConfigManager::_setDisplayValue(uint8_t value)
     {
         uint8_t width = KEYER_DISPLAY_WIDTH;
-        char line[width] = "";
+        char line[width];
         sprintf(line, "%d", value);
         sprintf(line, "%*s%*s", (width + strlen(line)) / 2, strdup(line), (width - strlen(line)) / 2, "");
         _display ->setValueLine(strdup(line));
@@ -147,7 +154,7 @@ namespace KeyboardKeyer {
 
 
     // Handle button click
-    void KeyerConfig::_onEcButtonClick()
+    void ConfigManager::_onEcButtonClick()
     {
         _mode += 1;
         if (_mode > KEYER_CONFIG_MODS) {
@@ -161,7 +168,7 @@ namespace KeyboardKeyer {
     }
 
     // Handle encoder value change
-    void KeyerConfig::_onEcValueChange(long value)
+    void ConfigManager::_onEcValueChange(long value)
     {
         switch (_mode) {
             // WPM

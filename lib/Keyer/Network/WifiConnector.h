@@ -3,7 +3,7 @@
 #define WIFI_CONNECTOR_H
 
 #include <Arduino.h>
-#include <Wifi.h>
+#include <WiFi.h>
 
 namespace KeyboardKeyer {
 

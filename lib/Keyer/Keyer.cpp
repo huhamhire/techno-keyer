@@ -58,7 +58,7 @@ void Keyer::initTransmitter() {
 // Initialize Configurations
 void Keyer::initConfig() {
     using namespace KeyboardKeyer;
-    static KeyerConfig config(_display);
+    static ConfigManager config(_display);
     config.init();
 }
 
