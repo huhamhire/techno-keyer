@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <Keyer.h>
 
-Keyer keyer;
+TechnoKeyer::Keyer keyer;
 
 void setup() {
     Serial.begin(115200);

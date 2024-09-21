@@ -47,7 +47,7 @@ namespace TechnoKeyer {
     char *MorseOutputBuffer::popWord() {
         uint8_t len = strlen(_buffer);
         if (len == 0) {
-            return "";
+            return (char*)"";
         }
         // Find last space
         uint8_t i = len - 2;
@@ -56,7 +56,7 @@ namespace TechnoKeyer {
         }
         uint8_t word_start = i + 1;
 
-        char *word = "";
+        char *word = (char*)"";
 
         // Copy back to input buffer
         if (i > 0) {

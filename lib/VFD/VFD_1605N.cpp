@@ -1,6 +1,9 @@
 #include <VFD_1605N.h>
 
-// Initialize VFD
+/**
+ * Initialize VFD
+ * @param spi
+ */
 void VFD_1605N::init(SPIClass *spi)
 {
     pinMode(VFD_EN_PIN, OUTPUT);
@@ -21,19 +24,26 @@ void VFD_1605N::init(SPIClass *spi)
     
     // Config
     _setDisplayOff();
-    // Always excute before turning on
+    // Always execute before turning on
     _sendCommand(0x6C);     // set com1 to 16
     _setDuty(500);
     _setDisplayOn();
 }
 
-// Send command to VFD
+/**
+ * Send command to VFD
+ * @param data
+ */
 void VFD_1605N::_sendCommand(uint8_t data) 
 {
     _sendBytes(&data, 1);
 }
 
-// Send bytes to VFD
+/**
+ * Send bytes to VFD
+ * @param data
+ * @param size
+ */
 void VFD_1605N::_sendBytes(uint8_t *data, uint32_t size) 
 {
     _spi->beginTransaction(SPISettings(_spiClk, SPI_LSBFIRST, SPI_MODE0));
@@ -47,7 +57,10 @@ void VFD_1605N::_sendBytes(uint8_t *data, uint32_t size)
     delayMicroseconds(_delay);
 }
 
-// Send duty config to set brightness (0~1024)
+/**
+ * Send duty config to set brightness (0~1024)
+ * @param brightness
+ */
 void VFD_1605N::_setDuty(uint16_t brightness) 
 {
     uint8_t bl, bh;
@@ -60,21 +73,28 @@ void VFD_1605N::_setDuty(uint16_t brightness)
     _sendBytes(buff, 2);
 }
 
-// Turn off VFD (Prevent malfunction for config / Blink)
+/**
+ * Turn off VFD (Prevent malfunction for config / Blink)
+ */
 void VFD_1605N::_setDisplayOff()
 {
     // All outputs to low
     _sendCommand(0x71);
 }
 
-// Turn on VFD
+/**
+ * Turn on VFD
+ */
 void VFD_1605N::_setDisplayOn()
 {
     // Normal display
     _sendCommand(0x70);
 }
 
-// Set VFD brightness (0~1024)
+/**
+ * Set VFD brightness (0~1024)
+ * @param brightness
+ */
 void VFD_1605N::setBrightness(uint16_t brightness) 
 {
     _setDisplayOff();
@@ -82,7 +102,12 @@ void VFD_1605N::setBrightness(uint16_t brightness)
     _setDisplayOn();
 }
 
-// Display char on VFD
+/**
+ * Display char on VFD
+ * @param row
+ * @param col
+ * @param data
+ */
 void VFD_1605N::displayChar(uint8_t row, uint8_t col, unsigned char data) 
 {
     if ( col > 15 || row > 1) {
@@ -101,7 +126,11 @@ void VFD_1605N::displayChar(uint8_t row, uint8_t col, unsigned char data)
 }
 
 
-// Display line on VFD
+/**
+ * Display line on VFD
+ * @param row
+ * @param data
+ */
 void VFD_1605N::displayLine(uint8_t row, char *data) 
 {
     if (row > 1) {

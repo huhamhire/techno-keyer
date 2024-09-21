@@ -4,7 +4,7 @@ namespace TechnoKeyer {
     AiEsp32RotaryEncoder *RotaryEncoderInput::_ec = new AiEsp32RotaryEncoder(
             ENCODER_A_PIN,
             ENCODER_B_PIN,
-            ENCODER_STEPS,
+            ENCODER_BUTTON_PIN,
             ENCODER_VCC_PIN,
             ENCODER_STEPS);
 

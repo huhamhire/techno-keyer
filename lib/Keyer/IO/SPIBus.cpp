@@ -7,7 +7,10 @@ namespace TechnoKeyer {
      * Start SPI
      */
     void SPIBus::begin() {
-        _spi->begin(SPI_CS_PIN, SPI_CLK_PIN, SPI_MOSI_PIN);
+        _spi->begin(SPI_CLK_PIN,
+                    -1,
+                    SPI_MOSI_PIN,
+                    SPI_CS_PIN);
     }
 
     /*

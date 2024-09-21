@@ -13,19 +13,23 @@
 
 #include <Transmitter.h>
 
-class Keyer {
+namespace TechnoKeyer {
+    class Keyer {
     public:
         void begin();
-        
+
     protected:
         void initDisplay();
-        void initTransmitter();
         void initConfig();
+        void initTransmitter();
         void initDecoder();
 
     private:
-        TechnoKeyer::DisplayContext* _display;
-        TechnoKeyer::Transmitter* _transmitter;
-};
+        static SPIBus* _spi;
+
+        DisplayContext* _display;
+        Transmitter* _transmitter;
+    };
+}
 
 #endif  // KEYER_H

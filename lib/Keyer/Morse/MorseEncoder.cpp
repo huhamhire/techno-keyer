@@ -10,6 +10,8 @@ namespace TechnoKeyer {
     MorseEncoder::MorseEncoder(MorseOutputBuffer *buffer) {
         _buzzer->init();
         _buffer = buffer;
+
+        pinMode(CW_PIN, OUTPUT);
     }
 
     /**

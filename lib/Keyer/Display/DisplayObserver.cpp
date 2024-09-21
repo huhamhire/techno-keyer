@@ -9,7 +9,7 @@ namespace TechnoKeyer {
      */
     DisplayObserver::DisplayObserver(DisplayContext *ctx) {
         _ctx = ctx;
-        SPIBus spi;
+        static SPIBus spi;
         _vfd->init(spi.getSPI());
     }
 
@@ -44,7 +44,6 @@ namespace TechnoKeyer {
         observer = (DisplayObserver *) pvParameters;
 
         for (;;) {
-//            observer->syncBrightness();
             observer->refreshVFD();
             // wait 40ms (25FPS)
             vTaskDelay(40 / portTICK_PERIOD_MS);
