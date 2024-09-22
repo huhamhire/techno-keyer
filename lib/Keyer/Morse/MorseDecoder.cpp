@@ -1,6 +1,7 @@
 #include "MorseDecoder.h"
 
 namespace TechnoKeyer {
+    MorseCodec *MorseDecoder::_codec = new MorseCodec();
     AudioInput *MorseDecoder::_audio = new AudioInput();
 
     /**
@@ -23,15 +24,16 @@ namespace TechnoKeyer {
      */
     void MorseDecoder::onSignalEvent(uint8_t event, uint16_t duration) {
         _lastEventTime = millis();
+        char ch;
         if (event == LOW) {
             // LOW signal
             if (duration > _thresholdMs * 2) {
                 // End of word (7 units)
-                decodeChar();
+                ch = decodeChar();
                 // todo on word end
             } else if (duration > _thresholdMs) {
                 // End of character (3 units)
-                decodeChar();
+                ch = decodeChar();
                 _longEvents->appendEventTime(duration);
             } else {
                 // space (1 unit)
@@ -47,6 +49,10 @@ namespace TechnoKeyer {
                 // Dot (1 uint)
                 _morseBuffer->append(DIT);
                 _shortEvents->appendEventTime(duration);
+            }
+            if (_morseBuffer->size() >= MORSE_LEN_MAX) {
+                // Force decode
+                ch = decodeChar();
             }
         }
         _updateThreshold();
@@ -79,7 +85,24 @@ namespace TechnoKeyer {
      * @return
      */
     char MorseDecoder::decodeChar() {
-        // todo
+        uint8_t size = _morseBuffer->size();
+        if (size == 0) {
+            return '\0';
+        } else {
+            uint8_t len = size < MORSE_LEN_MAX ? size : MORSE_LEN_MAX;
+            // Try to decode from max length
+            for (uint8_t i = len; i > 0; i--) {
+                uint8_t code = _morseBuffer->getCode(i);
+                char ch = _codec->getChar(code);
+                if (ch != '~') {
+                    // Shift buffer
+                    _morseBuffer->shift(i);
+                    return ch;
+                }
+            }
+            // Should not reach here
+            return '~';
+        }
     }
 
     /**

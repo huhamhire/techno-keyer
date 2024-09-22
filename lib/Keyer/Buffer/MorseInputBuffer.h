@@ -13,6 +13,10 @@ namespace TechnoKeyer {
     public:
         MorseInputBuffer();
         void append(uint8_t signal);
+        uint8_t size();
+        uint8_t getCode();
+        uint8_t getCode(uint8_t len);
+        void shift(uint8_t size);
         void clear();
 
     private:

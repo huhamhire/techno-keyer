@@ -24,8 +24,8 @@ namespace TechnoKeyer {
         if (c != _codeToChar.end()) {
             return c->second;
         } else {
-            // Not found, use #
-            return '#';
+            // Not found, use ~
+            return '~';
         }
     }
 
@@ -39,8 +39,8 @@ namespace TechnoKeyer {
         if (code != _charToCode.end()) {
             return code->second;
         } else {
-            // Not found, use 0
-            return 0;
+            // Not found, use 0b1
+            return 0b1;
         }
     }
 } // TechnoKeyer

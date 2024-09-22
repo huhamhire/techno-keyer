@@ -5,6 +5,8 @@
 #include <map>
 
 namespace TechnoKeyer {
+    #define MORSE_LEN_MAX 6
+
     struct morseChar {
         char character;
         uint8_t code;
@@ -59,6 +61,7 @@ namespace TechnoKeyer {
             {'(', 0b101101},    // -.--.
             {')', 0b1101101},   // -.--.-
             {'@', 0b1010110},   // .--.-.
+            {'~', 0b1000000},   // ...... (error)
     };
 
     class MorseCodec {

@@ -46,16 +46,13 @@ namespace TechnoKeyer {
             vTaskDelay(7 * _dotTimeMs / portTICK_PERIOD_MS);
         } else {
             uint8_t code = _codec->getCode(c);
-            if (code == 0) {
-                return;
-            }
             while (code != 1) {
                 if (code & 1) {
                     _sendDah();
                 } else {
                     _sendDit();
                 }
-                code = code / 2;
+                code = code >> 1;
             }
             vTaskDelay(2 * _dotTimeMs / portTICK_PERIOD_MS);
         }
