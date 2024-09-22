@@ -3,8 +3,8 @@
 
 #include <Arduino.h>
 
-namespace TechnoKeyer {
 
+namespace TechnoKeyer {
     #define MORSE_OUT_BUFFER_SIZE 128
 
     class MorseOutputBuffer {

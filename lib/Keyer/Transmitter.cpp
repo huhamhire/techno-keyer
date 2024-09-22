@@ -103,7 +103,7 @@ namespace TechnoKeyer {
         }
 
         _outputBuffer->append(_inputBuffer->getContent());
-        _outputBuffer->append(" ");
+        _outputBuffer->append((char*)" ");
 
         _inputBuffer->clear();
     }

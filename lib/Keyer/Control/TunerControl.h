@@ -13,7 +13,7 @@ namespace TechnoKeyer {
     class TunerControl {
     public:
         void begin();
-        void setFrequency(uint8_t freq);
+        void setPitch(uint8_t freq);
 
     private:
         uint32_t _spiClk = 100000; // 100 kHz

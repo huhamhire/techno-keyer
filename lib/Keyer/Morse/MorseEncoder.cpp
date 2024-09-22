@@ -1,6 +1,7 @@
 #include <Morse/MorseEncoder.h>
 
 namespace TechnoKeyer {
+    MorseCodec *MorseEncoder::_codec = new MorseCodec();
     MorseBuzzer *MorseEncoder::_buzzer = new MorseBuzzer();
 
     /**
@@ -44,19 +45,17 @@ namespace TechnoKeyer {
         if (c == ' ') {
             vTaskDelay(7 * _dotTimeMs / portTICK_PERIOD_MS);
         } else {
-            for (int i = 0; i < N_MORSE; i++) {
-                if (morsetab[i].c == c) {
-                    unsigned char p = morsetab[i].pat;
-                    while (p != 1) {
-                        if (p & 1) {
-                            _sendDah();
-                        } else {
-                            _sendDit();
-                        }
-                        p = p / 2;
-                    }
-                    break;
+            uint8_t code = _codec->getCode(c);
+            if (code == 0) {
+                return;
+            }
+            while (code != 1) {
+                if (code & 1) {
+                    _sendDah();
+                } else {
+                    _sendDit();
                 }
+                code = code / 2;
             }
             vTaskDelay(2 * _dotTimeMs / portTICK_PERIOD_MS);
         }
