@@ -8,6 +8,9 @@
 namespace TechnoKeyer {
     #define ENCODER_STEPS 4
 
+    typedef std::function<void(long)> onValueChanged;
+    typedef std::function<void()> onButtonClicked;
+
     class RotaryEncoderInput {
     public:
         void begin();
@@ -15,14 +18,14 @@ namespace TechnoKeyer {
         void setValue(long value);
         void setBoundaries(long min, long max);
 
-        void setOnValueChanged(std::function<void(long)> onValueChanged);
-        void setOnButtonClicked(std::function<void()> onButtonClicked);
+        void setOnValueChanged(onValueChanged callback);
+        void setOnButtonClicked(onButtonClicked callback);
 
     private:
         static AiEsp32RotaryEncoder *_ec;
 
-        std::function<void(long)> _onValueChanged = [](long value) {};
-        std::function<void()> _onButtonClicked = []() {};
+        onValueChanged _onValueChanged = [](long value) {};
+        onButtonClicked _onButtonClicked = []() {};
     };
 
     [[noreturn]] void vCheckRotaryEncoder(void *pvParameters);

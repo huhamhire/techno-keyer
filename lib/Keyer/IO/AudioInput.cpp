@@ -38,7 +38,7 @@ namespace TechnoKeyer {
     /**
      * Set callback on signal event
      */
-    void AudioInput::setOnSignalEvent(std::function<void(uint8_t, uint16_t)> callback) {
+    void AudioInput::setOnSignalEvent(onSignalEvent callback) {
         _onSignalEvent = std::move(callback);
     }
 

@@ -11,21 +11,24 @@ namespace TechnoKeyer {
     #define CHAR_BUFFER_SIZE    16
     #define MORSE_DEFAULT_WPM   20
 
+    typedef std::function<void(char)> onCharReceived;
+    typedef std::function<void(uint8_t)> onMorseEvent;
+
     class MorseDecoder {
     public:
         void begin();
         void onSignalEvent(uint8_t event, uint16_t duration);
         char decodeChar();
-        void setOnCharReceived(std::function<void(char)> callback);
-        void setOnMorseEvent(std::function<void(uint8_t)> callback);
+        void setOnCharReceived(onCharReceived callback);
+        void setOnMorseEvent(onMorseEvent callback);
         void resetThreshold();
 
     private:
         void _updateThreshold();
         void _estimateWPM();
 
-        std::function<void(char)> _onCharReceived = [](char){};
-        std::function<void(uint8_t)> _onMorseEvent = [](uint8_t){};
+        onCharReceived _onCharReceived = [](char){};
+        onMorseEvent _onMorseEvent = [](uint8_t){};
 
         static MorseCodec *_codec;
 

@@ -7,16 +7,18 @@
 
 namespace TechnoKeyer {
 
+    typedef std::function<void(uint8_t)> onKeyInput;
+
     class KeyboardInput {
     public:
         void begin();
         void checkKeyInput();
-        void setOnKeyInput(std::function<void(uint8_t)> onKeyInput);
+        void setOnKeyInput(onKeyInput callback);
 
     private:
         static USB9350_KeyMouse *_usbKeyMouse;
 
-        std::function<void(uint8_t)> _onKeyInput;
+        onKeyInput _onKeyInput;
         uint8_t _lastKey = 0;
         unsigned long _lastKeyTime = 0;
     };

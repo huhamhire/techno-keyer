@@ -16,7 +16,7 @@ namespace TechnoKeyer {
 // VFD display
 #define VFD_EN_PIN          17      // Enable
 #define VFD_RST_PIN         18      // Reset
-#define VFD_CS_PIN          10      // SPI Chip Select
+#define VFD_CS_PIN          10      // SPI Chip Select (Duplicate)
 
 // Audio input
 #define AUX_SIG_PIN         8       // Audio Signal Input

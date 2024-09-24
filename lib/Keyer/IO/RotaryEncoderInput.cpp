@@ -1,5 +1,7 @@
 #include "RotaryEncoderInput.h"
 
+#include <utility>
+
 namespace TechnoKeyer {
     AiEsp32RotaryEncoder *RotaryEncoderInput::_ec = new AiEsp32RotaryEncoder(
             ENCODER_A_PIN,
@@ -20,7 +22,7 @@ namespace TechnoKeyer {
     }
 
     void RotaryEncoderInput::checkEncoder() {
-
+        // todo
     }
 
     void RotaryEncoderInput::setValue(long value) {
@@ -31,12 +33,12 @@ namespace TechnoKeyer {
         _ec->setBoundaries(min, max, false);
     }
 
-    void RotaryEncoderInput::setOnValueChanged(std::function<void(long)> onValueChanged) {
-        _onValueChanged = onValueChanged;
+    void RotaryEncoderInput::setOnValueChanged(onValueChanged callback) {
+        _onValueChanged = std::move(callback);
     }
 
-    void RotaryEncoderInput::setOnButtonClicked(std::function<void()> onButtonClicked) {
-        _onButtonClicked = onButtonClicked;
+    void RotaryEncoderInput::setOnButtonClicked(onButtonClicked callback) {
+        _onButtonClicked = std::move(callback);
     }
 
     void vCheckRotaryEncoder(void *pvParameters) {

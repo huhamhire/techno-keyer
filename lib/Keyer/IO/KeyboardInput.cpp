@@ -1,5 +1,7 @@
 #include "KeyboardInput.h"
 
+#include <utility>
+
 namespace TechnoKeyer {
     USB9350_KeyMouse* KeyboardInput::_usbKeyMouse = new USB9350_KeyMouse();
 
@@ -18,8 +20,8 @@ namespace TechnoKeyer {
     /**
      * Set onKeyInput Callback
      */
-    void KeyboardInput::setOnKeyInput(std::function<void(uint8_t)> onKeyInput) {
-        _onKeyInput = onKeyInput;
+    void KeyboardInput::setOnKeyInput(onKeyInput callback) {
+        _onKeyInput = std::move(callback);
     }
 
     /**

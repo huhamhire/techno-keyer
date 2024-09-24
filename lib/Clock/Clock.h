@@ -19,6 +19,6 @@ class NTPClock {
         String getTimeString();
 };
 
-void vUpdateTime(void *pvParameters);
+[[noreturn]] void vUpdateTime(void *pvParameters);
 
 #endif  // _CLOCK_

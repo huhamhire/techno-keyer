@@ -116,7 +116,7 @@ namespace TechnoKeyer {
      * Set callback on char received
      * @param callback
      */
-    void MorseDecoder::setOnCharReceived(std::function<void(char)> callback) {
+    void MorseDecoder::setOnCharReceived(onCharReceived callback) {
         _onCharReceived = std::move(callback);
     }
 
@@ -124,7 +124,7 @@ namespace TechnoKeyer {
      * Set callback on morse event
      * @param callback
      */
-    void MorseDecoder::setOnMorseEvent(std::function<void(uint8_t)> callback) {
+    void MorseDecoder::setOnMorseEvent(onMorseEvent callback) {
         _onMorseEvent = std::move(callback);
     }
 
