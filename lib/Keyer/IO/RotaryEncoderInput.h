@@ -25,7 +25,7 @@ namespace TechnoKeyer {
         std::function<void()> _onButtonClicked = []() {};
     };
 
-    void vCheckRotaryEncoder(void *pvParameters);
+    [[noreturn]] void vCheckRotaryEncoder(void *pvParameters);
 
 } // TechnoKeyer
 

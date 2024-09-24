@@ -1,5 +1,7 @@
 #include "MorseDecoder.h"
 
+#include <utility>
+
 namespace TechnoKeyer {
     MorseCodec *MorseDecoder::_codec = new MorseCodec();
 
@@ -115,7 +117,7 @@ namespace TechnoKeyer {
      * @param callback
      */
     void MorseDecoder::setOnCharReceived(std::function<void(char)> callback) {
-        _onCharReceived = callback;
+        _onCharReceived = std::move(callback);
     }
 
     /**
@@ -123,7 +125,7 @@ namespace TechnoKeyer {
      * @param callback
      */
     void MorseDecoder::setOnMorseEvent(std::function<void(uint8_t)> callback) {
-        _onMorseEvent = callback;
+        _onMorseEvent = std::move(callback);
     }
 
     /**

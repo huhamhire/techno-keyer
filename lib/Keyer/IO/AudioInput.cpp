@@ -1,5 +1,7 @@
 #include "AudioInput.h"
 
+#include <utility>
+
 namespace TechnoKeyer {
     /**
      * Initialize audio signal input
@@ -37,14 +39,14 @@ namespace TechnoKeyer {
      * Set callback on signal event
      */
     void AudioInput::setOnSignalEvent(std::function<void(uint8_t, uint16_t)> callback) {
-        _onSignalEvent = callback;
+        _onSignalEvent = std::move(callback);
     }
 
     /**
      * Task to check audio input signal
      * @param pvParameters
      */
-    [[noreturn]] void vCheckAuxSignal(void *pvParameters) {
+    void vCheckAuxSignal(void *pvParameters) {
         auto *input = (AudioInput *)pvParameters;
         for ( ;; ) {
             input->checkSignal();

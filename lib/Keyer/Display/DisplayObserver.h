@@ -22,7 +22,7 @@ namespace TechnoKeyer {
         static VFD_1605N* _vfd;
     };
 
-    void vRefreshDisplay(void *pvParameters);
+    [[noreturn]] void vRefreshDisplay(void *pvParameters);
 } // TechnoKeyer
 
 #endif // DISPLAY_OBSERVER_H

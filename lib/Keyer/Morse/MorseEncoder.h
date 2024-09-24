@@ -2,12 +2,12 @@
 #define MORSE_ENCODER_H
 
 #include <Arduino.h>
+#include <Pinout.h>
 #include <Buffer/MorseOutputBuffer.h>
 #include <Morse/MorseCodec.h>
 #include <Morse/MorseBuzzer.h>
 
 namespace TechnoKeyer {
-    #define CW_PIN 14
 
     class MorseEncoder {
     public:
@@ -31,7 +31,7 @@ namespace TechnoKeyer {
         MorseOutputBuffer *_buffer;
     };
 
-    void vSendMorse(void *pvParameters);
+    [[noreturn]] void vSendMorse(void *pvParameters);
 } // TechnoKeyer
 
 #endif // MORSE_ENCODER_H

@@ -22,7 +22,7 @@ namespace TechnoKeyer {
         const char* _password;
     };
 
-    void vCheckWifi(void *pvParameters);
+    [[noreturn]] void vCheckWifi(void *pvParameters);
 } // TechnoKeyer
 
 #endif // WIFI_CONNECTOR_H

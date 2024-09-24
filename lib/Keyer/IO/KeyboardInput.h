@@ -21,7 +21,7 @@ namespace TechnoKeyer {
         unsigned long _lastKeyTime = 0;
     };
 
-    void vCheckKeyboardInput(void *pvParameters);
+    [[noreturn]] void vCheckKeyboardInput(void *pvParameters);
 } // TechnoKeyer
 
 #endif // KEYBOARD_INPUT_H

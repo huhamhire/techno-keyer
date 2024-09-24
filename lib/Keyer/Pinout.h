@@ -18,8 +18,8 @@ namespace TechnoKeyer {
 #define VFD_RST_PIN         18      // Reset
 #define VFD_CS_PIN          10      // SPI Chip Select
 
-// Audio signal input
-#define AUX_SIG_PIN         8
+// Audio input
+#define AUX_SIG_PIN         8       // Audio Signal Input
 
 // Keyboard input
 #define KBD_RX_PIN          15
@@ -30,6 +30,9 @@ namespace TechnoKeyer {
 #define ENCODER_B_PIN       6
 #define ENCODER_BUTTON_PIN  7
 #define ENCODER_VCC_PIN     (-1)    // Direct to 3V3
+
+// CW Key
+#define CW_PIN              14      // Key output (LED & Keyer)
 
 // Buzzer
 #define BZ_PIN              2
