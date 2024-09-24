@@ -2,13 +2,10 @@
 #define ROTARY_ENCODER_INPUT_H
 
 #include <Arduino.h>
+#include <Pinout.h>
 #include <AiEsp32RotaryEncoder.h>
 
 namespace TechnoKeyer {
-    #define ENCODER_A_PIN 5
-    #define ENCODER_B_PIN 6
-    #define ENCODER_BUTTON_PIN 7
-    #define ENCODER_VCC_PIN (-1)  // Direct to 3V3
     #define ENCODER_STEPS 4
 
     class RotaryEncoderInput {

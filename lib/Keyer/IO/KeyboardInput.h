@@ -2,11 +2,10 @@
 #define KEYBOARD_INPUT_H
 
 #include <Arduino.h>
+#include <Pinout.h>
 #include <CH9350_USBKEY.h>
 
 namespace TechnoKeyer {
-    #define KBD_RX_PIN 15
-    #define KBD_TX_PIN 16
 
     class KeyboardInput {
     public:

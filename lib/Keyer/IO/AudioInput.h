@@ -2,11 +2,9 @@
 #define AUDIO_INPUT_H
 
 #include <Arduino.h>
+#include <Pinout.h>
 
 namespace TechnoKeyer {
-
-    #define AUX_SIG_PIN   8
-
     class AudioInput {
     public:
         void begin();

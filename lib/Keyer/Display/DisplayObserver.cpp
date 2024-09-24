@@ -10,7 +10,10 @@ namespace TechnoKeyer {
     DisplayObserver::DisplayObserver(DisplayContext *ctx) {
         _ctx = ctx;
         static SPIBus spi;
-        _vfd->init(spi.getSPI());
+        _vfd->begin(spi.getSPI(),
+                    VFD_EN_PIN,
+                    VFD_RST_PIN,
+                    VFD_CS_PIN);
     }
 
     /**

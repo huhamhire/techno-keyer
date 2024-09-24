@@ -8,7 +8,7 @@ namespace TechnoKeyer {
      */
     void SPIBus::begin() {
         _spi->begin(SPI_CLK_PIN,
-                    -1,
+                    SPI_MISO_PIN,
                     SPI_MOSI_PIN,
                     SPI_CS_PIN);
     }

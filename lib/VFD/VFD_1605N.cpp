@@ -4,23 +4,28 @@
  * Initialize VFD
  * @param spi
  */
-void VFD_1605N::init(SPIClass *spi)
+
+void VFD_1605N::begin(SPIClass *spi, uint8_t en, uint8_t rst, uint8_t cs)
 {
-    pinMode(VFD_EN_PIN, OUTPUT);
-    pinMode(VFD_RST_PIN, OUTPUT);
+    _enPin = en;
+    _rstPin = rst;
+    _csPin = cs;
+
+    pinMode(_enPin, OUTPUT);
+    pinMode(_rstPin, OUTPUT);
 
     // Initialize SPI
     _spi = spi;
-    pinMode(VFD_CS_PIN, OUTPUT);
+    pinMode(_csPin, OUTPUT);
 
     // Initialize VFD
-    digitalWrite(VFD_EN_PIN, HIGH);
+    digitalWrite(_enPin, HIGH);
 
     // Reset
     delayMicroseconds(100);
-    digitalWrite(VFD_RST_PIN, LOW);
+    digitalWrite(_rstPin, LOW);
     delayMicroseconds(_delay);
-    digitalWrite(VFD_RST_PIN, HIGH);
+    digitalWrite(_rstPin, HIGH);
     
     // Config
     _setDisplayOff();
@@ -47,10 +52,10 @@ void VFD_1605N::_sendCommand(uint8_t data)
 void VFD_1605N::_sendBytes(uint8_t *data, uint32_t size) 
 {
     _spi->beginTransaction(SPISettings(_spiClk, SPI_LSBFIRST, SPI_MODE0));
-    digitalWrite(VFD_CS_PIN, LOW);
+    digitalWrite(_csPin, LOW);
 
     _spi->writeBytes(data, size);
-    digitalWrite(VFD_CS_PIN, HIGH);
+    digitalWrite(_csPin, HIGH);
 
     _spi->endTransaction();
 

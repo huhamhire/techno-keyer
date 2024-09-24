@@ -1,17 +1,12 @@
-#ifndef _VFD_1605N_
-#define _VFD_1605N_
+#ifndef VFD_1605N_H
+#define VFD_1605N_H
 
 #include <Arduino.h>
 #include <SPI.h>
 
-#define VFD_EN_PIN      17      // Enable
-#define VFD_RST_PIN     18      // Reset
-#define VFD_CS_PIN      10      // SPI Chip Select
-
-
 class VFD_1605N {
     public:
-        void init(SPIClass *spi);
+        void begin(SPIClass *spi, uint8_t en, uint8_t rst, uint8_t cs);
         void setBrightness(uint16_t brightness);
         void displayChar(uint8_t row, uint8_t col, unsigned char data);
         void displayLine(uint8_t row, char *data);
@@ -22,6 +17,10 @@ class VFD_1605N {
         void _setDuty(uint16_t brightness);
         void _setDisplayOff();
         void _setDisplayOn();
+
+        uint8_t _enPin;
+        uint8_t _rstPin;
+        uint8_t _csPin;
         
         uint32_t _spiClk =  100000;     // 100kHz
         uint8_t _delay =    16;         // 16us
@@ -29,4 +28,4 @@ class VFD_1605N {
         SPIClass *_spi;
 };
 
-#endif  // _VFD_1605N_
+#endif  // VFD_1605N_H
