@@ -5,7 +5,6 @@
 #include <Buffer/MorseInputBuffer.h>
 #include <Buffer/SignalEventsBuffer.h>
 #include <Control/TunerControl.h>
-#include <IO/AudioInput.h>
 #include <Morse/MorseCodec.h>
 
 namespace TechnoKeyer {
@@ -22,7 +21,6 @@ namespace TechnoKeyer {
         void resetThreshold();
 
     private:
-        void _initAudioInput();
         void _updateThreshold();
         void _estimateWPM();
 
@@ -30,7 +28,6 @@ namespace TechnoKeyer {
         std::function<void(uint8_t)> _onMorseEvent = [](uint8_t){};
 
         static MorseCodec *_codec;
-        static AudioInput *_audio;
 
         MorseInputBuffer *_morseBuffer;
         SignalEventsBuffer *_shortEvents;

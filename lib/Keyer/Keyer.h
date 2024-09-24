@@ -12,6 +12,8 @@
 #include <Display/DisplayObserver.h>
 
 #include <Transmitter.h>
+#include <Receiver.h>
+
 
 namespace TechnoKeyer {
     class Keyer {
@@ -22,13 +24,14 @@ namespace TechnoKeyer {
         void initDisplay();
         void initConfig();
         void initTransmitter();
-        void initDecoder();
+        void initReceiver();
 
     private:
         static SPIBus* _spi;
 
         DisplayContext* _display;
         Transmitter* _transmitter;
+        Receiver* _receiver;
     };
 }
 

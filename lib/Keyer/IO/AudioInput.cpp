@@ -17,11 +17,27 @@ namespace TechnoKeyer {
         if (state != _lastState) {
             uint32_t now = millis();
             _lastState = state;
+
+            #if DEBUG_ALL
             Serial.print("State -> ");
             Serial.print(state);
             Serial.print(", Time: ");
             Serial.println(now);
+            #endif
+
+            uint16_t duration = now - _lastStateTime;
+            if (duration > AUX_DEBOUNCE_MS) {
+                _lastStateTime = now;
+                _onSignalEvent(state, duration);
+            }
         }
+    }
+
+    /**
+     * Set callback on signal event
+     */
+    void AudioInput::setOnSignalEvent(std::function<void(uint8_t, uint16_t)> callback) {
+        _onSignalEvent = callback;
     }
 
     /**

@@ -90,7 +90,7 @@ namespace TechnoKeyer {
             case 2:
                 // RX Mode
                 // Receiving messages from audio.
-                return line < 1 ? _rxBuf : _decodeBuf;
+                return line < 1 ? _decodeBuf : _rxBuf;
 
             default:
                 return (char *) "";

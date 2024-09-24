@@ -18,12 +18,15 @@ namespace TechnoKeyer {
         initTransmitter();
         initConfig();
 
-        initDecoder();
+        initReceiver();
 
         // Bind buffer to display
         _display->setTransmitLines(
                 _transmitter->getOutputBuffer()->getContent(),
                 _transmitter->getInputBuffer()->getContent());
+        _display->setReceiveLines(
+                _receiver->getMorseLine()->getContent(),
+                _receiver->getCharLine()->getContent());
         _display->setMode(1);
     }
 
@@ -67,9 +70,11 @@ namespace TechnoKeyer {
 
 
     /**
-     * Initialize Morse Decoder
+     * Initialize Morse Receiver
      */
-    void Keyer::initDecoder() {
-
+    void Keyer::initReceiver() {
+        static Receiver recv;
+        recv.begin();
+        _receiver = &recv;
     }
 }

@@ -1,6 +1,7 @@
 #include "Receiver.h"
 
 namespace TechnoKeyer {
+    AudioInput *Receiver::_audio = new AudioInput();
     TunerControl *Receiver::_tuner = new TunerControl();
     MorseDecoder *Receiver::_decoder = new MorseDecoder();
 
@@ -13,13 +14,15 @@ namespace TechnoKeyer {
     void Receiver::begin() {
         _tuner->begin();
         _decoder->begin();
-
         _decoder->setOnMorseEvent([&](uint8_t event) {
             onMorseEvent(event);
         });
         _decoder->setOnCharReceived([&](char c) {
             onCharReceived(c);
         });
+
+        // Start audio input
+        _initAudioInput();
     }
 
     /**
@@ -48,5 +51,37 @@ namespace TechnoKeyer {
      */
     void Receiver::onCharReceived(char c) {
         _charLine->append(c);
+    }
+
+    /**
+     * Get character line buffer
+     * @return
+     */
+    DisplayLineBuffer *Receiver::getCharLine() {
+        return _charLine;
+    }
+
+    /**
+     * Get morse line buffer
+     * @return
+     */
+    DisplayLineBuffer *Receiver::getMorseLine() {
+        return _morseLine;
+    }
+
+    /**
+     * Initialize audio input
+     */
+    void Receiver::_initAudioInput() {
+        _audio->begin();
+        _audio->setOnSignalEvent([&](uint8_t event, uint16_t duration) {
+            _decoder->onSignalEvent(event, duration);
+        });
+        xTaskCreate(vCheckAuxSignal,
+                    "vCheckAuxSignal",
+                    2048,
+                    _audio,
+                    1,
+                    NULL);
     }
 } // TechnoKeyer

@@ -2,7 +2,6 @@
 
 namespace TechnoKeyer {
     MorseCodec *MorseDecoder::_codec = new MorseCodec();
-    AudioInput *MorseDecoder::_audio = new AudioInput();
 
     /**
      * Initialize morse decoder
@@ -12,8 +11,6 @@ namespace TechnoKeyer {
         _shortEvents = new SignalEventsBuffer();
         _longEvents = new SignalEventsBuffer();
         resetThreshold();
-
-        _initAudioInput();
     }
 
 
@@ -134,18 +131,5 @@ namespace TechnoKeyer {
      */
     void MorseDecoder::resetThreshold() {
         _thresholdMs = 1200 / MORSE_DEFAULT_WPM * 2; // default by wpm
-    }
-
-    /**
-     * Initialize audio input
-     */
-    void MorseDecoder::_initAudioInput() {
-        _audio->begin();
-        xTaskCreate(vCheckAuxSignal,
-                    "vCheckAuxSignal",
-                    2048,
-                    _audio,
-                    1,
-                    NULL);
     }
 } // TechnoKeyer
