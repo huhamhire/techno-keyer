@@ -28,8 +28,8 @@ namespace TechnoKeyer {
      * Task to check audio input signal
      * @param pvParameters
      */
-    void vCheckAuxSignal(void *pvParameters) {
-        AudioInput *input = (AudioInput *)pvParameters;
+    [[noreturn]] void vCheckAuxSignal(void *pvParameters) {
+        auto *input = (AudioInput *)pvParameters;
         for ( ;; ) {
             input->checkSignal();
             vTaskDelay(5 / portTICK_PERIOD_MS);

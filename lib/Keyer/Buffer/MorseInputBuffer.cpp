@@ -54,7 +54,7 @@ namespace TechnoKeyer {
     }
 
     /**
-     * Shift buffer by siz
+     * Shift buffer by size
      * @param size
      */
     void MorseInputBuffer::shift(uint8_t size) {

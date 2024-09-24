@@ -17,12 +17,17 @@ namespace TechnoKeyer {
         void begin();
         void onSignalEvent(uint8_t event, uint16_t duration);
         char decodeChar();
+        void setOnCharReceived(std::function<void(char)> callback);
+        void setOnMorseEvent(std::function<void(uint8_t)> callback);
         void resetThreshold();
 
     private:
         void _initAudioInput();
         void _updateThreshold();
         void _estimateWPM();
+
+        std::function<void(char)> _onCharReceived = [](char){};
+        std::function<void(uint8_t)> _onMorseEvent = [](uint8_t){};
 
         static MorseCodec *_codec;
         static AudioInput *_audio;

@@ -30,11 +30,16 @@ namespace TechnoKeyer {
             if (duration > _thresholdMs * 2) {
                 // End of word (7 units)
                 ch = decodeChar();
-                // todo on word end
+                _onCharReceived(ch);
+                _onCharReceived(' ');
+                _onMorseEvent(MORSE_SPACE);
             } else if (duration > _thresholdMs) {
                 // End of character (3 units)
-                ch = decodeChar();
                 _longEvents->appendEventTime(duration);
+                // Char end
+                ch = decodeChar();
+                _onCharReceived(ch);
+                _onMorseEvent(MORSE_SPACE);
             } else {
                 // space (1 unit)
                 _shortEvents->appendEventTime(duration);
@@ -45,14 +50,17 @@ namespace TechnoKeyer {
                 // Dash (3 units)
                 _morseBuffer->append(DAH);
                 _longEvents->appendEventTime(duration);
+                _onMorseEvent(DAH);
             } else {
                 // Dot (1 uint)
                 _morseBuffer->append(DIT);
                 _shortEvents->appendEventTime(duration);
+                _onMorseEvent(DIT);
             }
             if (_morseBuffer->size() >= MORSE_LEN_MAX) {
                 // Force decode
                 ch = decodeChar();
+                _onCharReceived(ch);
             }
         }
         _updateThreshold();
@@ -106,6 +114,22 @@ namespace TechnoKeyer {
     }
 
     /**
+     * Set callback on char received
+     * @param callback
+     */
+    void MorseDecoder::setOnCharReceived(std::function<void(char)> callback) {
+        _onCharReceived = callback;
+    }
+
+    /**
+     * Set callback on morse event
+     * @param callback
+     */
+    void MorseDecoder::setOnMorseEvent(std::function<void(uint8_t)> callback) {
+        _onMorseEvent = callback;
+    }
+
+    /**
      * Reset threshold duration to default
      */
     void MorseDecoder::resetThreshold() {
@@ -124,5 +148,4 @@ namespace TechnoKeyer {
                     1,
                     NULL);
     }
-
 } // TechnoKeyer

@@ -16,7 +16,7 @@ namespace TechnoKeyer {
         uint8_t _lastState = 1;
     };
 
-    void vCheckAuxSignal(void *pvParameters);
+    [[noreturn]] void vCheckAuxSignal(void *pvParameters);
 } // TechnoKeyer
 
 #endif // AUDIO_INPUT_H

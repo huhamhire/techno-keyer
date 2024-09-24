@@ -6,9 +6,6 @@
 namespace TechnoKeyer {
     #define MORSE_BUFFER_SIZE 32
 
-    #define DIT 0
-    #define DAH 1
-
     class MorseInputBuffer {
     public:
         MorseInputBuffer();

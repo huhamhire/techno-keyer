@@ -7,11 +7,17 @@
 namespace TechnoKeyer {
     #define MORSE_LEN_MAX 6
 
+    #define DIT 0
+    #define DAH 1
+    #define MORSE_SPACE 2
+
     struct morseChar {
         char character;
         uint8_t code;
     };
 
+    // Morse code table
+    // 0 -> Dit, 1 -> Dah, Reverse order, Highest bit is 1
     const struct morseChar morseTable[] = {
             {'A', 0b110},       // .-
             {'B', 0b10001},     // -...
@@ -49,13 +55,13 @@ namespace TechnoKeyer {
             {'8', 0b100111},    // ---..
             {'9', 0b101111},    // ----.
             {'0', 0b111111},    // -----
+            {'/', 0b101001},    // -..-.
+            {'=', 0b110001},    // -...-
+            {'+', 0b101010},    // .-.-.
             {'.', 0b1101010},   // .-.-.-
             {',', 0b1110011},   // --..--
             {'?', 0b1001100},   // ..--..
-            {'/', 0b101001},    // -..-.
-            {'=', 0b110001},    // -...-
             {'-', 0b1100001},   // -....-
-            {'+', 0b101010},    // .-.-.
             {'\'', 0b1011110},  // .----.
             {'"', 0b1010010},   // .-..-.
             {'(', 0b101101},    // -.--.
