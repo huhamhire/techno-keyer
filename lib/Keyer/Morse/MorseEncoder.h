@@ -19,11 +19,9 @@ namespace TechnoKeyer {
 
     private:
         void _updateSpeed(uint8_t);
-        void _sendDit();
-        void _sendDah();
+        void _sendSignal(uint8_t sig);
 
         uint16_t _dotTimeMs;
-        uint16_t _dashTimeMs;
         uint8_t _speed = 20;
 
         static MorseCodec *_codec;

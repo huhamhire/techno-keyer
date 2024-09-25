@@ -1,10 +1,6 @@
 #include "SignalEventsBuffer.h"
 
 namespace TechnoKeyer {
-    SignalEventsBuffer::SignalEventsBuffer() {
-        clear();
-    }
-
     /**
      * Append event time
      * @param duration

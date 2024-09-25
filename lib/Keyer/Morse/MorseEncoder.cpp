@@ -30,7 +30,6 @@ namespace TechnoKeyer {
      */
     void MorseEncoder::_updateSpeed(uint8_t speed) {
         _dotTimeMs = 1200 / speed;
-        _dashTimeMs = _dotTimeMs * 3;
     }
 
     /**
@@ -48,9 +47,9 @@ namespace TechnoKeyer {
             uint8_t code = _codec->getCode(c);
             while (code != 1) {
                 if (code & 1) {
-                    _sendDah();
+                    _sendSignal(DAH);
                 } else {
-                    _sendDit();
+                    _sendSignal(DIT);
                 }
                 code = code >> 1;
             }
@@ -58,31 +57,24 @@ namespace TechnoKeyer {
         }
     }
 
+
     /**
-     * Send dit
+     * Send morse signal
+     * @param sig
      */
-    void MorseEncoder::_sendDit() {
+    void MorseEncoder::_sendSignal(uint8_t sig) {
+        uint16_t sigTimeMs = sig == DIT ?
+                _dotTimeMs : _dotTimeMs * 3;
+
         digitalWrite(CW_PIN, HIGH);
         _buzzer -> setOn();
-        vTaskDelay(_dotTimeMs / portTICK_PERIOD_MS);
+        vTaskDelay(sigTimeMs / portTICK_PERIOD_MS);
 
         digitalWrite(CW_PIN, LOW);
         _buzzer -> setOff();
         vTaskDelay(_dotTimeMs / portTICK_PERIOD_MS);
     }
 
-    /**
-     * Send dah
-     */
-    void MorseEncoder::_sendDah() {
-        digitalWrite(CW_PIN, HIGH);
-        _buzzer -> setOn();
-        vTaskDelay(_dashTimeMs / portTICK_PERIOD_MS);
-
-        digitalWrite(CW_PIN, LOW);
-        _buzzer -> setOff();
-        vTaskDelay(_dotTimeMs / portTICK_PERIOD_MS);
-    }
 
     /**
      * Send buffer

@@ -32,9 +32,9 @@ namespace TechnoKeyer {
 
         static MorseCodec *_codec;
 
-        MorseInputBuffer *_morseBuffer;
-        SignalEventsBuffer *_shortEvents;
-        SignalEventsBuffer *_longEvents;
+        MorseInputBuffer _morseBuffer;
+        SignalEventsBuffer _shortEvents;
+        SignalEventsBuffer _longEvents;
 
         char _charBuf[CHAR_BUFFER_SIZE] = "";
 

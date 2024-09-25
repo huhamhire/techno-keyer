@@ -9,9 +9,6 @@ namespace TechnoKeyer {
      * Initialize morse decoder
      */
     void MorseDecoder::begin() {
-        _morseBuffer = new MorseInputBuffer();
-        _shortEvents = new SignalEventsBuffer();
-        _longEvents = new SignalEventsBuffer();
         resetThreshold();
     }
 
@@ -34,29 +31,29 @@ namespace TechnoKeyer {
                 _onMorseEvent(MORSE_SPACE);
             } else if (duration > _thresholdMs) {
                 // End of character (3 units)
-                _longEvents->appendEventTime(duration);
+                _longEvents.appendEventTime(duration);
                 // Char end
                 ch = decodeChar();
                 _onCharReceived(ch);
                 _onMorseEvent(MORSE_SPACE);
             } else {
                 // space (1 unit)
-                _shortEvents->appendEventTime(duration);
+                _shortEvents.appendEventTime(duration);
             }
         } else {
             // HIGH signal
             if (duration > _thresholdMs) {
                 // Dash (3 units)
-                _morseBuffer->append(DAH);
-                _longEvents->appendEventTime(duration);
+                _morseBuffer.append(DAH);
+                _longEvents.appendEventTime(duration);
                 _onMorseEvent(DAH);
             } else {
                 // Dot (1 uint)
-                _morseBuffer->append(DIT);
-                _shortEvents->appendEventTime(duration);
+                _morseBuffer.append(DIT);
+                _shortEvents.appendEventTime(duration);
                 _onMorseEvent(DIT);
             }
-            if (_morseBuffer->size() >= MORSE_LEN_MAX) {
+            if (_morseBuffer.size() >= MORSE_LEN_MAX) {
                 // Force decode
                 ch = decodeChar();
                 _onCharReceived(ch);
@@ -70,8 +67,8 @@ namespace TechnoKeyer {
      * Update threshold duration
      */
     void MorseDecoder::_updateThreshold() {
-        uint16_t shortAvg = _shortEvents->getAverageTime();
-        uint16_t longAvg = _longEvents->getAverageTime();
+        uint16_t shortAvg = _shortEvents.getAverageTime();
+        uint16_t longAvg = _longEvents.getAverageTime();
         if (shortAvg == 0 || longAvg == 0) {
             return;
         }
@@ -92,18 +89,18 @@ namespace TechnoKeyer {
      * @return
      */
     char MorseDecoder::decodeChar() {
-        uint8_t size = _morseBuffer->size();
+        uint8_t size = _morseBuffer.size();
         if (size == 0) {
             return '\0';
         } else {
             uint8_t len = size < MORSE_LEN_MAX ? size : MORSE_LEN_MAX;
             // Try to decode from max length
             for (uint8_t i = len; i > 0; i--) {
-                uint8_t code = _morseBuffer->getCode(i);
+                uint8_t code = _morseBuffer.getCode(i);
                 char ch = _codec->getChar(code);
                 if (ch != '~') {
                     // Shift buffer
-                    _morseBuffer->shift(i);
+                    _morseBuffer.shift(i);
                     return ch;
                 }
             }

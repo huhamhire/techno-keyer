@@ -8,13 +8,12 @@ namespace TechnoKeyer {
 
     class SignalEventsBuffer {
     public:
-        SignalEventsBuffer();
         void appendEventTime(uint16_t duration);
         uint16_t getAverageTime();
         void clear();
 
     private:
-        uint16_t _events[MORSE_EVENTS_SIZE]{};
+        uint16_t _events[MORSE_EVENTS_SIZE] = {};
         uint8_t _nextIdx = 0;
     };
 

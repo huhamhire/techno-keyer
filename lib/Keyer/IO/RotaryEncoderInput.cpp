@@ -11,7 +11,7 @@ namespace TechnoKeyer {
             ENCODER_STEPS);
 
     /**
-     *
+     * Start rotary encoder
      */
     void RotaryEncoderInput::begin() {
         _ec->begin();
@@ -21,28 +21,57 @@ namespace TechnoKeyer {
         _ec->disableAcceleration();
     }
 
+    /***
+     * Check encoder status on loop
+     */
     void RotaryEncoderInput::checkEncoder() {
-        // todo
+        if (_ec->encoderChanged()) {
+            _onValueChanged(_ec->readEncoder());
+        }
+        if (_ec->isEncoderButtonClicked()) {
+            _onButtonClicked();
+        }
     }
 
+    /**
+     * Set encoder value
+     * @param value
+     */
     void RotaryEncoderInput::setValue(long value) {
         _ec->setEncoderValue(value);
     }
 
+    /**
+     * Get encoder boundary
+     * @param min
+     * @param max
+     */
     void RotaryEncoderInput::setBoundaries(long min, long max) {
         _ec->setBoundaries(min, max, false);
     }
 
+    /**
+     * Set on value changed callback
+     * @param callback
+     */
     void RotaryEncoderInput::setOnValueChanged(onValueChanged callback) {
         _onValueChanged = std::move(callback);
     }
 
+    /**
+     * Set on button clicked callback
+     * @param callback
+     */
     void RotaryEncoderInput::setOnButtonClicked(onButtonClicked callback) {
         _onButtonClicked = std::move(callback);
     }
 
+    /**
+     * Check rotary encoder status
+     * @param pvParameters
+     */
     void vCheckRotaryEncoder(void *pvParameters) {
-        RotaryEncoderInput *encoderInput = (RotaryEncoderInput *)pvParameters;
+        auto *encoderInput = (RotaryEncoderInput *)pvParameters;
         for (;;) {
             encoderInput->checkEncoder();
             vTaskDelay(20 / portTICK_PERIOD_MS);
