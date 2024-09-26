@@ -79,6 +79,14 @@ namespace TechnoKeyer {
     }
 
     /**
+     * Set morse code speed in WPM
+     * @param speed
+     */
+    void Transmitter::setSpeed(uint8_t speed) {
+        _morse->setSpeed(speed);
+    }
+
+    /**
      * Commit input buffer to output buffer
      */
     void Transmitter::_handleBackspace() {
@@ -107,5 +115,4 @@ namespace TechnoKeyer {
 
         _inputBuffer->clear();
     }
-
 } // TechnoKeyer

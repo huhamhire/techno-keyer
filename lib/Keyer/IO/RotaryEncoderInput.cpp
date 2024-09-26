@@ -3,6 +3,15 @@
 #include <utility>
 
 namespace TechnoKeyer {
+
+    /**
+     * Encoder ISR callback
+     */
+    void IRAM_ATTR readEncoderISR()
+    {
+        RotaryEncoderInput::getEncoder()->readEncoder_ISR();
+    }
+
     AiEsp32RotaryEncoder *RotaryEncoderInput::_ec = new AiEsp32RotaryEncoder(
             ENCODER_A_PIN,
             ENCODER_B_PIN,
@@ -15,9 +24,7 @@ namespace TechnoKeyer {
      */
     void RotaryEncoderInput::begin() {
         _ec->begin();
-        _ec->setup([]() {
-            _ec->readButton_ISR();
-        });
+        _ec->setup(readEncoderISR);
         _ec->disableAcceleration();
     }
 
@@ -64,6 +71,10 @@ namespace TechnoKeyer {
      */
     void RotaryEncoderInput::setOnButtonClicked(onButtonClicked callback) {
         _onButtonClicked = std::move(callback);
+    }
+
+    AiEsp32RotaryEncoder *RotaryEncoderInput::getEncoder() {
+        return _ec;
     }
 
     /**

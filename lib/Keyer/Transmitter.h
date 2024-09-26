@@ -13,6 +13,7 @@ namespace TechnoKeyer {
     public:
         void begin();
         void onKeyInput(uint8_t key);
+        void setSpeed(uint8_t speed);
 
         KeyboardInputBuffer* getInputBuffer();
         MorseOutputBuffer* getOutputBuffer();

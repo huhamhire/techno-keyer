@@ -21,6 +21,8 @@ namespace TechnoKeyer {
 
     #define VFD_BRIGHTNESS_RATIO 5
 
+    typedef std::function<void(uint8_t)> onSpeedSet;
+
     class ConfigManager {
     public:
         explicit ConfigManager(DisplayContext *display);
@@ -30,7 +32,7 @@ namespace TechnoKeyer {
         void finishConfig();
         void applyConfig();
 
-        void setOnSpeedSet(void (* onSpeedSet)(uint8_t wpm));
+        void setOnSpeedSet(onSpeedSet callback);
 
     protected:
         void _initRotaryEncoder();
@@ -44,7 +46,7 @@ namespace TechnoKeyer {
         void _setDisplayTitle(char *title);
         void _setDisplayValue(uint8_t value);
 
-        void (* _onSpeedSet)(uint8_t speed) = [](uint8_t speed) {};
+        onSpeedSet _onSpeedSet = [](uint8_t speed) {};
 
         DisplayContext *_display;
         static RotaryEncoderInput *_encoder;

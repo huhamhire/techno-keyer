@@ -31,9 +31,8 @@ namespace TechnoKeyer {
      */
     void DisplayObserver::refreshVFD() {
         for (uint8_t line = 0; line < DISPLAY_LINES; line++) {
-            _vfd->displayLine(
-                    line, _ctx->getDisplayLine(line)
-            );
+            _vfd->displayLine(line,
+                              _ctx->getDisplayLine(line));
         }
     }
 
@@ -48,6 +47,7 @@ namespace TechnoKeyer {
 
         for (;;) {
             observer->refreshVFD();
+            observer->syncBrightness();
             // wait 40ms (25FPS)
             vTaskDelay(40 / portTICK_PERIOD_MS);
         }

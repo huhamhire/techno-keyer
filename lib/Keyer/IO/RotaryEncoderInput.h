@@ -17,6 +17,7 @@ namespace TechnoKeyer {
         void checkEncoder();
         void setValue(long value);
         void setBoundaries(long min, long max);
+        static AiEsp32RotaryEncoder *getEncoder();
 
         void setOnValueChanged(onValueChanged callback);
         void setOnButtonClicked(onButtonClicked callback);

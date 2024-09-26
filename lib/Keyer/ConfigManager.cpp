@@ -1,5 +1,7 @@
 #include <ConfigManager.h>
 
+#include <utility>
+
 namespace TechnoKeyer {
     RotaryEncoderInput* ConfigManager::_encoder = new RotaryEncoderInput();
 
@@ -42,7 +44,9 @@ namespace TechnoKeyer {
                     NULL);
     }
 
-    // Load configuration from flash memory
+    /**
+     * Load configuration from flash memory
+     */
     void ConfigManager::_loadFlashMemory()
     {
         _config.begin("keyerConf", RO_MODE);
@@ -52,6 +56,9 @@ namespace TechnoKeyer {
 
         _config.end();
 
+        _onSpeedSet(_wpm);
+        _display->setBrightness(_bright * VFD_BRIGHTNESS_RATIO);
+
         #if DEBUG_ALL
         Serial.println("Config loaded.");
         Serial.printf("  WPM: %d\n", _wpm);
@@ -59,7 +66,9 @@ namespace TechnoKeyer {
         #endif
     }
 
-    // Save configuration to flash memory
+    /**
+     * Save configuration to flash memory
+     */
     void ConfigManager::_saveFlashMemory()
     {
         _config.begin("keyerConf", RW_MODE);
@@ -68,7 +77,9 @@ namespace TechnoKeyer {
         _config.end();
     }
 
-    // Start configuration
+    /**
+     * Start configuration
+     */
     void ConfigManager::startConfig()
     {
         _display->setMode(0);
@@ -97,19 +108,23 @@ namespace TechnoKeyer {
         #endif
     }
 
-    void ConfigManager::setOnSpeedSet(void (* onSpeedSet)(uint8_t wpm))
+    void ConfigManager::setOnSpeedSet(onSpeedSet callback)
     {
-        _onSpeedSet = onSpeedSet;
+        _onSpeedSet = std::move(callback);
     }
 
-    // Apply configuration
+    /**
+     * Apply configuration
+     */
     void ConfigManager::applyConfig()
     {
         _onSpeedSet(_wpm);
         _display->setBrightness(_bright * VFD_BRIGHTNESS_RATIO);
     }
 
-    // Finish configuration
+    /**
+     * Finish configuration
+     */
     void ConfigManager::finishConfig()
     {
         applyConfig();
@@ -132,7 +147,10 @@ namespace TechnoKeyer {
     }
 
 
-    // Set title to shown on display
+    /**
+     * Set title to shown on display
+     * @param title
+     */
     void ConfigManager::_setDisplayTitle(char *title)
     {
         uint8_t width = KEYER_DISPLAY_WIDTH;
@@ -141,8 +159,10 @@ namespace TechnoKeyer {
         _display ->setTitleLine(strdup(line));
     }
 
-
-    // Set value to shown on display
+    /**
+     * Set value to shown on display
+     * @param value
+     */
     void ConfigManager::_setDisplayValue(uint8_t value)
     {
         uint8_t width = KEYER_DISPLAY_WIDTH;
@@ -153,7 +173,9 @@ namespace TechnoKeyer {
     }
 
 
-    // Handle button click
+    /**
+     * Handle button click
+     */
     void ConfigManager::_onEcButtonClick()
     {
         _mode += 1;
@@ -167,7 +189,10 @@ namespace TechnoKeyer {
         }
     }
 
-    // Handle encoder value change
+    /**
+     * Handle encoder value change
+     * @param value
+     */
     void ConfigManager::_onEcValueChange(long value)
     {
         switch (_mode) {

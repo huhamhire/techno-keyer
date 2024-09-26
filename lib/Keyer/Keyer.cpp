@@ -55,6 +55,10 @@ namespace TechnoKeyer {
     void Keyer::initConfig() {
         static ConfigManager config(_display);
         config.init();
+
+        config.setOnSpeedSet([&](uint8_t speed) {
+            _transmitter->setSpeed(speed);
+        });
     }
 
 
