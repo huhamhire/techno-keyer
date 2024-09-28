@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <SPI.h>
 
-#include <ConfigManager.h>
+#include "Config/ConfigManager.h"
 
 #include <IO/SPIBus.h>
 #include <IO/AudioInput.h>

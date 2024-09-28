@@ -26,6 +26,14 @@ namespace TechnoKeyer {
     }
 
     /**
+     * Set CW pitch tone
+     * @param tone
+     */
+    void Receiver::setTone(uint16_t tone) {
+        _tuner->setPitch(tone);
+    }
+
+    /**
      * Handle morse event
      * @param event
      */

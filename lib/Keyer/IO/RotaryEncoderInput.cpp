@@ -73,6 +73,10 @@ namespace TechnoKeyer {
         _onButtonClicked = std::move(callback);
     }
 
+    /**
+     * Get rotary encoder instance
+     * @return
+     */
     AiEsp32RotaryEncoder *RotaryEncoderInput::getEncoder() {
         return _ec;
     }

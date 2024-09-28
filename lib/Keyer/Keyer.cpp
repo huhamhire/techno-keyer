@@ -55,9 +55,20 @@ namespace TechnoKeyer {
     void Keyer::initConfig() {
         static ConfigManager config(_display);
         config.init();
-
-        config.setOnSpeedSet([&](uint8_t speed) {
-            _transmitter->setSpeed(speed);
+        config.setOnConfig([&](Config *config) {
+            // Update display brightness
+            _display->setBrightness(config->bright);
+            // Update transmitter speed
+            _transmitter->setSpeed(config->tx_wpm);
+            // Update receiver tone
+            _receiver->setTone(config->rx_tone);
+        });
+        // Setup config event callback
+        config.setOnConfigStart([&]() {
+            _display->setMode(0);
+        });
+        config.setOnConfigFinish([&]() {
+            _display->setMode(1);
         });
     }
 
@@ -70,7 +81,6 @@ namespace TechnoKeyer {
         trans.begin();
         _transmitter = &trans;
     }
-
 
 
     /**

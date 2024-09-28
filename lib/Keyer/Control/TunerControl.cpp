@@ -11,6 +11,10 @@ namespace TechnoKeyer {
         _setPotentiometerValue(0x00);
     }
 
+    /**
+     * Set CW pitch frequency
+     * @param freq
+     */
     void TunerControl::setPitch(uint8_t freq) {
         // todo
     }

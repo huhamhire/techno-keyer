@@ -12,7 +12,7 @@ namespace TechnoKeyer {
     public:
         void setMode(uint8_t mode);
         void setBrightness(uint16_t value);
-        uint16_t getBrightness();
+        uint16_t getBrightness() const;
 
         void setTitleLine(char* title);
         void setValueLine(char* value);

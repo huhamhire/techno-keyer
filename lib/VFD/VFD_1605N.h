@@ -5,6 +5,8 @@
 #include <SPI.h>
 
 class VFD_1605N {
+    #define VFD_BRIGHTNESS_RATIO    5
+
     public:
         void begin(SPIClass *spi, uint8_t en, uint8_t rst, uint8_t cs);
         void setBrightness(uint16_t brightness);

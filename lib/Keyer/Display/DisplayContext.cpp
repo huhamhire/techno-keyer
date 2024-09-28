@@ -15,10 +15,10 @@ namespace TechnoKeyer {
 
     /**
      * Set display brightness.
-     * @param value - Brightness value (0~1000)
+     * @param value - Brightness value (0~100)
      */
     void DisplayContext::setBrightness(uint16_t value) {
-        if (value < 1000 && value > 0) {
+        if (value < 100 && value > 0) {
             _bright = value;
         }
     }
@@ -27,7 +27,8 @@ namespace TechnoKeyer {
      * Get display brightness.
      * @return
      */
-    uint16_t DisplayContext::getBrightness() {
+    uint16_t DisplayContext::getBrightness() const
+    {
         return _bright;
     }
 

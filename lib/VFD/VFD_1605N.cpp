@@ -97,13 +97,14 @@ void VFD_1605N::_setDisplayOn()
 }
 
 /**
- * Set VFD brightness (0~1024)
+ * Set VFD brightness (0~100)
  * @param brightness
  */
 void VFD_1605N::setBrightness(uint16_t brightness) 
 {
     _setDisplayOff();
-    _setDuty(brightness);
+    // range: 0~1024
+    _setDuty(brightness * VFD_BRIGHTNESS_RATIO);
     _setDisplayOn();
 }
 

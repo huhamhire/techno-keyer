@@ -14,6 +14,7 @@ namespace TechnoKeyer {
     class Receiver {
     public:
         void begin();
+        void setTone(uint16_t tone);
         void onMorseEvent(uint8_t event);
         void onCharReceived(char c);
         DisplayLineBuffer* getCharLine();
