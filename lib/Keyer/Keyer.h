@@ -11,6 +11,7 @@
 #include <Display/DisplayContext.h>
 #include <Display/DisplayObserver.h>
 
+#include <Modes.h>
 #include <Transmitter.h>
 #include <Receiver.h>
 
@@ -19,6 +20,7 @@ namespace TechnoKeyer {
     class Keyer {
     public:
         void begin();
+        bool setMode(KeyerMode mode);
 
     protected:
         void initDisplay();
@@ -28,6 +30,7 @@ namespace TechnoKeyer {
 
     private:
         static SPIBus* _spi;
+        KeyerMode _mode = TX_MODE;
 
         DisplayContext* _display;
         Transmitter* _transmitter;

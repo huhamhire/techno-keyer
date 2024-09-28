@@ -1,5 +1,7 @@
 #include "Receiver.h"
 
+#include <utility>
+
 namespace TechnoKeyer {
     AudioInput *Receiver::_audio = new AudioInput();
     TunerControl *Receiver::_tuner = new TunerControl();
@@ -62,6 +64,14 @@ namespace TechnoKeyer {
     }
 
     /**
+     * Set callback for check mode
+     * @param callback
+     */
+    void Receiver::setOnCheckMode(onCheckMode callback) {
+        _onCheckMode = std::move(callback);
+    }
+
+    /**
      * Get character line buffer
      * @return
      */
@@ -83,6 +93,11 @@ namespace TechnoKeyer {
     void Receiver::_initAudioInput() {
         _audio->begin();
         _audio->setOnSignalEvent([&](uint8_t event, uint16_t duration) {
+            if (!_onCheckMode(RX_MODE)) {
+                // Skip if not in RX mode
+                return;
+            }
+            keepBusy();
             _decoder->onSignalEvent(event, duration);
         });
         xTaskCreate(vCheckAuxSignal,
@@ -90,6 +105,6 @@ namespace TechnoKeyer {
                     2048,
                     _audio,
                     1,
-                    NULL);
+                    nullptr);
     }
 } // TechnoKeyer

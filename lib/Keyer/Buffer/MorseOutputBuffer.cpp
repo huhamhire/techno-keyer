@@ -17,6 +17,14 @@ namespace TechnoKeyer {
     }
 
     /**
+     * Get first character in buffer
+     * @return
+     */
+    char MorseOutputBuffer::first() {
+        return _buffer[0];
+    }
+
+    /**
     * Shift output buffer
     * @return
     */

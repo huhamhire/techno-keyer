@@ -17,6 +17,7 @@ namespace TechnoKeyer {
      */
     void TunerControl::setPitch(uint8_t freq) {
         // todo
+        _setPotentiometerValue(0x40);
     }
 
     /**

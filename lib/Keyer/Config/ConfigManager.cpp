@@ -16,7 +16,7 @@ namespace TechnoKeyer {
     /**
      * Initialize config manager
      */
-    void ConfigManager::init()
+    void ConfigManager::begin()
     {
         _initRotaryEncoder();
         _config = _storage->load();
@@ -43,7 +43,7 @@ namespace TechnoKeyer {
                     2048,
                     _encoder,
                     1,
-                    NULL);
+                    nullptr);
     }
 
     /**

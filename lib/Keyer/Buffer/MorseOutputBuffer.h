@@ -11,6 +11,7 @@ namespace TechnoKeyer {
     public:
         bool isEmpty();
         char *getContent();
+        char first();
         char shift();
         char *popWord();
         void append(char* c);

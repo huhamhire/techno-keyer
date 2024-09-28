@@ -1,5 +1,7 @@
 #include <Transmitter.h>
 
+#include <utility>
+
 namespace TechnoKeyer {
     KeyboardInputBuffer* Transmitter::_inputBuffer = new KeyboardInputBuffer();
     MorseOutputBuffer* Transmitter::_outputBuffer = new MorseOutputBuffer();
@@ -14,14 +16,21 @@ namespace TechnoKeyer {
         // Initialize keyboard input
         _keyboard->begin();
         _keyboard->setOnKeyInput([&](uint8_t key) {
+            if (!_onCheckMode(TX_MODE)) {
+                // Skip if not in RX mode
+                return;
+            }
             onKeyInput(key);
+        });
+        _morse->setOnMorseSent([&]() {
+            keepBusy();
         });
         xTaskCreate(vCheckKeyboardInput,
                     "vCheckKeyboardInput",
                     2048,
                     _keyboard,
                     1,
-                    NULL);
+                    nullptr);
 
         // Initialize morse encoder
         _morse->setSpeed(20);
@@ -30,7 +39,7 @@ namespace TechnoKeyer {
                     2048,
                     _morse,
                     1,
-                    NULL);
+                    nullptr);
     }
 
     /**
@@ -84,6 +93,23 @@ namespace TechnoKeyer {
      */
     void Transmitter::setSpeed(uint8_t speed) {
         _morse->setSpeed(speed);
+    }
+
+    /**
+     * Deactivate transmitter
+     */
+    void Transmitter::deactivate() {
+        ModeMutexComponent::deactivate();
+        _inputBuffer->clear();
+        _outputBuffer->clear();
+    }
+
+    /**
+     * Set callback for check mode
+     * @param callback
+     */
+    void Transmitter::setOnCheckMode(onCheckMode callback) {
+        _onCheckMode = std::move(callback);
     }
 
     /**

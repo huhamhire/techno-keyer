@@ -2,6 +2,7 @@
 #define TRANSMITTER_H
 
 #include <Arduino.h>
+#include <Modes.h>
 #include <Buffer/KeyboardInputBuffer.h>
 #include <Buffer/MorseOutputBuffer.h>
 #include <IO/KeyboardInput.h>
@@ -9,11 +10,14 @@
 
 
 namespace TechnoKeyer {
-    class Transmitter {
+    class Transmitter: public ModeMutexComponent {
     public:
         void begin();
         void onKeyInput(uint8_t key);
         void setSpeed(uint8_t speed);
+        void setOnCheckMode(onCheckMode callback);
+
+        void deactivate() override;
 
         KeyboardInputBuffer* getInputBuffer();
         MorseOutputBuffer* getOutputBuffer();
@@ -21,6 +25,10 @@ namespace TechnoKeyer {
     private:
         void _handleBackspace();
         void _handleMessageCommit();
+
+        onCheckMode _onCheckMode = [](KeyerMode mode) {
+            return true;
+        };
 
         static KeyboardInputBuffer *_inputBuffer;
         static MorseOutputBuffer *_outputBuffer;

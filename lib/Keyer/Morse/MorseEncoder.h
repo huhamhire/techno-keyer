@@ -9,9 +9,13 @@
 
 namespace TechnoKeyer {
 
+    typedef std::function<void()> onMorseSent;
+
     class MorseEncoder {
     public:
         explicit MorseEncoder(MorseOutputBuffer *buffer);
+
+        void setOnMorseSent(onMorseSent callback);
 
         void setSpeed(uint8_t speed);
         void sendChar(char c);
@@ -20,6 +24,8 @@ namespace TechnoKeyer {
     private:
         void _updateSpeed(uint8_t);
         void _sendSignal(uint8_t sig);
+
+        onMorseSent _onMorseSent = [](){};
 
         uint16_t _dotTimeMs;
         uint8_t _speed = 20;

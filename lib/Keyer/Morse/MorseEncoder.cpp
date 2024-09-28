@@ -1,5 +1,7 @@
 #include <Morse/MorseEncoder.h>
 
+#include <utility>
+
 namespace TechnoKeyer {
     MorseCodec *MorseEncoder::_codec = new MorseCodec();
     MorseBuzzer *MorseEncoder::_buzzer = new MorseBuzzer();
@@ -41,6 +43,7 @@ namespace TechnoKeyer {
         Serial.printf("Sending %c\n", c);
         #endif
 
+        _onMorseSent();
         if (c == ' ') {
             vTaskDelay(7 * _dotTimeMs / portTICK_PERIOD_MS);
         } else {
@@ -55,6 +58,15 @@ namespace TechnoKeyer {
             }
             vTaskDelay(2 * _dotTimeMs / portTICK_PERIOD_MS);
         }
+    }
+
+
+    /**
+     * Set callback on morse sent
+     * @param callback
+     */
+    void MorseEncoder::setOnMorseSent(onMorseSent callback) {
+        _onMorseSent = std::move(callback);
     }
 
 
@@ -81,12 +93,16 @@ namespace TechnoKeyer {
      */
     void MorseEncoder::sendBuffer() {
         while (!_buffer->isEmpty()) {
-            char c = _buffer->shift();
+            char c = _buffer->first();
             sendChar(c);
+            _buffer->shift();
         }
     }
 
-    // Task to send morse code
+    /**
+     * Task to send morse code
+     * @param pvParameters
+     */
     void vSendMorse(void *pvParameters) {
         MorseEncoder *morse;
         morse = (MorseEncoder *) pvParameters;

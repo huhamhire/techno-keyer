@@ -19,7 +19,7 @@ namespace TechnoKeyer {
     class ConfigManager {
     public:
         explicit ConfigManager(DisplayContext *display);
-        void init();
+        void begin();
 
         void startConfig();
         void finishConfig();
@@ -43,12 +43,12 @@ namespace TechnoKeyer {
         onConfigEvent _onConfigStart = []() {};
         onConfigEvent _onConfigFinish = []() {};
 
-        Config *_config;
+        Config *_config = nullptr;
+        ConfigMenu *_menu = nullptr;
         DisplayContext *_display;
 
         static RotaryEncoderInput *_encoder;
         static ConfigStorage *_storage;
-        ConfigMenu *_menu;
 
         int8_t _itemIdx = -1;
     };
