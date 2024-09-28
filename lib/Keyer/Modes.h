@@ -20,10 +20,7 @@ namespace TechnoKeyer {
          */
         virtual bool isBusy() const {
             unsigned long now = millis();
-            if (now - _lastEventTime > MODE_LOCK_MS) {
-                return true;
-            }
-            return false;
+            return (now - _lastEventTime) < MODE_LOCK_MS;
         };
 
         /**

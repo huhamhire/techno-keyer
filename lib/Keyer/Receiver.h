@@ -8,6 +8,7 @@
 #include <Buffer/DisplayLineBuffer.h>
 #include <Morse/MorseCodec.h>
 #include <Morse/MorseDecoder.h>
+#include <Morse/MorseBuzzer.h>
 
 
 namespace TechnoKeyer {
@@ -31,6 +32,7 @@ namespace TechnoKeyer {
         };
 
         static AudioInput *_audio;
+        static MorseBuzzer *_buzzer;
         static TunerControl *_tuner;
         static MorseDecoder *_decoder;
 

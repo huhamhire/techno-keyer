@@ -4,6 +4,7 @@
 
 namespace TechnoKeyer {
     AudioInput *Receiver::_audio = new AudioInput();
+    MorseBuzzer *Receiver::_buzzer = new MorseBuzzer();
     TunerControl *Receiver::_tuner = new TunerControl();
     MorseDecoder *Receiver::_decoder = new MorseDecoder();
 
@@ -92,6 +93,13 @@ namespace TechnoKeyer {
      */
     void Receiver::_initAudioInput() {
         _audio->begin();
+        _audio->setOnSignal([&](uint8_t signal) {
+            if (signal == HIGH) {
+                _buzzer->on();
+            } else {
+                _buzzer->off();
+            }
+        });
         _audio->setOnSignalEvent([&](uint8_t event, uint16_t duration) {
             if (!_onCheckMode(RX_MODE)) {
                 // Skip if not in RX mode

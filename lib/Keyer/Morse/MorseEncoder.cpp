@@ -79,11 +79,11 @@ namespace TechnoKeyer {
                 _dotTimeMs : _dotTimeMs * 3;
 
         digitalWrite(CW_PIN, HIGH);
-        _buzzer -> setOn();
+        _buzzer -> on();
         vTaskDelay(sigTimeMs / portTICK_PERIOD_MS);
 
         digitalWrite(CW_PIN, LOW);
-        _buzzer -> setOff();
+        _buzzer -> off();
         vTaskDelay(_dotTimeMs / portTICK_PERIOD_MS);
     }
 

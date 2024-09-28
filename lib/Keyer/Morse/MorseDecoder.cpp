@@ -69,8 +69,14 @@ namespace TechnoKeyer {
     void MorseDecoder::_updateThreshold() {
         uint16_t shortAvg = _shortEvents.getAverageTime();
         uint16_t longAvg = _longEvents.getAverageTime();
-        if (shortAvg == 0 || longAvg == 0) {
+        if (shortAvg == 0 && longAvg == 0) {
             return;
+        } else {
+            if (shortAvg == 0) {
+                shortAvg = longAvg / 3;
+            } else if (longAvg == 0) {
+                longAvg = shortAvg * 3;
+            }
         }
         // New threshold by geometric mean
         // http://www.k4icy.com/cw_decoder.html

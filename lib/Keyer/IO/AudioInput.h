@@ -7,15 +7,18 @@
 namespace TechnoKeyer {
     #define AUX_DEBOUNCE_MS   15
 
+    typedef std::function<void(uint8_t)> onSignal;
     typedef std::function<void(uint8_t, uint16_t)> onSignalEvent;
 
     class AudioInput {
     public:
         void begin();
         void checkSignal();
+        void setOnSignal(onSignal callback);
         void setOnSignalEvent(onSignalEvent callback);
 
     private:
+        onSignal _onSignal = [](uint8_t){};
         onSignalEvent _onSignalEvent = [](uint8_t, uint16_t){};
 
         uint8_t _lastState = HIGH;

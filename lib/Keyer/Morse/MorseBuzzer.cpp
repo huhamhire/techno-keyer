@@ -13,14 +13,14 @@ namespace TechnoKeyer {
     /**
      * Set Buzzer On
      */
-    void MorseBuzzer::setOn() {
+    void MorseBuzzer::on() {
         ledcWrite(BZ_CHANNEL, 0x80);
     }
 
     /**
      * Set Buzzer Off
      */
-    void MorseBuzzer::setOff() {
+    void MorseBuzzer::off() {
         ledcWrite(BZ_CHANNEL, 0x00);
     }
 } // TechnoKeyer

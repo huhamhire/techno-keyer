@@ -13,8 +13,8 @@ namespace TechnoKeyer {
     class MorseBuzzer {
     public:
         void init();
-        void setOn();
-        void setOff();
+        void on();
+        void off();
     };
 
 } // TechnoKeyer
