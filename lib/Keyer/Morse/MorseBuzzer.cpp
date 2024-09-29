@@ -11,6 +11,13 @@ namespace TechnoKeyer {
     }
 
     /**
+     * Set Buzzer Tone
+     */
+    void MorseBuzzer::setTone(uint16_t tone) {
+        ledcChangeFrequency(BZ_CHANNEL, tone, BZ_RES);
+    }
+
+    /**
      * Set Buzzer On
      */
     void MorseBuzzer::on() {

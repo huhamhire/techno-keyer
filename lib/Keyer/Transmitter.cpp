@@ -96,6 +96,22 @@ namespace TechnoKeyer {
     }
 
     /**
+     * Set CW pitch tone
+     * @param tone
+     */
+    void Transmitter::setTone(uint16_t tone) {
+        _tone = tone;
+    }
+
+    /**
+     * Activate transmitter
+     */
+    void Transmitter::activate() {
+        ModeMutexComponent::activate();
+        _morse->setTone(_tone);
+    }
+
+    /**
      * Deactivate transmitter
      */
     void Transmitter::deactivate() {

@@ -13,6 +13,7 @@ namespace TechnoKeyer {
     struct Config {
         uint8_t bright;
         uint16_t tx_wpm;
+        uint16_t tx_tone;
         uint16_t rx_tone;
     };
 

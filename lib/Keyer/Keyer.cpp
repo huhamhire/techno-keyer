@@ -59,9 +59,10 @@ namespace TechnoKeyer {
         config.setOnConfig([&](Config *config) {
             // Update display brightness
             _display->setBrightness(config->bright);
-            // Update transmitter speed
+            // Update transmitter
             _transmitter->setSpeed(config->tx_wpm);
-            // Update receiver tone
+            _transmitter->setTone(config->tx_tone);
+            // Update receiver
             _receiver->setTone(config->rx_tone);
         });
         // Setup config event callback

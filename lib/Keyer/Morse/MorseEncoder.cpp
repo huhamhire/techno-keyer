@@ -34,6 +34,15 @@ namespace TechnoKeyer {
         _dotTimeMs = 1200 / speed;
     }
 
+
+    /**
+     * Set CW pitch tone
+     * @param tone
+     */
+    void MorseEncoder::setTone(uint16_t tone) {
+        _buzzer->setTone(tone);
+    }
+
     /**
      * Send one char
      * @param c

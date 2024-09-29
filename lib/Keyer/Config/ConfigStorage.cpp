@@ -12,6 +12,7 @@ namespace TechnoKeyer {
 
         conf->bright = _pref.getUChar("bright", 100);
         conf->tx_wpm = _pref.getUChar("tx_wpm", 20);
+        conf->tx_tone = _pref.getUShort("tx_tone", 600);
         conf->rx_tone = _pref.getUShort("rx_tone", 600);
 
         _pref.end();
@@ -20,6 +21,7 @@ namespace TechnoKeyer {
         Serial.println("Config loaded.");
         Serial.printf("  Brightness: %d\n", conf->bright);
         Serial.printf("  TX WPM: %d\n", conf->tx_wpm);
+        Serial.printf("  TX Tone: %d\n", conf->tx_tone);
         Serial.printf("  RX Tone: %d\n", conf->rx_tone);
         #endif
 
@@ -35,6 +37,7 @@ namespace TechnoKeyer {
 
         _pref.putUChar("bright", conf->bright);
         _pref.putUChar("tx_wpm", conf->tx_wpm);
+        _pref.putUShort("tx_tone", conf->tx_tone);
         _pref.putUShort("rx_tone", conf->rx_tone);
 
         _pref.end();

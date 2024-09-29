@@ -5,7 +5,7 @@
 #include <Config/ConfigStorage.h>
 
 namespace TechnoKeyer {
-    #define CONFIG_ITEMS 3
+    #define CONFIG_ITEMS 4
 
     typedef std::function<void(long)> onConfigSetValue;
     typedef std::function<long()> onConfigGetValue;

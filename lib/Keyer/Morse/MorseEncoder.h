@@ -18,6 +18,7 @@ namespace TechnoKeyer {
         void setOnMorseSent(onMorseSent callback);
 
         void setSpeed(uint8_t speed);
+        void setTone(uint16_t tone);
         void sendChar(char c);
         void sendBuffer();
 

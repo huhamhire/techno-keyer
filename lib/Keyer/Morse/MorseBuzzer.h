@@ -13,6 +13,7 @@ namespace TechnoKeyer {
     class MorseBuzzer {
     public:
         void init();
+        void setTone(uint16_t tone);
         void on();
         void off();
     };

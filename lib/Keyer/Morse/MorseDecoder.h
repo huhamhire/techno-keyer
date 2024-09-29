@@ -8,7 +8,6 @@
 #include <Morse/MorseCodec.h>
 
 namespace TechnoKeyer {
-    #define CHAR_BUFFER_SIZE    16
     #define MORSE_DEFAULT_WPM   20
 
     typedef std::function<void(char)> onCharReceived;
@@ -35,8 +34,6 @@ namespace TechnoKeyer {
         MorseInputBuffer _morseBuffer;
         SignalEventsBuffer _shortEvents;
         SignalEventsBuffer _longEvents;
-
-        char _charBuf[CHAR_BUFFER_SIZE] = "";
 
         uint8_t _wpm = MORSE_DEFAULT_WPM;
         uint16_t _thresholdMs;

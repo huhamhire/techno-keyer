@@ -22,6 +22,8 @@ namespace TechnoKeyer {
         void onCharReceived(char c);
         void setOnCheckMode(onCheckMode callback);
 
+        void activate() override;
+
         DisplayLineBuffer* getCharLine();
         DisplayLineBuffer* getMorseLine();
 
@@ -30,6 +32,8 @@ namespace TechnoKeyer {
         onCheckMode _onCheckMode = [](KeyerMode mode) {
             return true;
         };
+
+        uint16_t _tone;
 
         static AudioInput *_audio;
         static MorseBuzzer *_buzzer;

@@ -24,6 +24,9 @@ namespace TechnoKeyer {
             onCharReceived(c);
         });
 
+        // Default tone
+        setTone(600);
+
         // Start audio input
         _initAudioInput();
     }
@@ -34,6 +37,7 @@ namespace TechnoKeyer {
      */
     void Receiver::setTone(uint16_t tone) {
         _tuner->setPitch(tone);
+        _tone = tone;
     }
 
     /**
@@ -86,6 +90,14 @@ namespace TechnoKeyer {
      */
     DisplayLineBuffer *Receiver::getMorseLine() {
         return _morseLine;
+    }
+
+    /**
+     * Activate receiver
+     */
+    void Receiver::activate() {
+        ModeMutexComponent::activate();
+        _buzzer->setTone(_tone);
     }
 
     /**
