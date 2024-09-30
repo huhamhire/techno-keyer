@@ -37,6 +37,9 @@ namespace TechnoKeyer {
      */
     void Receiver::setTone(uint16_t tone) {
         _tuner->setPitch(tone);
+        if (_active) {
+            _buzzer->setTone(tone);
+        }
         _tone = tone;
     }
 

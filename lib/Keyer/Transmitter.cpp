@@ -101,6 +101,9 @@ namespace TechnoKeyer {
      */
     void Transmitter::setTone(uint16_t tone) {
         _tone = tone;
+        if (_active) {
+            _morse->setTone(tone);
+        }
     }
 
     /**

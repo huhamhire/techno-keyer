@@ -7,6 +7,7 @@ namespace TechnoKeyer {
 
     #define DISPLAY_LINES   2
     #define DISPLAY_MODES   3
+    #define DISPLAY_LINE_SIZE 16
 
     class DisplayContext {
     public:

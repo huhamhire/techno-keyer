@@ -13,7 +13,7 @@ namespace TechnoKeyer {
         void clear();
 
     private:
-        uint16_t _events[MORSE_EVENTS_SIZE] = {};
+        uint16_t _events[MORSE_EVENTS_SIZE] = {0};
         uint8_t _nextIdx = 0;
     };
 

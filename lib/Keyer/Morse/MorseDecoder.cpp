@@ -88,7 +88,7 @@ namespace TechnoKeyer {
      * Estimate WPM by threshold duration
      */
     void MorseDecoder::_estimateWPM() {
-        _wpm = (uint8_t) (1200 / _thresholdMs / 2);
+        _wpm = ((uint16_t) 1200 / _thresholdMs / 2);
     }
 
     /**
