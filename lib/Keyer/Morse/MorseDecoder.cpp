@@ -31,7 +31,6 @@ namespace TechnoKeyer {
                 _onMorseEvent(MORSE_SPACE);
             } else if (duration > _thresholdMs) {
                 // End of character (3 units)
-                _longEvents.appendEventTime(duration);
                 // Char end
                 ch = decodeChar();
                 _onCharReceived(ch);
@@ -56,7 +55,9 @@ namespace TechnoKeyer {
             if (_morseBuffer.size() >= MORSE_LEN_MAX) {
                 // Force decode
                 ch = decodeChar();
-                _onCharReceived(ch);
+                if (ch != '\0') {
+                    _onCharReceived(ch);
+                }
             }
         }
         _updateThreshold();

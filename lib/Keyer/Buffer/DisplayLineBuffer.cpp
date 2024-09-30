@@ -14,6 +14,9 @@ namespace TechnoKeyer {
      * @param c
      */
     void DisplayLineBuffer::append(char c) {
+        if (c == '\0') {
+            return;
+        }
         if (_pos >= DISPLAY_LINE_SIZE) {
             shift(1);
         }
@@ -30,13 +33,15 @@ namespace TechnoKeyer {
             clear();
             return;
         }
-        for (uint8_t i = 0; i < _pos - size; i++) {
-            _buffer[i] = _buffer[i + size];
+        for (uint8_t i = 0; i < DISPLAY_LINE_SIZE; i++) {
+            uint8_t next = i + size;
+            if (next < DISPLAY_LINE_SIZE) {
+                _buffer[i] = _buffer[next];
+            } else {
+                _buffer[i] = 0;
+            }
         }
         _pos -= size;
-        for (uint8_t i = _pos; i < DISPLAY_LINE_SIZE; i++) {
-            _buffer[i] = 0;
-        }
     }
 
     /**

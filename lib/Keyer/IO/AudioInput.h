@@ -21,7 +21,8 @@ namespace TechnoKeyer {
         onSignal _onSignal = [](uint8_t){};
         onSignalEvent _onSignalEvent = [](uint8_t, uint16_t){};
 
-        uint8_t _lastState = HIGH;
+        uint8_t _lastState = LOW;
+        uint8_t _lastEvent = LOW;
         unsigned long _lastStateTime = 0;
     };
 

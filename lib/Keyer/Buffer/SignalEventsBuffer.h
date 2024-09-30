@@ -4,7 +4,7 @@
 #include <Arduino.h>
 
 namespace TechnoKeyer {
-    #define MORSE_EVENTS_SIZE 16
+    #define MORSE_EVENTS_SIZE   8
 
     class SignalEventsBuffer {
     public:

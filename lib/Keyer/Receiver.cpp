@@ -58,6 +58,10 @@ namespace TechnoKeyer {
             default:
                 break;
         }
+
+        #if DEBUG_ALL
+        Serial.printf("Morse line: [%.16s]\n", _morseLine->getContent());
+        #endif
     }
 
     /**
@@ -66,6 +70,10 @@ namespace TechnoKeyer {
      */
     void Receiver::onCharReceived(char c) {
         _charLine->append(c);
+
+        #if DEBUG_ALL
+        Serial.printf("Line buffer: [%.16s]\n", _charLine->getContent());
+        #endif
     }
 
     /**
