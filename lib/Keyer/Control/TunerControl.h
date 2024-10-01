@@ -4,16 +4,14 @@
 #include <Arduino.h>
 #include <SPI.h>
 
+#include <Pinout.h>
 #include <IO/SPIBus.h>
 
 namespace TechnoKeyer {
-
-    #define TUNER_CS_PIN    21
-
     class TunerControl {
     public:
         void begin();
-        void setPitch(uint8_t freq);
+        void setPitch(uint16_t freq);
 
     private:
         uint32_t _spiClk = 100000; // 100 kHz

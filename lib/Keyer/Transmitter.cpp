@@ -13,6 +13,9 @@ namespace TechnoKeyer {
      * Start morse code transmitter
      */
     void Transmitter::begin() {
+        // Buffer
+//        _outputBuffer->setPrefix((char*) "\x14");
+
         // Initialize keyboard input
         _keyboard->begin();
         _keyboard->setOnKeyInput([&](uint8_t key) {

@@ -9,7 +9,7 @@ namespace TechnoKeyer {
         initDisplay();
 
         // welcome message
-        char msg[] = "    CW KEYER    ";
+        char msg[] = "    CW KEYER     ";
         _display->setMode(0);
         _display->setTitleLine(msg);
 

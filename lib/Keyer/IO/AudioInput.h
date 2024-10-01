@@ -5,7 +5,7 @@
 #include <Pinout.h>
 
 namespace TechnoKeyer {
-    #define AUX_DEBOUNCE_MS   12
+    #define AUX_DEBOUNCE_MS   14
 
     typedef std::function<void(uint8_t)> onSignal;
     typedef std::function<void(uint8_t, uint16_t)> onSignalEvent;

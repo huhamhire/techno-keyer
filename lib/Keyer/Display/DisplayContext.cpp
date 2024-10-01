@@ -86,26 +86,12 @@ namespace TechnoKeyer {
             case 1:
                 // TX Mode
                 // Transmitting morse codes from keyboard.
-                if (line < 1) {
-                    char txLine[DISPLAY_LINE_SIZE] = {0};
-                    txLine[0] = 0x14;   // Up arrow
-                    return strcat(txLine, _txBuf);
-                } else {
-                    return _inputBuf;
-                }
-                // return line < 1 ? _txBuf : _inputBuf;
+                 return line < 1 ? _txBuf : _inputBuf;
 
             case 2:
                 // RX Mode
                 // Receiving messages from audio.
-                if (line < 1) {
-                    char rxLine[DISPLAY_LINE_SIZE] = {0};
-                    rxLine[0] = 0x15;   // Down arrow
-                    return strcat(rxLine, _rxBuf);
-                } else {
-                    return _decodeBuf;
-                }
-                // return line < 1 ? _decodeBuf : _rxBuf;
+                 return line < 1 ? _decodeBuf : _rxBuf;
 
             default:
                 return (char *) "";

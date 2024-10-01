@@ -26,10 +26,7 @@ namespace TechnoKeyer {
         {
             if (duration > AUX_DEBOUNCE_MS) {
                 #if DEBUG_ALL
-                Serial.print("AUX: ");
-                Serial.print(state);
-                Serial.print(", Duration: ");
-                Serial.println(duration);
+                Serial.printf("AUX: %d, Duration: %d\n", state, duration);
                 #endif
 
                 // Signal changed

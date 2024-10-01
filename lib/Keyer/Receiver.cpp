@@ -24,6 +24,8 @@ namespace TechnoKeyer {
             onCharReceived(c);
         });
 
+        _charLine->setPrefix((char *) "\x15");
+
         // Default tone
         setTone(600);
 

@@ -1,5 +1,5 @@
-#ifndef _KEYER_DISPLAY_CONTEXT_
-#define _KEYER_DISPLAY_CONTEXT_
+#ifndef DISPLAY_CONTEXT_H
+#define DISPLAY_CONTEXT_H
 
 #include <Arduino.h>
 
@@ -38,4 +38,4 @@ namespace TechnoKeyer {
     };
 }
 
-#endif  // _KEYER_DISPLAY_CONTEXT_
+#endif  // DISPLAY_CONTEXT_H

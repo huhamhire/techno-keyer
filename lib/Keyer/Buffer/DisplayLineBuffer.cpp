@@ -10,6 +10,21 @@ namespace TechnoKeyer {
     }
 
     /**
+     * Set prefix
+     * @param prefix
+     */
+    void DisplayLineBuffer::setPrefix(char *prefix) {
+        _prefix = prefix;
+
+        size_t len = strlen(prefix);
+        if (len > DISPLAY_PREFIX_LIMIT) {
+            return;
+        }
+        strncpy(_buffer, prefix, len);
+        _pos += len;
+    }
+
+    /**
      * Append a character to buffer
      * @param c
      */
@@ -29,11 +44,11 @@ namespace TechnoKeyer {
      * @param size
      */
     void DisplayLineBuffer::shift(uint8_t size) {
-        if (size >= _pos) {
-            clear();
-            return;
+        uint8_t start = 0;
+        if (_prefix != nullptr) {
+            start = strlen(_prefix);
         }
-        for (uint8_t i = 0; i < DISPLAY_LINE_SIZE; i++) {
+        for (uint8_t i = start; i < DISPLAY_LINE_SIZE; i++) {
             uint8_t next = i + size;
             if (next < DISPLAY_LINE_SIZE) {
                 _buffer[i] = _buffer[next];
@@ -50,5 +65,8 @@ namespace TechnoKeyer {
     void DisplayLineBuffer::clear() {
         memset(_buffer, 0, DISPLAY_LINE_SIZE * 2);
         _pos = 0;
+        if (_prefix != nullptr) {
+            setPrefix(_prefix);
+        }
     }
 } // TechnoKeyer

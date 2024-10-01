@@ -31,6 +31,9 @@ namespace TechnoKeyer {
 #define ENCODER_BUTTON_PIN  7
 #define ENCODER_VCC_PIN     (-1)    // Direct to 3V3
 
+// Tuner
+#define TUNER_CS_PIN    21
+
 // CW Key
 #define CW_PIN              14      // Key output (LED & Keyer)
 
