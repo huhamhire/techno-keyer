@@ -20,7 +20,11 @@ namespace TechnoKeyer {
         double val = -0.0004 * freq * freq + 0.873 * freq - 277;
         auto valSet = (uint8_t) val;
         if (valSet >= 0x00 && valSet <= 0xCF) {
-            _setPotentiometerValue(valSet);
+            if (valSet == 0xC1) {
+                // skip to avoid conflict with VFD
+            } else {
+                _setPotentiometerValue(valSet);
+            }
         }
 
         #ifdef DEBUG_ALL

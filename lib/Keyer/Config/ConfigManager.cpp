@@ -151,7 +151,8 @@ namespace TechnoKeyer {
      * @param title
      */
     void ConfigManager::_setDisplayTitle(char *title) {
-        _display->setTitleLine(_formatDisplayLine(title));
+        char* line = _formatDisplayLine(title);
+        _display->setTitleLine(line);
     }
 
     /**

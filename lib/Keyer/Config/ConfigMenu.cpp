@@ -47,7 +47,7 @@ namespace TechnoKeyer {
                             return _config->tx_tone / 10;
                         },
                         .setValue=[&](long value) {
-                            _config->rx_tone = value * 10;
+                            _config->tx_tone = value * 10;
                         }
                 },
                 {
