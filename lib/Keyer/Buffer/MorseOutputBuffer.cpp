@@ -6,7 +6,22 @@ namespace TechnoKeyer {
     * @return
     */
     bool MorseOutputBuffer::isEmpty() {
-        return strlen(_buffer) == 0;
+        return strlen(_buffer) - _startIdx == 0;
+    }
+
+    /**
+     * Set prefix
+     * @param prefix
+     */
+    void MorseOutputBuffer::setPrefix(char *prefix) {
+        size_t len = strlen(prefix);
+        if (len > MORSE_OUT_PREFIX_LIMIT) {
+            return;
+        }
+        _prefix = prefix;
+
+        strncpy(_buffer, prefix, len);
+        _startIdx = len;
     }
 
     /**
@@ -21,7 +36,7 @@ namespace TechnoKeyer {
      * @return
      */
     char MorseOutputBuffer::first() {
-        return _buffer[0];
+        return _buffer[_startIdx];
     }
 
     /**
@@ -29,10 +44,10 @@ namespace TechnoKeyer {
     * @return
     */
     char MorseOutputBuffer::shift() {
-        char c = _buffer[0];
+        char c = _buffer[_startIdx];
 
         uint8_t len = strlen(_buffer);
-        for (int i = 0; i < len - 1; i++) {
+        for (int i = _startIdx; i < len - 1; i++) {
             _buffer[i] = _buffer[i + 1];
         }
         _buffer[len - 1] = '\0';
@@ -45,6 +60,11 @@ namespace TechnoKeyer {
     * @param c
     */
     void MorseOutputBuffer::append(char* c) {
+        uint8_t len = strlen(c);
+        uint8_t remaining = getRemainingSpace();
+        if (len > remaining) {
+            return;
+        }
         strcat(_buffer, c);
     }
 
@@ -54,12 +74,12 @@ namespace TechnoKeyer {
      */
     char *MorseOutputBuffer::popWord() {
         uint8_t len = strlen(_buffer);
-        if (len == 0) {
+        if (len == _startIdx) {
             return (char*)"";
         }
         // Find last space
         uint8_t i = len - 2;
-        while (i >= 0 && _buffer[i] != ' ') {
+        while (i >= _startIdx && _buffer[i] != ' ') {
             i--;
         }
         uint8_t word_start = i + 1;
@@ -67,7 +87,7 @@ namespace TechnoKeyer {
         char *word = (char*)"";
 
         // Copy back to input buffer
-        if (i > 0) {
+        if (i > _startIdx) {
             strncpy(word, _buffer + word_start, len - word_start - 1);
         }
         // Remove last word
@@ -81,7 +101,7 @@ namespace TechnoKeyer {
      * @return
      */
     uint8_t MorseOutputBuffer::getRemainingSpace() {
-        return MORSE_OUT_BUFFER_SIZE - strlen(_buffer);
+        return MORSE_OUT_BUFFER_SIZE - strlen(_buffer) - _startIdx;
     }
 
     /**
@@ -89,5 +109,9 @@ namespace TechnoKeyer {
     */
     void MorseOutputBuffer::clear() {
         memset(_buffer, 0, MORSE_OUT_BUFFER_SIZE);
+        _startIdx = 0;
+        if (_prefix != nullptr) {
+            setPrefix(_prefix);
+        }
     }
 } // TechnoKeyer

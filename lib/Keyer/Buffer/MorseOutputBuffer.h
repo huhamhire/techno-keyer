@@ -5,11 +5,13 @@
 
 
 namespace TechnoKeyer {
-    #define MORSE_OUT_BUFFER_SIZE 128
+    #define MORSE_OUT_BUFFER_SIZE   128
+    #define MORSE_OUT_PREFIX_LIMIT  3
 
     class MorseOutputBuffer {
     public:
         bool isEmpty();
+        void setPrefix(char *prefix);
         char *getContent();
         char first();
         char shift();
@@ -20,6 +22,8 @@ namespace TechnoKeyer {
 
     private:
         char _buffer[MORSE_OUT_BUFFER_SIZE] = "";
+        char *_prefix = nullptr;
+        uint8_t _startIdx = 0;
     };
 
 } // TechnoKeyer

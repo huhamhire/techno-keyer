@@ -13,9 +13,6 @@ namespace TechnoKeyer {
      * Start morse code transmitter
      */
     void Transmitter::begin() {
-        // Buffer
-//        _outputBuffer->setPrefix((char*) "\x14");
-
         // Initialize keyboard input
         _keyboard->begin();
         _keyboard->setOnKeyInput([&](uint8_t key) {
@@ -25,6 +22,11 @@ namespace TechnoKeyer {
             }
             onKeyInput(key);
         });
+
+        // Buffer
+         _outputBuffer->setPrefix((char*) "\x14");
+
+        // Output
         _morse->setOnMorseSent([&]() {
             keepBusy();
         });
@@ -162,5 +164,9 @@ namespace TechnoKeyer {
         _outputBuffer->append((char*)" ");
 
         _inputBuffer->clear();
+
+        #if DEBUG_ALL
+        Serial.printf("Output line: [%.16s]\n", _outputBuffer->getContent());
+        #endif
     }
 } // TechnoKeyer

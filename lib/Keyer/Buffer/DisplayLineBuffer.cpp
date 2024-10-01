@@ -14,12 +14,12 @@ namespace TechnoKeyer {
      * @param prefix
      */
     void DisplayLineBuffer::setPrefix(char *prefix) {
-        _prefix = prefix;
-
         size_t len = strlen(prefix);
         if (len > DISPLAY_PREFIX_LIMIT) {
             return;
         }
+        _prefix = prefix;
+
         strncpy(_buffer, prefix, len);
         _pos += len;
     }
