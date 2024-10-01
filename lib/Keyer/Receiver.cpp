@@ -133,6 +133,10 @@ namespace TechnoKeyer {
             keepBusy();
             _decoder->onSignalEvent(event, duration);
         });
+        _audio->setOnMsgEnd([&]() {
+            // Reset events buffer without change threshold
+            _decoder->clearEventsBuffer();
+        });
         xTaskCreate(vCheckAuxSignal,
                     "vCheckAuxSignal",
                     2048,

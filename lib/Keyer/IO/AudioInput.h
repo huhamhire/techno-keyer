@@ -5,10 +5,12 @@
 #include <Pinout.h>
 
 namespace TechnoKeyer {
-    #define AUX_DEBOUNCE_MS   14
+    #define AUX_DEBOUNCE_MS     14
+    #define AUX_MESSAGE_END_MS  1000
 
     typedef std::function<void(uint8_t)> onSignal;
     typedef std::function<void(uint8_t, uint16_t)> onSignalEvent;
+    typedef std::function<void()> onMsgEnd;
 
     class AudioInput {
     public:
@@ -16,9 +18,11 @@ namespace TechnoKeyer {
         void checkSignal();
         void setOnSignal(onSignal callback);
         void setOnSignalEvent(onSignalEvent callback);
+        void setOnMsgEnd(onMsgEnd callback);
 
     private:
         onSignal _onSignal = [](uint8_t){};
+        onMsgEnd _onMsgEnd = []() {};
         onSignalEvent _onSignalEvent = [](uint8_t, uint16_t){};
 
         uint8_t _lastState = LOW;

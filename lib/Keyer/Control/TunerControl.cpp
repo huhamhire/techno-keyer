@@ -18,7 +18,10 @@ namespace TechnoKeyer {
     void TunerControl::setPitch(uint16_t freq) {
         // Calculate potentiometer value
         double val = -0.0004 * freq * freq + 0.873 * freq - 277;
-        _setPotentiometerValue((uint8_t) val);
+        auto valSet = (uint8_t) val;
+        if (valSet >= 0x00 && valSet <= 0xCF) {
+            _setPotentiometerValue(valSet);
+        }
     }
 
     /**

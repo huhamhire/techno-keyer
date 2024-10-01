@@ -37,8 +37,8 @@ namespace TechnoKeyer {
                 },
                 {
                         .title=(char *) "TX Tone (Hz)",
-                        // 300~1000 Hz
-                        .minVal=30,
+                        // 400~1000 Hz
+                        .minVal=40,
                         .maxVal=100,
                         .getDisplayValue=[&]() {
                             return _config->tx_tone;
@@ -52,8 +52,8 @@ namespace TechnoKeyer {
                 },
                 {
                         .title=(char *) "RX Tone (Hz)",
-                        // 300~1000 Hz
-                        .minVal=30,
+                        // 400~1000 Hz
+                        .minVal=40,
                         .maxVal=100,
                         .getDisplayValue=[&]() {
                             return _config->rx_tone;

@@ -20,6 +20,7 @@ namespace TechnoKeyer {
      */
     void MorseDecoder::onSignalEvent(uint8_t event, uint16_t duration) {
         _lastEventTime = millis();
+        uint16_t shortAvg = _shortEvents.getAverageTime();
         char ch;
         if (event == LOW) {
             // LOW signal
@@ -29,10 +30,11 @@ namespace TechnoKeyer {
                 _onCharReceived(ch);
                 _onCharReceived(' ');
                 _onMorseEvent(MORSE_SPACE);
-            } else if (duration > _thresholdMs) {
+            } else if (duration > _thresholdMs && duration > shortAvg * 2) {
                 // End of character (3 units)
                 // Char end
                 ch = decodeChar();
+                _longEvents.appendEventTime(duration);
                 _onCharReceived(ch);
                 _onMorseEvent(MORSE_SPACE);
             } else {
@@ -41,7 +43,7 @@ namespace TechnoKeyer {
             }
         } else {
             // HIGH signal
-            if (duration > _thresholdMs) {
+            if (duration > _thresholdMs && duration > shortAvg * 2) {
                 // Dash (3 units)
                 _morseBuffer.append(DAH);
                 _longEvents.appendEventTime(duration);
@@ -130,6 +132,15 @@ namespace TechnoKeyer {
      */
     void MorseDecoder::setOnMorseEvent(onMorseEvent callback) {
         _onMorseEvent = std::move(callback);
+    }
+
+    /**
+     * Clear events buffer
+     */
+    void MorseDecoder::clearEventsBuffer() {
+        _morseBuffer.clear();
+        _shortEvents.clear();
+        _longEvents.clear();
     }
 
     /**

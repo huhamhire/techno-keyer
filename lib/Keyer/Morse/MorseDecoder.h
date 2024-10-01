@@ -20,6 +20,7 @@ namespace TechnoKeyer {
         char decodeChar();
         void setOnCharReceived(onCharReceived callback);
         void setOnMorseEvent(onMorseEvent callback);
+        void clearEventsBuffer();
         void resetThreshold();
 
     private:

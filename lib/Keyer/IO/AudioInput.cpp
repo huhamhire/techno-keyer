@@ -22,7 +22,7 @@ namespace TechnoKeyer {
         if (
                 state != _lastState ||
                 // Append last event
-                (state != _lastEvent && duration > 1000))
+                (state != _lastEvent && duration > AUX_MESSAGE_END_MS))
         {
             if (duration > AUX_DEBOUNCE_MS) {
                 #if DEBUG_ALL
@@ -36,6 +36,11 @@ namespace TechnoKeyer {
 
                 _lastState = state;
                 _lastStateTime = now;
+
+                // End of message
+                if (duration > AUX_MESSAGE_END_MS) {
+                    _onMsgEnd();
+                }
             }
         }
     }
@@ -55,6 +60,13 @@ namespace TechnoKeyer {
         _onSignalEvent = std::move(callback);
     }
 
+    /**
+     * Set callback on message end
+     * @param callback
+     */
+    void AudioInput::setOnMsgEnd(onMsgEnd callback) {
+        _onMsgEnd = std::move(callback);
+    }
 
     /**
      * Task to check audio input signal
