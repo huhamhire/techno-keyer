@@ -93,15 +93,37 @@ namespace TechnoKeyer {
             case 1:
                 // TX Mode
                 // Transmitting morse codes from keyboard.
-                 return line < 1 ? _txBuf : _inputBuf;
+                return line < 1 ? _txBuf : _getInputLine();
 
             case 2:
                 // RX Mode
                 // Receiving messages from audio.
-                 return line < 1 ? _decodeBuf : _rxBuf;
+                return line < 1 ? _decodeBuf : _rxBuf;
 
             default:
                 return (char *) "";
         }
+    }
+
+    /**
+     * Get input line with cursor.
+     * @return
+     */
+    char *DisplayContext::_getInputLine() {
+        size_t len = strlen(_inputBuf);
+        unsigned long now = millis();
+        // Prompt & cursor
+        _inputLine[0] = '\x1D';
+        char cursor = now / 400 % 2 == 0 ? '\x5F' : ' ';
+
+        if (len > DISPLAY_LINE_SIZE - 2) {
+            strcpy(_inputLine + 1, _inputBuf + len + 2 - DISPLAY_LINE_SIZE);
+            strcat(_inputLine, &cursor);
+        } else {
+            strcpy(_inputLine + 1, _inputBuf);
+            _inputLine[len + 1] = cursor;
+            _inputLine[len + 2] = '\0';
+        }
+        return _inputLine;
     }
 }

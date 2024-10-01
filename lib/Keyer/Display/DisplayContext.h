@@ -25,11 +25,14 @@ namespace TechnoKeyer {
         char* getDisplayLine(uint8_t lineNum);
 
     private:
+        char* _getInputLine();
+
         char* _titleBuf = (char *) "";
         char* _valueBuf = (char *) "";
 
         char* _txBuf = (char *) "";
         char* _inputBuf = (char *) "";
+        char _inputLine[DISPLAY_LINE_SIZE] = {0};
 
         char* _rxBuf = (char *) "";
         char* _decodeBuf = (char *) "";

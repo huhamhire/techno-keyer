@@ -72,10 +72,10 @@ namespace TechnoKeyer {
      * Pop word from buffer
      * @return
      */
-    char *MorseOutputBuffer::popWord() {
+    char *MorseOutputBuffer::popWord(char* word) {
         uint8_t len = strlen(_buffer);
         if (len == _startIdx) {
-            return (char*)"";
+            return nullptr;
         }
         // Find last space
         uint8_t i = len - 2;
@@ -84,16 +84,16 @@ namespace TechnoKeyer {
         }
         uint8_t word_start = i + 1;
 
-        char *word = (char*)"";
-
         // Copy back to input buffer
-        if (i > _startIdx) {
-            strncpy(word, _buffer + word_start, len - word_start - 1);
-        }
-        // Remove last word
-        _buffer[word_start] = '\0';
+        uint16_t size = len - word_start - 1;
+        if (word_start > _startIdx) {
+            strncpy(word, _buffer + word_start, size);
 
-        return word;
+            // Remove last word
+            _buffer[word_start] = '\0';
+            return word;
+        }
+        return nullptr;
     }
 
     /**

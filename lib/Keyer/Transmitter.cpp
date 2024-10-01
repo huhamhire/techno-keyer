@@ -143,8 +143,12 @@ namespace TechnoKeyer {
         if (!_inputBuffer->isEmpty()) {
             _inputBuffer->pop();
         } else {
-            char* word = _outputBuffer->popWord();
-            _inputBuffer->append(word);
+            char word[MORSE_OUT_BUFFER_SIZE] = "";
+            char *pWord = word;
+            pWord = _outputBuffer->popWord(pWord);
+            if (pWord != nullptr) {
+                _inputBuffer->append(word);
+            }
         }
     }
 

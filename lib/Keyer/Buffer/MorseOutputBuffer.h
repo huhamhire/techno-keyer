@@ -15,7 +15,7 @@ namespace TechnoKeyer {
         char *getContent();
         char first();
         char shift();
-        char *popWord();
+        char *popWord(char* word);
         void append(char* c);
         void clear();
         uint8_t getRemainingSpace();
