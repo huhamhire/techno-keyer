@@ -38,6 +38,10 @@ namespace TechnoKeyer {
         _encoder->setOnButtonClicked([&]() {
             _onEcButtonClick();
         });
+        _encoder->setOnButtonLongPressed([&]() {
+            // Clean reset
+            ESP.restart();
+        });
         _encoder->setOnValueChanged([&](long value) {
             _onEcValueChange(value);
         });

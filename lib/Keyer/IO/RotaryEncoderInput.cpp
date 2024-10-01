@@ -35,8 +35,26 @@ namespace TechnoKeyer {
         if (_ec->encoderChanged()) {
             _onValueChanged(_ec->readEncoder());
         }
-        if (_ec->isEncoderButtonClicked()) {
-            _onButtonClicked();
+
+        if (!_isButtonDown) {
+            if (_ec->isEncoderButtonDown()) {
+                _isButtonDown = true;
+                _lastButtonDownTime = millis();
+            }
+        } else {
+            unsigned long duration = millis() - _lastButtonDownTime;
+            if (_ec->isEncoderButtonDown()) {
+                if (duration > 3000) {
+                    _onButtonLongPressed();
+                }
+            } else {
+                // debounce
+                if (duration > 30) {
+                    _onButtonClicked();
+                }
+                _isButtonDown = false;
+                _lastButtonDownTime = 0;
+            }
         }
     }
 
@@ -71,6 +89,14 @@ namespace TechnoKeyer {
      */
     void RotaryEncoderInput::setOnButtonClicked(onButtonClicked callback) {
         _onButtonClicked = std::move(callback);
+    }
+
+    /**
+     * Set on button long pressed callback
+     * @param callback
+     */
+    void RotaryEncoderInput::setOnButtonLongPressed(onButtonClicked callback) {
+        _onButtonLongPressed = std::move(callback);
     }
 
     /**

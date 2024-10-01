@@ -21,12 +21,16 @@ namespace TechnoKeyer {
 
         void setOnValueChanged(onValueChanged callback);
         void setOnButtonClicked(onButtonClicked callback);
+        void setOnButtonLongPressed(onButtonClicked callback);
 
     private:
         static AiEsp32RotaryEncoder *_ec;
+        bool _isButtonDown = false;
+        unsigned long _lastButtonDownTime = 0;
 
         onValueChanged _onValueChanged = [](long value) {};
         onButtonClicked _onButtonClicked = []() {};
+        onButtonClicked _onButtonLongPressed = []() {};
     };
 
     [[noreturn]] void vCheckRotaryEncoder(void *pvParameters);
