@@ -23,10 +23,13 @@ namespace TechnoKeyer {
 
         void startConfig();
         void finishConfig();
+        void checkQuickConfig();
 
         void setOnConfig(onConfigSet callback);
         void setOnConfigStart(onConfigEvent callback);
         void setOnConfigFinish(onConfigEvent callback);
+        void setOnQuickConfig(onConfigSet callback);
+        void setOnQuickConfigFinish(onConfigEvent callback);
 
     protected:
         void _initRotaryEncoder();
@@ -35,6 +38,7 @@ namespace TechnoKeyer {
         void _onEcValueChange(long value);
 
     private:
+        void _setupQuickConfig();
         void _setDisplayTitle(char *title);
         void _setDisplayValue(long value);
         char* _formatDisplayLine(char* str);
@@ -43,6 +47,9 @@ namespace TechnoKeyer {
         onConfigEvent _onConfigStart = []() {};
         onConfigEvent _onConfigFinish = []() {};
 
+        onConfigSet _onQuickConfig = [](Config* conf) {};
+        onConfigEvent _onQuickConfigFinish = []() {};
+
         Config *_config = nullptr;
         ConfigMenu *_menu = nullptr;
         DisplayContext *_display;
@@ -50,8 +57,12 @@ namespace TechnoKeyer {
         static RotaryEncoderInput *_encoder;
         static ConfigStorage *_storage;
 
+        bool _inQuickConfig = false;
+        unsigned long _lastQuickConfigTime = 0;
         int8_t _itemIdx = -1;
     };
+
+    [[noreturn]] void vCheckQuickConfig(void *pvParameters);
 }
 
 #endif  // CONFIG_H

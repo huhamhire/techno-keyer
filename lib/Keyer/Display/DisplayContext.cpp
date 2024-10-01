@@ -2,6 +2,13 @@
 
 
 namespace TechnoKeyer {
+    /**
+     * Get display mode.
+     * @return
+     */
+    uint8_t DisplayContext::getMode() {
+        return _mode;
+    }
 
     /**
      * Set display mode.

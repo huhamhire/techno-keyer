@@ -6,7 +6,7 @@
 
 namespace TechnoKeyer {
     #define AUX_DEBOUNCE_MS     14
-    #define AUX_MESSAGE_END_MS  1000
+    #define AUX_MESSAGE_END_MS  600     // 1 WPM
 
     typedef std::function<void(uint8_t)> onSignal;
     typedef std::function<void(uint8_t, uint16_t)> onSignalEvent;

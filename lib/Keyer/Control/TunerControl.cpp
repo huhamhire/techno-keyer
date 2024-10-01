@@ -22,6 +22,10 @@ namespace TechnoKeyer {
         if (valSet >= 0x00 && valSet <= 0xCF) {
             _setPotentiometerValue(valSet);
         }
+
+        #ifdef DEBUG_ALL
+        Serial.printf("Set RX pitch: %d\n", freq);
+        #endif
     }
 
     /**

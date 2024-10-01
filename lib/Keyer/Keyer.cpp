@@ -77,6 +77,26 @@ namespace TechnoKeyer {
             _transmitter->activate();
             _display->setMode(1);
         });
+
+        // Setup quick config event callback
+        config.setOnQuickConfig([&](Config *config) {
+            if (_display->getMode() > 0) {
+                _lastDisplayMode = _display->getMode();
+            }
+            _display->setMode(0);
+            _receiver->setTone(config->rx_tone);
+        });
+        config.setOnQuickConfigFinish([&]() {
+            // Restore display mode
+            _display->setMode(_lastDisplayMode);
+        });
+
+        xTaskCreate(vCheckQuickConfig,
+                    "vCheckQuickConfig",
+                    2048,
+                    &config,
+                    1,
+                    nullptr);
     }
 
 

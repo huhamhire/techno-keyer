@@ -11,6 +11,7 @@ namespace TechnoKeyer {
 
     class DisplayContext {
     public:
+        uint8_t getMode();
         void setMode(uint8_t mode);
         void setBrightness(uint16_t value);
         uint16_t getBrightness() const;

@@ -35,6 +35,8 @@ namespace TechnoKeyer {
         DisplayContext* _display;
         Transmitter* _transmitter;
         Receiver* _receiver;
+
+        uint8_t _lastDisplayMode = 0;
     };
 }
 

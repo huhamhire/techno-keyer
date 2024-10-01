@@ -26,11 +26,13 @@ namespace TechnoKeyer {
         explicit ConfigMenu(Config *config);
         void selectByIdx(int8_t idx);
         MenuItem *getItem();
+        MenuItem *getQuickMenu();
         bool isLast();
 
     private:
         int8_t _idx=-1;
         MenuItem *_items;
+        MenuItem *_quickMenu;
         Config *_config;
     };
 

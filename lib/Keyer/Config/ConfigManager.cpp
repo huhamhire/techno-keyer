@@ -24,6 +24,9 @@ namespace TechnoKeyer {
 
         _onConfigSet(_config);
         _display->setBrightness(_config->bright);
+
+        // Quick menu
+        _setupQuickConfig();
     }
 
     /**
@@ -70,12 +73,29 @@ namespace TechnoKeyer {
         _onConfigFinish = std::move(callback);
     }
 
+    /**
+     * Set callback for on quick config
+     * @param callback
+     */
+    void ConfigManager::setOnQuickConfig(onConfigSet callback) {
+        _onQuickConfig = std::move(callback);
+    }
+
+    /**
+     * Set callback for on quick config finish
+     * @param callback
+     */
+    void ConfigManager::setOnQuickConfigFinish(onConfigEvent callback) {
+        _onQuickConfigFinish = std::move(callback);
+    }
+
 
     /**
      * Start configuration
      */
     void ConfigManager::startConfig() {
         _onConfigStart();
+        _inQuickConfig = false;
     }
 
     /**
@@ -88,8 +108,9 @@ namespace TechnoKeyer {
         _storage->save(_config);
 
         _setDisplayTitle((char*) "Config saved.");
-        // Reset encoder
-        _encoder->setBoundaries(0, 100);
+
+        // Reset encoder to quick config mode
+        _setupQuickConfig();
 
         // Clear VFD line 1
         _display -> setValueLine((char*) "");
@@ -97,11 +118,33 @@ namespace TechnoKeyer {
 
         _onConfigFinish();
 
+        _inQuickConfig = false;
+
         #if DEBUG_ALL
         Serial.println("Config saved.");
         #endif
     }
 
+    /**
+     * Check quick config
+     */
+    void ConfigManager::checkQuickConfig() {
+        unsigned long now = millis();
+        if (now - _lastQuickConfigTime > 3000 && _inQuickConfig) {
+            _onQuickConfigFinish();
+            _inQuickConfig = false;
+        }
+    }
+
+
+    /**
+     * Setup quick config
+     */
+    void ConfigManager::_setupQuickConfig() {
+        MenuItem *item = _menu->getQuickMenu();
+        _encoder->setBoundaries(item->minVal, item->maxVal);
+        _encoder->setValue(item->getValue());
+    }
 
     /**
      * Set title to shown on display
@@ -151,10 +194,11 @@ namespace TechnoKeyer {
             _itemIdx++;
         }
         _menu->selectByIdx(_itemIdx);
+
         // Start item config
         MenuItem* item = _menu->getItem();
         if (item == nullptr) {
-            return;
+            item = _menu->getQuickMenu();
         }
         _encoder->setBoundaries(item->minVal, item->maxVal);
         _encoder->setValue(item->getValue());
@@ -170,15 +214,37 @@ namespace TechnoKeyer {
     void ConfigManager::_onEcValueChange(long value)
     {
         MenuItem* item = _menu->getItem();
-        if (item == nullptr) {
-            return;
+        bool isQuickMenu = item == nullptr;
+        if (isQuickMenu) {
+            // Quick menu mode
+            item = _menu->getQuickMenu();
+            item->setValue(value);
+            _setDisplayTitle(item->title);
+            _onQuickConfig(_config);
+            _inQuickConfig = true;
+            _lastQuickConfigTime = millis();
+        } else {
+            // Normal config
+            item->setValue(value);
         }
-        item->setValue(value);
         _setDisplayValue(item->getDisplayValue());
 
         if (_itemIdx == 0) {
             // Preview brightness change
             _display->setBrightness(item->getDisplayValue());
+        }
+    }
+
+    /**
+     * Check quick config state
+     * @param pvParameters
+     */
+    void vCheckQuickConfig(void *pvParameters) {
+        ConfigManager *config;
+        config = (ConfigManager *) pvParameters;
+        for (;;) {
+            config->checkQuickConfig();
+            vTaskDelay(50 / portTICK_PERIOD_MS);
         }
     }
 }

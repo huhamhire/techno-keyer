@@ -66,6 +66,8 @@ namespace TechnoKeyer {
                         }
                 }
         };
+
+        _quickMenu = &_items[3];
     }
 
     /**
@@ -89,6 +91,14 @@ namespace TechnoKeyer {
         } else {
             return nullptr;
         }
+    }
+
+    /**
+     * Get quick menu item.
+     * @return
+     */
+    MenuItem *ConfigMenu::getQuickMenu() {
+        return _quickMenu;
     }
 
     /**
