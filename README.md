@@ -86,7 +86,7 @@
 
 ### Components
 
-- ESP32-WROOM module as main MCU
+- ESP32-S3-WROOM-1 module as main MCU
 - CIG25-1605N VFD module
 - Rotary encoder
 - Solid state relay (TLP175A) for CW key control
@@ -112,7 +112,7 @@
 
 ### MCU Pinout
 
-Pins used by ESP32-WROOM module for *Techno Keyer*.
+Pins used by ESP32-S3-WROOM-1 module for *Techno Keyer*.
 
 | GPIO | Description                                    |
 |:----:|------------------------------------------------|
